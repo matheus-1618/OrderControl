@@ -1,47 +1,47 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import { ScrollView, Image, View } from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { ActivityIndicator, TouchableRipple, TextInput, HelperText, Button, Snackbar } from 'react-native-paper';
+import { ActivityIndicator, TouchableRipple, TextInput, HelperText, Button, Snackbar, Portal, Dialog, Paragraph } from 'react-native-paper';
 
-import { Icon, InputView, AspectView, DropDown, DateTimePicker, useEmit, useStorage, useRequest } from '../../lib';
+import { AspectView, Icon, DropDown, DateTimePicker, useEmit, useEffect, useStorage, useRequest } from '../../lib';
 
 import settings from '../../settings.json';
 
 import styles from '../../styles/gatos/Ficha.json';
 
-function exists(gato, key) {
-    return gato !== null && typeof gato[key] === 'string';
-}
-
 export default function Ficha(props) {
-    const { navigation } = props;
-    const gato = props.route.params;
+    const { navigation, route } = props;
+
+    const gato = route.params;
 
     const [photoError, setPhotoError] = useState(false);
-    const [name, setName] = useState(exists(gato, 'nome') ? gato.nome : '');
-    const [gender, setGender] = useState(exists(gato, 'genero') ? gato.genero : 'FEMEA');
-    const [breed, setBreed] = useState(exists(gato, 'raca') ? gato.raca : '');
-    const [fur, setFur] = useState(exists(gato, 'pelagem') ? gato.pelagem : 'AUSENTE');
-    const [eye, setEye] = useState(exists(gato, 'olhos') ? gato.olhos : 'VERDES');
-    const [birthDate, setBirthDate] = useState(exists(gato, 'dataNascimento') ? new Date(gato.dataNascimento) : new Date());
-    const [rescueDate, setRescueDate] = useState(exists(gato, 'dataResgate') ? new Date(gato.dataResgate) : new Date());
+    const [name, setName] = useState(gato ? gato.nome : '');
+    const [gender, setGender] = useState(gato ? gato.genero : 'FEMEA');
+    const [breed, setBreed] = useState(gato ? gato.raca : '');
+    const [fur, setFur] = useState(gato ? gato.pelagem : 'AUSENTE');
+    const [eye, setEye] = useState(gato ? gato.olhos : 'VERDES');
+    const [birthDate, setBirthDate] = useState(gato ? new Date(gato.dataNascimento) : new Date());
+    const [rescueDate, setRescueDate] = useState(gato ? new Date(gato.dataResgate) : new Date());
     const [registerError, setRegisterError] = useState(false);
     const [removeError, setRemoveError] = useState(false);
+    const [removeVisible, setRemoveVisible] = useState(false);
 
     const emit = useEmit('updated-cats');
-    const { pick, file } = useStorage(gato === null ? null : gato.foto);
+
+    const { pick, file } = useStorage(gato ? gato.foto : null);
+
     const { post, put, response: registerResponse } = useRequest(settings.url);
     const { del, response: removeResponse } = useRequest(settings.url);
 
     useEffect(() => {
         if ((registerResponse.success && registerResponse.body !== null) || (removeResponse.success && removeResponse.body !== null)) {
             emit();
-            navigation.navigate('Lista');
+            navigation.navigate('ListaGatos');
         } else {
-            navigation.setOptions({ title: gato === null ? 'Novo gato' : gato.nome });
+            navigation.setOptions({ title: gato ? gato.nome : 'Novo gato' });
         }
     }, [registerResponse, removeResponse]);
 
@@ -53,7 +53,6 @@ export default function Ficha(props) {
     function onPressRegister() {
         setRegisterError(true);
         const body = {
-            ...gato,
             foto: file.uri,
             nome: name,
             genero: gender,
@@ -63,14 +62,20 @@ export default function Ficha(props) {
             dataNascimento: birthDate,
             dataResgate: rescueDate,
         };
-        if (gato === null) {
-            post('/gato', body);
-        } else {
+        if (gato) {
+            body.key = gato.key;
             put('/gato', body);
+        } else {
+            post('/gato', body);
         }
     }
 
-    function onPressRemove() {
+    function onDismissRemove() {
+        setRemoveVisible(false);
+    }
+
+    function onConfirmRemove() {
+        onDismissRemove();
         setRemoveError(true);
         del(`/gato?key=${gato.key}`);
     }
@@ -101,20 +106,18 @@ export default function Ficha(props) {
         <>
             <ScrollView>
                 <SafeAreaView style={styles.container} edges={['right', 'bottom', 'left']}>
-                    <AspectView style={styles.photoAspect}>
-                        <InputView style={styles.photoInput}>
-                            {file.loading ? (
-                                <ActivityIndicator style={styles.grow} size="large" />
-                            ) : (
-                                <TouchableRipple style={styles.grow} onPress={onPressPhoto}>
-                                    {file.uri === null ? (
-                                        <Icon style={styles.grow} name="file-image" />
-                                    ) : (
-                                        <Image style={styles.grow} source={{ uri: file.uri }} resizeMode="stretch" />
-                                    )}
-                                </TouchableRipple>
-                            )}
-                        </InputView>
+                    <AspectView style={styles.photoOuter}>
+                        {file.loading ? (
+                            <ActivityIndicator style={styles.photoInner} size="large" />
+                        ) : (
+                            <TouchableRipple style={styles.photoInner} onPress={onPressPhoto}>
+                                {file.uri === null ? (
+                                    <Icon name="file-image" />
+                                ) : (
+                                    <Image style={styles.photo} source={{ uri: file.uri }} resizeMode="stretch" />
+                                )}
+                            </TouchableRipple>
+                        )}
                     </AspectView>
                     <TextInput style={styles.input} label="Nome" value={name} error={nameError} onChangeText={setName} />
                     {nameError && (
@@ -133,12 +136,12 @@ export default function Ficha(props) {
                     <DropDown style={styles.input} label="Olhos" list={eyes} value={eye} setValue={setEye} />
                     <DateTimePicker type="date" style={styles.input} label="Nascimento" value={birthDate} setValue={setBirthDate} />
                     <DateTimePicker type="date" style={styles.input} label="Resgate" value={rescueDate} setValue={setRescueDate} />
-                    <View style={styles.buttons}>
+                    <View style={styles.buttonContainer}>
                         <Button style={styles.button} mode="outlined" disabled={nameError || breedError || registerResponse.running || removeResponse.running} loading={registerResponse.running} onPress={onPressRegister}>
-                            {gato === null ? 'Cadastrar' : 'Atualizar'}
+                            {gato ? 'Atualizar' : 'Cadastrar'}
                         </Button>
-                        {gato !== null && (
-                            <Button style={styles.button} mode="outlined" disabled={removeResponse.running || registerResponse.running} loading={removeResponse.running} onPress={onPressRemove}>
+                        {gato && (
+                            <Button style={styles.button} mode="outlined" disabled={registerResponse.running || removeResponse.running} loading={removeResponse.running} onPress={() => setRemoveVisible(true)}>
                                 Remover
                             </Button>
                         )}
@@ -147,18 +150,42 @@ export default function Ficha(props) {
             </ScrollView>
             {!file.loading && !file.valid && (
                 <Snackbar visible={photoError} action={{ label: 'Ok', onPress: () => setPhotoError(false) }} onDismiss={() => { }}>
-                    Não foi possível carregar a imagem.
+                    Não foi possível carregar.
                 </Snackbar>
             )}
             {!registerResponse.running && !registerResponse.success && (
                 <Snackbar visible={registerError} action={{ label: 'Ok', onPress: () => setRegisterError(false) }} onDismiss={() => { }}>
-                    {registerResponse.body.status > 0 && `ERROR ${registerResponse.body.status}: `}{registerResponse.body.message}
+                    {registerResponse.body.status === 0 ? 'Não foi possível conectar' : `ERROR ${registerResponse.body.status}: ${registerResponse.body.message}`}
                 </Snackbar>
             )}
             {!removeResponse.running && !removeResponse.success && (
                 <Snackbar visible={removeError} action={{ label: 'Ok', onPress: () => setRemoveError(false) }} onDismiss={() => { }}>
-                    {removeResponse.body.status > 0 && `ERROR ${removeResponse.body.status}: `}{removeResponse.body.message}
+                    {removeResponse.body.status === 0 ? 'Não foi possível conectar' : `ERROR ${removeResponse.body.status}: ${removeResponse.body.message}`}
                 </Snackbar>
+            )}
+            {gato && (
+                <Portal>
+                    <Dialog visible={removeVisible} onDismiss={onDismissRemove}>
+                        <View>
+                            <Dialog.Title>
+                                {`Remover ${gato.nome}?`}
+                            </Dialog.Title>
+                            <Dialog.Content>
+                                <Paragraph>
+                                    Esta operação não pode ser desfeita.
+                                </Paragraph>
+                            </Dialog.Content>
+                            <Dialog.Actions>
+                                <Button onPress={onDismissRemove}>
+                                    Cancelar
+                                </Button>
+                                <Button onPress={onConfirmRemove}>
+                                    Ok
+                                </Button>
+                            </Dialog.Actions>
+                        </View>
+                    </Dialog>
+                </Portal>
             )}
         </>
     );
