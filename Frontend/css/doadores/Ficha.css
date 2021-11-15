@@ -1,0 +1,46 @@
+container {
+    flex-grow: 1;
+    padding: 5px;
+}
+
+photoOuter {
+    align-self: center;
+    width: 50%;
+}
+
+photoSurface {
+    flex-grow: 1;
+    margin: 5px;
+    border-width: 1px;
+    border-radius: 50%;
+}
+
+photoInner {
+    flex-grow: 1;
+}
+
+icon {
+    margin: 10px;
+}
+
+photo {
+    flex-grow: 1;
+    border-radius: 50%;
+}
+
+input {
+    margin: 5px;
+}
+
+error {
+    margin: 0 5px 5px 5px;
+}
+
+buttonContainer {
+    flex-direction: row;
+}
+
+button {
+    flex-grow: 1;
+    margin: 5px;
+}
