@@ -1,21 +1,22 @@
 // NÃO MODIFIQUE NEM SUBSTITUA ESTE ARQUIVO
 
-import React, { useState } from 'react';
+import merge from 'deepmerge';
 
-import { Platform } from 'react-native';
+import React, { useRef, useState } from 'react';
 
-import { Caption, TouchableRipple, TextInput, useTheme } from 'react-native-paper';
+import { Platform, I18nManager, View } from 'react-native';
 
 import DateTimePickerCore from '@react-native-community/datetimepicker';
 
-import InputView from './InputView';
+import { TextInput, TouchableRipple, Portal, Dialog, Button, useTheme } from 'react-native-paper';
 
-export default function DateTimePicker(props) {
-    const [webActive, setWebActive] = useState(false);
-    const [mobileValue, setMobileValue] = useState(mobileString(new Date()));
-    const [mobileOpen, setMobileOpen] = useState(false);
+function WebDateTimePicker(props) {
+    const ref = useRef();
 
-    const theme = useTheme();
+    let theme = useTheme();
+    if (props.theme) {
+        theme = merge(theme, props.theme);
+    }
 
     function padded(number) {
         if (number > 9) {
@@ -25,7 +26,7 @@ export default function DateTimePicker(props) {
         }
     }
 
-    function webString(date) {
+    function toString(date) {
         if (props.type === 'time') {
             const hours = padded(date.getHours());
             const minutes = padded(date.getMinutes());
@@ -38,15 +39,19 @@ export default function DateTimePicker(props) {
         }
     }
 
-    function mobileString(date) {
-        if (props.type === 'time') {
-            return date.toLocaleTimeString().slice(0, -3);
-        } else {
-            return date.toLocaleDateString();
+    function onFocus() {
+        if (ref.current) {
+            ref.current.handleFocus();
         }
     }
 
-    function onWebChange(event) {
+    function onBlur() {
+        if (ref.current) {
+            ref.current.handleBlur();
+        }
+    }
+
+    function onChange(event) {
         let dateString;
         if (props.type === 'time') {
             dateString = `1070-01-01T${event.target.value}:00`;
@@ -59,125 +64,257 @@ export default function DateTimePicker(props) {
         }
     }
 
-    function onMobileChange(event, date) {
-        setMobileOpen(false);
+    const inputStyle = { ...props.style };
+
+    return (
+        <TextInput
+            {...props}
+            ref={ref}
+            left={null}
+            right={null}
+            multiline={false}
+            numberOfLines={1}
+            render={() => {
+                const fontSize = inputStyle.fontSize && 16;
+                const style = {
+                    flexGrow: 1,
+                    margin: 0,
+                    borderWidth: 0,
+                    fontSize: fontSize,
+                    fontFamily: theme.fonts.regular.fontFamily,
+                    fontWeight: inputStyle.fontWeight && theme.fonts.regular.fontWeight,
+                    backgroundColor: 'transparent',
+                    color: props.disabled ? theme.colors.placeholder : theme.colors.text,
+                    textAlignVertical: 'center',
+                    textAlign: inputStyle.textAlign && (I18nManager.isRTL ? 'right' : 'left'),
+                    outline: 'none',
+                };
+                if (props.mode === 'outlined') {
+                    style.zIndex = 1;
+                    let padding;
+                    if (inputStyle.height) {
+                        style.height = inputStyle.height;
+                        padding = Math.max(0, (inputStyle.height - (inputStyle.lineHeight && fontSize)) / 2);
+                    } else {
+                        style.height = (props.dense ? 48 : 64) - 8;
+                        padding = 0;
+                    }
+                    style.paddingTop = padding;
+                    style.paddingBottom = padding;
+                    style.paddingLeft = 14;
+                    style.paddingRight = 14;
+                } else {
+                    if (inputStyle.height) {
+                        style.height = inputStyle.height;
+                    } else {
+                        style.height = (props.dense ? (props.label ? 52 : 40) - 24 : 64 - 30);
+                    }
+                    if (props.label) {
+                        style.paddingTop = props.dense ? 22 : 24;
+                        style.paddingBottom = props.dense ? 2 : 4;
+                    } else {
+                        style.paddingTop = 0;
+                        style.paddingBottom = 0;
+                    }
+                    style.paddingLeft = 12;
+                    style.paddingRight = 12;
+                }
+                return (
+                    <input
+                        style={style}
+                        disabled={props.disabled}
+                        selectioncolor={props.selectionColor}
+                        onFocus={onFocus}
+                        onBlur={onBlur}
+                        editable={props.editable}
+                        type={props.type === 'time' ? 'time' : 'date'}
+                        defaultValue={toString(props.value)}
+                        onChange={onChange}
+                    />
+                );
+            }}
+        />
+    );
+}
+
+function MobileDateTimePicker(props) {
+    const [open, setOpen] = useState(false);
+    const [iosValue, setIosValue] = useState();
+
+    function toString(date) {
+        if (props.type === 'time') {
+            return date.toLocaleTimeString().slice(0, -3);
+        } else {
+            return date.toLocaleDateString();
+        }
+    }
+
+    function onPress() {
+        if (Platform.OS === 'ios') {
+            setIosValue(props.value);
+        }
+        setOpen(true);
+    }
+
+    function onDismiss() {
+        setOpen(false);
+    }
+
+    function iosOnChange(event, date) {
         if (date instanceof Date) {
-            date.setSeconds(0);
+            setIosValue(date);
+        }
+    }
+
+    function androidOnChange(event, date) {
+        onDismiss();
+        if (date instanceof Date) {
             if (date.getFullYear() > 999) {
-                setMobileValue(mobileString(date));
                 props.setValue(date);
             }
         }
     }
 
-    const selectionColor = 'selectionColor' in props ? props.selectionColor : theme.colors.primary;
+    function iosOnConfirm() {
+        onDismiss();
+        if (iosValue.getFullYear() > 999) {
+            props.setValue(iosValue);
+        }
+    }
 
-    return Platform.OS === 'web' ? (
-        <InputView
-            {...props}
-            style={{
-                height: 64,
-                paddingRight: 12,
-                paddingLeft: 12,
-                ...props.style,
-                flexDirection: 'column',
-                flexWrap: 'nowrap',
-                justifyContent: 'center',
-                alignItems: 'stretch',
-            }}
-            active={webActive}
-        >
-            {typeof props.label === 'string' && (
-                <Caption
-                    style={{
-                        color: props.disabled ? theme.colors.disabled : (props.error ? theme.colors.error : (webActive ? theme.colors.primary : theme.colors.placeholder)),
-                    }}
-                >
-                    {props.label}
-                </Caption>
-            )}
-            <input
-                style={{
-                    margin: 0,
-                    borderWidth: 0,
-                    padding: 0,
-                    fontSize: 16,
-                    fontFamily: theme.fonts.regular.fontFamily,
-                    backgroundColor: 'transparent',
-                    color: props.disabled ? theme.colors.placeholder : theme.colors.text,
-                    outline: 'none',
-                }}
-                disabled={props.disabled}
-                selectioncolor={selectionColor}
-                dense={props.dense}
-                onFocus={() => setWebActive(true)}
-                onBlur={() => setWebActive(false)}
-                theme={props.theme}
-                type={props.type === 'time' ? 'time' : 'date'}
-                defaultValue={webString(props.value)}
-                onChange={onWebChange}
-            />
-        </InputView>
-    ) : (
+    const touchableStyle = { ...props.touchableStyle };
+    const style = { ...props.style };
+
+    return (
         <>
             <TouchableRipple
                 style={{
-                    ...props.style,
+                    ...touchableStyle,
                     flexDirection: 'column',
                     flexWrap: 'nowrap',
-                    justifyContent: 'center',
+                    justifyContent: 'flex-start',
                     alignItems: 'stretch',
-                    borderTopWidth: 0,
-                    borderRightWidth: 0,
-                    borderLeftWidth: 0,
-                    borderBottomWidth: 0,
+                    margin: style.margin,
+                    marginTop: style.marginTop,
+                    marginRight: style.marginRight,
+                    marginBottom: style.marginBottom,
+                    marginLeft: style.marginLeft,
+                    padding: 0,
                     paddingTop: 0,
                     paddingRight: 0,
                     paddingBottom: 0,
                     paddingLeft: 0,
+                    overflow: 'visible',
                 }}
+                onFocus={props.onFocus}
+                onBlur={props.onBlur}
+                borderless={props.borderless}
+                background={props.background}
+                centered={props.centered}
                 disabled={props.disabled}
-                onPress={() => setMobileOpen(true)}
+                onPress={onPress}
+                rippleColor={props.rippleColor}
+                underlayColor={props.underlayColor}
+                theme={props.theme}
             >
-                <TextInput
-                    {...props}
+                <View
                     style={{
-                        ...props.style,
                         flexGrow: 1,
-                        alignSelf: 'stretch',
-                        marginTop: 0,
-                        marginRight: 0,
-                        marginBottom: 0,
-                        marginLeft: 0,
+                        flexDirection: touchableStyle.flexDirection,
+                        flexWrap: touchableStyle.flexWrap,
+                        justifyContent: touchableStyle.justifyContent,
+                        alignItems: touchableStyle.alignItems,
+                        padding: touchableStyle.padding,
+                        paddingTop: touchableStyle.paddingTop,
+                        paddingRight: touchableStyle.paddingRight,
+                        paddingBottom: touchableStyle.paddingBottom,
+                        paddingLeft: touchableStyle.paddingLeft,
+                        overflow: touchableStyle.overflow,
                     }}
-                    mode={props.mode}
-                    right={(
-                        <TextInput.Icon
-                            name={props.type === 'time' ? 'clock-outline' : 'calendar'}
-                            color={props.disabled ? theme.colors.placeholder : theme.colors.text}
-                        />
-                    )}
-                    disabled={props.disabled}
-                    label={props.label}
-                    error={props.error}
-                    selectionColor={props.selectionColor}
-                    underlineColor={props.underlineColor}
-                    activeUnderlineColor={props.activeUnderlineColor}
-                    outlineColor={props.outlineColor}
-                    activeOutlineColor={props.activeOutlineColor}
-                    dense={props.dense}
-                    value={mobileValue}
-                    theme={props.theme}
-                    editable={false}
-                />
+                    pointerEvents="none"
+                >
+                    <TextInput
+                        {...props}
+                        style={{
+                            ...props.style,
+                            margin: 0,
+                            marginTop: 0,
+                            marginRight: 0,
+                            marginBottom: 0,
+                            marginLeft: 0,
+                        }}
+                        left={null}
+                        right={(
+                            <TextInput.Icon
+                                disabled={props.disabled}
+                                name={props.type === 'time' ? 'clock-outline' : 'calendar'}
+                                theme={props.theme}
+                            />
+                        )}
+                        onChangeText={null}
+                        multiline={false}
+                        numberOfLines={1}
+                        onFocus={null}
+                        onBlur={null}
+                        value={toString(props.value)}
+                        theme={props.theme}
+                        editable={false}
+                    />
+                </View>
             </TouchableRipple>
-            {mobileOpen && (
-                <DateTimePickerCore
-                    mode={props.type}
-                    value={props.value}
-                    onChange={onMobileChange}
-                />
+            {Platform.OS === 'ios' ? (
+                <Portal
+                    theme={props.theme}
+                >
+                    <Dialog
+                        onDismiss={onDismiss}
+                        visible={open}
+                        theme={props.theme}
+                    >
+                        <Dialog.Content>
+                            <DateTimePickerCore
+                                mode={props.type}
+                                value={iosValue}
+                                onChange={iosOnChange}
+                            />
+                        </Dialog.Content>
+                        <Dialog.Actions>
+                            <Button
+                                onPress={onDismiss}
+                                theme={props.theme}
+                            >
+                                Cancelar
+                            </Button>
+                            <Button
+                                onPress={iosOnConfirm}
+                                theme={props.theme}
+                            >
+                                Ok
+                            </Button>
+                        </Dialog.Actions>
+                    </Dialog>
+                </Portal>
+            ) : (
+                open && (
+                    <DateTimePickerCore
+                        mode={props.type}
+                        value={props.value}
+                        onChange={androidOnChange}
+                    />
+                )
             )}
         </>
+    );
+}
+
+export default function DateTimePicker(props) {
+    return Platform.OS === 'web' ? (
+        <WebDateTimePicker
+            {...props}
+        />
+    ) : (
+        <MobileDateTimePicker
+            {...props}
+        />
     );
 }
