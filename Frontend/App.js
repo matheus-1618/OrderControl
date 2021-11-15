@@ -8,24 +8,24 @@ import React from 'react';
 
 import { Platform } from 'react-native';
 
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-
 import { NavigationContainer, DefaultTheme as NavigationDefaultTheme, DarkTheme as NavigationDarkTheme } from '@react-navigation/native';
 
 import { Provider as PaperProvider, DefaultTheme as PaperDefaultTheme, DarkTheme as PaperDarkTheme } from 'react-native-paper';
+
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import AppLoading from 'expo-app-loading';
 
 import { DateTimeProvider, createGlobals } from './lib';
 
-import Main from './components/Main';
+import settings from './settings.json';
 
 import GoogleFonts from './GoogleFonts';
 
 import CustomDefaultTheme from './DefaultTheme';
 import CustomDarkTheme from './DarkTheme';
 
-import settings from './settings.json';
+import Main from './components/Main';
 
 const entries = [];
 

@@ -9,6 +9,10 @@ import { useState } from 'react';
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
 
+function generateUri() {
+    return `${FileSystem.cacheDirectory}${nanoid()}`;
+}
+
 export default function useStorage(uri) {
     const [file, setFile] = useState({
         loading: false,
@@ -16,10 +20,10 @@ export default function useStorage(uri) {
         uri: uri,
     });
 
-    function pick(type) {
+    function pick(type, encoded) {
         setFile({
             loading: true,
-            valid: file.valid,
+            valid: false,
             uri: file.uri,
         });
 
@@ -33,32 +37,52 @@ export default function useStorage(uri) {
                     });
                 } else {
                     if (document.uri.startsWith('data:')) {
-                        setFile({
-                            loading: false,
-                            valid: true,
-                            uri: document.uri,
-                        });
-                    } else {
-                        const tempUri = `${FileSystem.cacheDirectory}${nanoid()}`;
-                        FileSystem.copyAsync({ from: document.uri, to: tempUri })
-                            .then(() => {
-                                FileSystem.readAsStringAsync(tempUri, { encoding: FileSystem.EncodingType.Base64 })
-                                    .then((data) => {
-                                        setFile({
-                                            loading: false,
-                                            valid: true,
-                                            uri: `data:${document.mimeType};base64,${data}`,
-                                        });
-                                    });
+                        if (encoded) {
+                            setFile({
+                                loading: false,
+                                valid: true,
+                                uri: document.uri,
                             });
+                        } else {
+                            const tempUri = generateUri();
+                            FileSystem.copyAsync({ from: document.uri, to: tempUri })
+                                .then(() => {
+                                    setFile({
+                                        loading: false,
+                                        valid: true,
+                                        uri: tempUri,
+                                    });
+                                });
+                        }
+                    } else {
+                        if (encoded) {
+                            const tempUri = generateUri();
+                            FileSystem.copyAsync({ from: document.uri, to: tempUri })
+                                .then(() => {
+                                    FileSystem.readAsStringAsync(tempUri, { encoding: FileSystem.EncodingType.Base64 })
+                                        .then((data) => {
+                                            setFile({
+                                                loading: false,
+                                                valid: true,
+                                                uri: `data:${document.mimeType};base64,${data}`,
+                                            });
+                                        });
+                                });
+                        } else {
+                            setFile({
+                                loading: false,
+                                valid: true,
+                                uri: document.uri,
+                            });
+                        }
                     }
                 }
             })
-            .catch(() => {
+            .catch((error) => {
                 setFile({
                     loading: false,
                     valid: false,
-                    uri: file.uri,
+                    uri: error,
                 });
             });
     }

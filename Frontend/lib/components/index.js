@@ -1,9 +1,10 @@
 // NÃO MODIFIQUE NEM SUBSTITUA ESTE ARQUIVO
 
-import AspectView from './AspectView';
 import Icon from './Icon';
+import InputView from './InputView';
+import AspectView from './AspectView';
 import DropDown from './DropDown';
 import DateTimePicker from './DateTimePicker';
 import DateTimeProvider from './DateTimeProvider';
 
-export { AspectView, Icon, DropDown, DateTimePicker, DateTimeProvider };
+export { Icon, InputView, AspectView, DropDown, DateTimePicker, DateTimeProvider };
