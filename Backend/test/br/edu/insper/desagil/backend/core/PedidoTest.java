@@ -17,13 +17,17 @@ class PedidoTest {
 		pedido = new Pedido();
 		marca =  MarcaCimento.CIPLAN;
 		cimento = new Cimento(3,marca);
+		pedido.setObservacoes("Trazer cimento em caminhão Volvo");
 		
 	}
 
 	@Test
 	public void test() {
+		String string = new String("Trazer cimento em caminhão Volvo");
 		pedido.setCimento(cimento);
+		pedido.setObservacoes(string);
 		assertEquals(3,pedido.getCimento().getQuantidade());
+		assertEquals("Trazer cimento em caminhão Volvo",pedido.getObservacoes());
 	}
 
 }

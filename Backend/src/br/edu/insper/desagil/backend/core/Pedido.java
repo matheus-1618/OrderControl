@@ -5,6 +5,7 @@ import br.edu.insper.desagil.backend.database.firestore.AutokeyFirestoreObject;
 public class Pedido extends AutokeyFirestoreObject {
 	private Urgencia urgencia;
 	private Cimento cimento; //classe genérica para mais categorias de material (abrindo modal para seleção no forms)
+	private String observacoes;
 	
 	public Urgencia getUrgencia() {
 		return urgencia;
@@ -17,6 +18,13 @@ public class Pedido extends AutokeyFirestoreObject {
 	}
 	public void setCimento(Cimento cimento) {
 		this.cimento = cimento;
+	}
+	
+	public String getObservacoes() {
+		return observacoes;
+	}
+	public void setObservacoes(String observacoes) {
+		this.observacoes = observacoes;
 	}
 
 }

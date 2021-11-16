@@ -23,7 +23,7 @@ class GatoEndpointTest extends EndpointTest<Pedido> {
 	public void test() {
 		Pedido pedido;
 		Urgencia urgencia;
-		
+	
 		pedido = new Pedido();
 		urgencia = Urgencia.MEDIA;
 		
@@ -35,6 +35,19 @@ class GatoEndpointTest extends EndpointTest<Pedido> {
 		assertEquals(Urgencia.MEDIA, pedido.getUrgencia());
 	}
 
+	@Test
+	public void testString() {
+		Pedido pedido;
+
+		String string = new String("Trazer cimento em caminhão Volvo");
+		pedido = new Pedido();
+		pedido.setObservacoes(string);
+		
+		Result result = post(pedido);
+		String key = (String) result.get("key");
+		pedido = get("key=" + key);
+		assertEquals("Trazer cimento em caminhão Volvo", pedido.getObservacoes());
+	}
 	@AfterEach
 	public void tearDown() {
 		stop();

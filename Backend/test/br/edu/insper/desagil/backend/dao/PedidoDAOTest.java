@@ -41,6 +41,19 @@ public class PedidoDAOTest {
 		pedido = dao.retrieve(key);
 		assertEquals(Urgencia.ALTA, pedido.getUrgencia());
 	}
+	
+	@Test
+	void testString() {
+		Pedido pedido;
+		String string = new String("Trazer cimento em caminhão Volvo");
+		pedido = new Pedido();
+	
+		pedido.setObservacoes(string);
+		dao.create(pedido);
+		String key = pedido.getKey();
+		pedido = dao.retrieve(key);
+		assertEquals("Trazer cimento em caminhão Volvo", pedido.getObservacoes());
+	}
 
 	@AfterAll
 	public static void tearDownClass() {
