@@ -6,9 +6,9 @@ import { View, Image, ScrollView } from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { TouchableRipple, Title, Divider, ActivityIndicator, Text, Button, FAB, Snackbar } from 'react-native-paper';
+import { Card,Paragraph , Title,Divider, ActivityIndicator, Text, Button, FAB, Snackbar } from 'react-native-paper';
 
-import { Rounded, Icon, useSignal, useEmit, useEffect, useRequest, map } from '../../lib';
+import { Rounded, Icon,AspectView, useSignal, useEmit, useEffect, useRequest, map } from '../../lib';
 
 import settings from '../../settings.json';
 
@@ -18,22 +18,22 @@ function PedidoItem(props) {
     const { navigation, pedido } = props;
     return (
         <>
-            <TouchableRipple style={styles.itemContainer} onPress={() => navigation.navigate('FichaPedido', pedido)}>
-                <View style={styles.item}>
-                    <Rounded>
-                        <View style={styles.photoContainer}>
-                            {pedido.foto ? (
-                                <Image style={styles.photo} source={{ uri: pedido.foto }} resizeMode="stretch" />
-                            ) : (
-                                <Icon name="account" />
-                            )}
-                        </View>
-                    </Rounded>
-                    <Title style={styles.name}>
-                        {pedido.urgencia}
-                    </Title>
+            <Card style={styles.itemContainer} onPress={() => navigation.navigate('FichaPedido', pedido)}>
+                <View style={styles.photoContainer}>
+                    <Icon name="circle" size={10} color="green"/>
                 </View>
-            </TouchableRipple>
+                <Card.Title title={pedido.urgencia} style={styles.detalhes} />
+                <Card.Content>
+                    <Paragraph styles={styles.observacoes}>
+                        Observações: {pedido.observacoes}
+                    </Paragraph>
+                </Card.Content>
+                    
+                <Card.Actions>
+                   
+                    <Button>Deletar Pedido</Button>
+                </Card.Actions>
+            </Card>
             <Divider />
         </>
     );
@@ -77,7 +77,7 @@ export default function Lista(props) {
                     )
                 ) : (
                     <View style={styles.center}>
-                        <Button mode="contained" onPress={emit}>
+                        <Button mode="outlined" onPress={emit}>
                             Tentar novamente
                         </Button>
                     </View>

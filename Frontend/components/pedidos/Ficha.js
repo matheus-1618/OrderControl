@@ -18,8 +18,10 @@ export default function Ficha(props) {
     const pedido = route.params;
 
     const [photoError, setPhotoError] = useState(false);
-    const [urgencia, setUrgencia] = useState(pedido ? pedido.urgencia : 'MEDIA');
+    const [urgencia, setUrgencia] = useState(pedido ? pedido.urgencia : 'BAIXA');
     const [urgenciaError, setUrgenciaError] = useState(false);
+    const [observacoes, setObservacao] = useState(pedido ? gato.observacoes : '');
+    const [observacoesError, setObservacaoError] = useState(typeof observacoes !== 'string' || !observacoes.trim());
     const [registerError, setRegisterError] = useState(false);
     const [removeError, setRemoveError] = useState(false);
     const [removeVisible, setRemoveVisible] = useState(false);
@@ -44,8 +46,8 @@ export default function Ficha(props) {
     function onPressRegister() {
         setRegisterError(true);
         const body = {
-            foto: file.uri,
             urgencia: urgencia,
+            observacoes: observacoes,
         };
         if (pedido) {
             body.key = pedido.key;
@@ -77,30 +79,27 @@ export default function Ficha(props) {
 
     const urgencias = [
         { label: 'Alta', value: 'ALTA' },
-        { label: 'Media', value: 'MEDIA' },
         { label: 'Baixa', value: 'BAIXA' },
     ];
 
-
+    function onChangeTextObs(text) {
+        setObservacao(text);
+        setObservacaoError(!text.trim());
+    }
 
     return (
         <>
             <ScrollView>
                 <SafeAreaView style={styles.container} edges={['right', 'bottom', 'left']}>
-                    <AspectView style={styles.photoOuter}>
-                        {file.loading ? (
-                            <ActivityIndicator style={styles.photoInner} size="large" />
-                        ) : (
-                            <TouchableRipple style={styles.photoInner} onPress={onPressPhoto}>
-                                {file.uri === null ? (
-                                    <Icon name="file-image" />
-                                ) : (
-                                    <Image style={styles.photo} source={{ uri: file.uri }} resizeMode="stretch" />
-                                )}
-                            </TouchableRipple>
-                        )}
-                    </AspectView>
+                   
+                   
                     <DropDown style={styles.input} label="Urgencia" list={urgencias} value={urgencia} setValue={setUrgencia} />
+                    <TextInput style={styles.input} label="Observações" value={observacoes} error={observacoesError} onChangeText={onChangeTextObs} />
+                    {observacoesError && (
+                        <HelperText style={styles.error} type="error">
+                            Coloque uma observação
+                        </HelperText>
+                    )}
                     <View style={styles.buttonContainer}>
                         <Button style={styles.button} mode="outlined" disabled={registerResponse.running || removeResponse.running} loading={registerResponse.running} onPress={onPressRegister}>
                             {pedido ? 'Atualizar' : 'Cadastrar'}

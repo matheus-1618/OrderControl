@@ -25,14 +25,14 @@ class GatoEndpointTest extends EndpointTest<Pedido> {
 		Urgencia urgencia;
 	
 		pedido = new Pedido();
-		urgencia = Urgencia.MEDIA;
+		urgencia = Urgencia.BAIXA;
 		
 		pedido.setUrgencia(urgencia);
 		
 		Result result = post(pedido);
 		String key = (String) result.get("key");
 		pedido = get("key=" + key);
-		assertEquals(Urgencia.MEDIA, pedido.getUrgencia());
+		assertEquals(Urgencia.BAIXA, pedido.getUrgencia());
 	}
 
 	@Test

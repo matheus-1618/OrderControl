@@ -16,8 +16,8 @@ export default function Main(props) {
 
     return (
         <Drawer.Navigator initialRouteName="Pedidos" screenOptions={theme.screenOptions}>
-             <Drawer.Screen name="Pedidos" component={Ficha} options={{ headerShown: true }} />
-             <Drawer.Screen name="Lista" component={Lista} options={{ headerShown: true }} />
+             <Drawer.Screen name="Novo Pedido" component={Ficha} options={{ headerShown: true }} />
+             <Drawer.Screen name="Pedidos" component={Lista} options={{ headerShown: true }} />
         </Drawer.Navigator>
     );
 }
