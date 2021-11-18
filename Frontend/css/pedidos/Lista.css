@@ -34,13 +34,11 @@ photoContainer {
 }
 
 observacoes {
-    flex-direction: row;
-    bottom: 3rem;
+     bottom: 3rem; 
 }
 
 detalhes {
-    bottom: 3.3
-    rem;
+    bottom: 3.3rem;
     left: 3rem;
 }
 

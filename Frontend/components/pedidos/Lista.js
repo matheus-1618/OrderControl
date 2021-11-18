@@ -18,19 +18,22 @@ function PedidoItem(props) {
     const { navigation, pedido } = props;
     return (
         <>
-            <Card style={styles.itemContainer} onPress={() => navigation.navigate('FichaPedido', pedido)}>
+            <Card style={styles.itemContainer} onPress={() => navigation.navigate('Novo Pedido', pedido)}>
                 <View style={styles.photoContainer}>
-                    <Icon name="circle" size={10} color="green"/>
+                    {pedido.urgencia == "BAIXA" ? (
+                      <Icon name="alarm-light-outline" size={10} color="green"/>
+                    ) :
+                    ( <Icon name="alarm-light" size={10} color="red"/>)
+                    }
                 </View>
-                <Card.Title title={pedido.urgencia} style={styles.detalhes} />
-                <Card.Content>
-                    <Paragraph styles={styles.observacoes}>
+                <Card.Title title= {pedido.urgencia+ " " +"URGÊNCIA"} style={styles.detalhes} />
+                <Card.Content styles={styles.observacoes}>
+                    <Paragraph >
                         Observações: {pedido.observacoes}
                     </Paragraph>
                 </Card.Content>
                     
                 <Card.Actions>
-                   
                     <Button>Deletar Pedido</Button>
                 </Card.Actions>
             </Card>
@@ -83,7 +86,7 @@ export default function Lista(props) {
                     </View>
                 )
             )}
-            <FAB style={styles.fab} icon="plus" onPress={() => navigation.navigate('FichaPedido', null)} />
+            <FAB style={styles.fab} icon="plus" onPress={() => navigation.navigate('Novo Pedido', null)} />
             {!response.running && !response.success && (
                 <Snackbar visible={getError} action={{ label: 'Ok', onPress: () => setGetError(false) }} onDismiss={() => { }}>
                     {response.body.status === 0 ? 'Não foi possível conectar ao servidor' : `ERROR ${response.body.status}: ${response.body.message}`}

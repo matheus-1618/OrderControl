@@ -4,7 +4,7 @@ import { ScrollView, Image, View } from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { ActivityIndicator, TouchableRipple, TextInput, HelperText, Button, Snackbar, Portal, Dialog, Paragraph } from 'react-native-paper';
+import { Chip, Title,Colors, TextInput, HelperText, Button, Snackbar, Portal, Dialog, Paragraph } from 'react-native-paper';
 
 import { AspectView, Icon, DropDown, DateTimePicker, useEmit, useEffect, useStorage, useRequest } from '../../lib';
 
@@ -20,7 +20,7 @@ export default function Ficha(props) {
     const [photoError, setPhotoError] = useState(false);
     const [urgencia, setUrgencia] = useState(pedido ? pedido.urgencia : 'BAIXA');
     const [urgenciaError, setUrgenciaError] = useState(false);
-    const [observacoes, setObservacao] = useState(pedido ? gato.observacoes : '');
+    const [observacoes, setObservacao] = useState(pedido ? pedido.observacoes : '');
     const [observacoesError, setObservacaoError] = useState(typeof observacoes !== 'string' || !observacoes.trim());
     const [registerError, setRegisterError] = useState(false);
     const [removeError, setRemoveError] = useState(false);
@@ -90,9 +90,24 @@ export default function Ficha(props) {
     return (
         <>
             <ScrollView>
-                <SafeAreaView style={styles.container} edges={['right', 'bottom', 'left']}>
-                   
-                   
+                <SafeAreaView style={styles.container} edges={['right', 'bottom', 'left']}>  
+                <Title>Materiais</Title>
+                <View style={styles.chip}>
+                    
+                    <Chip icon="dump-truck" style={styles.item}  onPress={() => console.log('Pressed')}>Cimento</Chip>
+                    <Chip icon="hard-hat" style={styles.item}  onPress={() => console.log('Pressed')}>Madeira</Chip>
+                    <Chip icon="tower-fire" style={styles.item}  onPress={() => console.log('Pressed')}>Madeira</Chip>
+                    <Chip icon="truck-fast" style={styles.item}  onPress={() => console.log('Pressed')}>Madeira</Chip>
+                    <Chip icon="wrench"  style={styles.item}  onPress={() => console.log('Pressed')}>Madeira</Chip>
+                    <Chip icon="pillar" style={styles.item}  onPress={() => console.log('Pressed')}>Argamassa</Chip>
+                </View>
+
+                <Title>Ferramentas</Title>
+                <View style={styles.chip}>
+                <Chip icon="wall" style={styles.item} onPress={() => console.log('Pressed')}>Andaime</Chip>
+                <Chip icon="bulldozer" style={styles.item} onPress={() => console.log('Pressed')}>Betoneira</Chip>
+                <Chip icon="circular-saw"  style={styles.item} onPress={() => console.log('Pressed')}>Furadeira</Chip>
+                </View>
                     <DropDown style={styles.input} label="Urgencia" list={urgencias} value={urgencia} setValue={setUrgencia} />
                     <TextInput style={styles.input} label="Observações" value={observacoes} error={observacoesError} onChangeText={onChangeTextObs} />
                     {observacoesError && (
@@ -102,7 +117,7 @@ export default function Ficha(props) {
                     )}
                     <View style={styles.buttonContainer}>
                         <Button style={styles.button} mode="outlined" disabled={registerResponse.running || removeResponse.running} loading={registerResponse.running} onPress={onPressRegister}>
-                            {pedido ? 'Atualizar' : 'Cadastrar'}
+                            {pedido ? 'Atualizar' : 'Solicitar Pedido'}
                         </Button>
                         {pedido && (
                             <Button style={styles.button} mode="outlined" disabled={registerResponse.running || removeResponse.running} loading={removeResponse.running} onPress={() => setRemoveVisible(true)}>

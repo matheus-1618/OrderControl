@@ -13,6 +13,24 @@ photoInner {
     margin: 5px;
 }
 
+chip {
+    flex-grow: 1;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-evenly;
+    margin:5px;
+    padding-bottom: 5px;
+
+}
+
+item {
+    width:9rem;
+    align-items: center;
+    justify-content: center;
+    margin:0.5px;
+}
+
 photo {
     flex-grow: 1;
 }
