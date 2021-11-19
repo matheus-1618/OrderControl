@@ -26,8 +26,9 @@ function PedidoItem(props) {
                     ( <Icon name="alarm-light" size={10} color="red"/>)
                     }
                 </View>
-                <Card.Title title= {pedido.urgencia+ " " +"URGÊNCIA"} style={styles.detalhes} />
+                <Card.Title title="Pedido #4567" style={styles.detalhes} />
                 <Card.Content styles={styles.observacoes}>
+                Urgência: {pedido.urgencia} 
                     <Paragraph >
                         Observações: {pedido.observacoes}
                     </Paragraph>

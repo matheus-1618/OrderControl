@@ -18,17 +18,16 @@ chip {
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: space-evenly;
-    margin:5px;
-    padding-bottom: 5px;
+    justify-content: center;
+    margin:10px;
 
 }
 
 item {
-    width:9rem;
+    width:7rem;
+    font-size: 2px;
     align-items: center;
     justify-content: center;
-    margin:0.5px;
 }
 
 photo {
