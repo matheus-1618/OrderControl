@@ -1,0 +1,52 @@
+container {
+    flex-grow: 1;
+    padding: 5px;
+}
+
+photoOuter {
+    align-self: center;
+    width: 50%;
+}
+
+photoInner {
+    flex-grow: 1;
+    margin: 5px;
+}
+
+chip {
+    flex-grow: 1;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    margin:10px;
+
+}
+
+item {
+    width:7rem;
+    font-size: 2px;
+    align-items: center;
+    justify-content: center;
+}
+
+photo {
+    flex-grow: 1;
+}
+
+input {
+    margin: 5px;
+}
+
+error {
+    margin: 0 5px 5px 5px;
+}
+
+buttonContainer {
+    flex-direction: row;
+}
+
+button {
+    flex-grow: 1;
+    margin: 5px;
+}
