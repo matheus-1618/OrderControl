@@ -1,0 +1,49 @@
+container {
+    flex-grow: 1;
+    margin:5px;
+  
+}
+
+center {
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+itemContainer {
+    padding: 5px;
+    margin-bottom: 5px;
+}
+
+item {
+    flex-direction: row;
+    align-items: center;
+}
+
+paragraph {
+    left: 500px;
+}
+
+photoContainer {
+    width: 50px;
+    height: 50px;
+    margin: 5px;
+    flex-direction: row;
+    
+}
+
+observacoes {
+     bottom: 3rem; 
+}
+
+detalhes {
+    bottom: 3.3rem;
+    left: 3rem;
+}
+
+fab {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+}

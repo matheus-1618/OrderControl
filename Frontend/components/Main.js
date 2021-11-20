@@ -1,18 +1,21 @@
 import React from 'react';
 
-import { View } from 'react-native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
-import { Text } from 'react-native-paper';
+import { useTheme,IconButton,Colors } from 'react-native-paper';
 
-import { StatusBar } from 'expo-status-bar';
+import Pedidos from './pedidos/Main'
 
 import styles from '../styles/Main.json';
 
+const Drawer = createDrawerNavigator();
+
 export default function Main(props) {
+  const theme = useTheme();
+
     return (
-        <View style={styles.container}>
-            <Text>Abra Main.js para começar a trabalhar no seu app!</Text>
-            <StatusBar style="auto" />
-        </View>
+         <Drawer.Navigator initialRouteName="Pedidos" screenOptions={theme.screenOptions}>  
+             <Drawer.Screen name="Pedidos" component={Pedidos} options={{ headerShown: false }} />
+        </Drawer.Navigator>
     );
 }
