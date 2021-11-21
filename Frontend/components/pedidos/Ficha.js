@@ -4,7 +4,7 @@ import { ScrollView, Image, View } from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { Provider, Modal, Chip, Title,Colors, TextInput, HelperText, Button, Snackbar, Portal, Dialog, Paragraph } from 'react-native-paper';
+import { Text, Card, IconButton, Chip, Title,Colors, TextInput, HelperText, Button, Snackbar, Portal, Dialog, Paragraph } from 'react-native-paper';
 
 import { AspectView, Icon, DropDown, DateTimePicker, useEmit, useEffect, useStorage, useRequest } from '../../lib';
 
@@ -173,21 +173,85 @@ export default function Ficha(props) {
         <>
             <ScrollView>
                 <SafeAreaView style={styles.container} edges={['right', 'bottom', 'left']}>  
-                <Title>Materiais</Title>
-                <View style={styles.chip}>
-                    <Chip icon="dump-truck"  style={styles.item} selected={selected1}   onPress={onPressSelect1}>Cimento</Chip>
-                    <Chip icon="hard-hat" style={styles.item}  selected={selected2}   onPress={onPressSelect2}>Madeira</Chip>
-                    <Chip icon="tower-fire" style={styles.item}  selected={selected3}  onPress={onPressSelect3}>Madeira</Chip>
-                    <Chip icon="truck-fast" style={styles.item}  selected={selected4}  onPress={onPressSelect4}>Madeira</Chip>
-                    <Chip icon="wrench"  style={styles.item}  selected={selected5}  onPress={onPressSelect5}>Madeira</Chip>
-                    <Chip icon="pillar" style={styles.item}  selected={selected6}   onPress={onPressSelect6}>Argamassa</Chip>
+                <View style={styles.title}>
+                    <Title>Materiais</Title>
+                </View>
+                <View style={styles.cardContainer}>
+                <Card style={styles.card}>
+                    <Card.Title title="Cimento" subtitle="Cimento Portland comum" />
+                    <Card.Cover source={{ uri: 'https://telhanorte.vteximg.com.br/arquivos/ids/330671-NaN-NaN/1444778.jpg?v=636652679501130000'  }} resizeMode="stretch" />
+                    <Card.Actions>
+                <View style={styles.buttons}>
+                    <IconButton icon="minus" color={Colors.red500} size={25} onPress={() => console.log('Pressed')} /> 
+                    <Text>0</Text>
+                    <IconButton icon="plus" color={Colors.red500} size={25} onPress={() => console.log('Pressed')} /> 
+                </View>
+                    </Card.Actions>
+                </Card>
+                <Card style={styles.card}>
+                    <Card.Title title="Argamassa" subtitle="Argamassa Portland comum" />
+                    <Card.Cover  source={{ uri: 'https://telhanorte.vteximg.com.br/arquivos/ids/317111-NaN-NaN/Argamassa-de-uso-interno-para-Porcelanato-20kg-cinza-Quartzolit.jpg?v=636649224491400000'  }} resizeMode="stretch" />
+                    <Card.Actions>
+                    <View style={styles.buttons}>
+                        <IconButton icon="minus" color={Colors.red500} size={25} onPress={() => console.log('Pressed')} /> 
+                        <Text>0</Text>
+                        <IconButton icon="plus" color={Colors.red500} size={25} onPress={() => console.log('Pressed')} /> 
+                    </View> 
+                    </Card.Actions>
+                </Card>
+                <Card style={styles.card}>
+                    <Card.Title title="Brita" subtitle="Cimento Portland comum" />
+                    <Card.Cover source={{ uri: 'https://cdn.leroymerlin.com.br/products/pedra_britada_0_saco_de_20kg_casa_forte__89361104_0862_600x600.jpg'  }} resizeMode="stretch" />
+                    <Card.Actions>
+                    <IconButton icon="minus" color={Colors.red500} size={25} onPress={() => console.log('Pressed')} /> 
+                    <View style={styles.buttons}>
+                        <Text>0</Text>
+                        <IconButton icon="plus" color={Colors.red500} size={25} onPress={() => console.log('Pressed')} /> 
+                    </View>
+                    </Card.Actions>
+                </Card>
+                <Card style={styles.card}>
+                    <Card.Title title="Cal" subtitle="Argamassa Portland comum" />
+                    <Card.Cover  source={{ uri: 'http://maisconectado.com/mccaltrevo/painel/imagens/1568391015-Cal_Hidratada_CH_I.jpg'  }} resizeMode="stretch" />
+                    <Card.Actions>
+                    <View style={styles.buttons}>
+                        <IconButton icon="minus" color={Colors.red500} size={25} onPress={() => console.log('Pressed')} /> 
+                        <Text>0</Text>
+                        <IconButton icon="plus" color={Colors.red500} size={25} onPress={() => console.log('Pressed')} /> 
+                    </View> 
+                    </Card.Actions>
+                </Card>
+                <Card style={styles.card}>
+                    <Card.Title title="Areia" subtitle="Cimento Portland comum" />
+                    <Card.Cover source={{ uri: 'https://cdn.leroymerlin.com.br/products/areia_fina_ensacada_saco_de_20kg_casa_forte_89361090_f77c_600x600.jpg'  }} resizeMode="stretch" />
+                    <Card.Actions>
+                <View style={styles.buttons}>
+                    <IconButton icon="minus" color={Colors.red500} size={25} onPress={() => console.log('Pressed')} /> 
+                    <Text>0</Text>
+                    <IconButton icon="plus" color={Colors.red500} size={25} onPress={() => console.log('Pressed')} /> 
+                </View>
+                    </Card.Actions>
+                </Card>
+                <Card style={styles.card}>
+                    <Card.Title title="Outros" subtitle="Argamassa Portland comum" />
+                    <Card.Cover  source={{ uri: 'https://www.sdmaterialdeconstrucao.com.br/img/artigo_26_20180710094908_0.jpeg'  }} resizeMode="stretch" />
+                    <Card.Actions>
+                    <View style={styles.buttons}>
+                        <IconButton icon="minus" color={Colors.red500} size={25} onPress={() => console.log('Pressed')} /> 
+                        <Text>0</Text>
+                        <IconButton icon="plus" color={Colors.red500} size={25} onPress={() => console.log('Pressed')} /> 
+                    </View> 
+                    </Card.Actions>
+                </Card>
                 </View>
 
-                <Title>Ferramentas</Title>
+                <View style={styles.title}>
+                    <Title>Ferramentas</Title>
+                </View>
                 <View style={styles.chip}>
-                <Chip icon="wall" style={styles.item}  selected={selected7}  onPress={onPressSelect7}>Andaime</Chip>
-                <Chip icon="bulldozer" style={styles.item} selected={selected8}  onPress={onPressSelect8}>Betoneira</Chip>
-                <Chip icon="circular-saw"  style={styles.item}   selected={selected9}  onPress={onPressSelect9}>Furadeira</Chip>
+                    <Chip icon="wall" style={styles.item}  selected={selected7}  onPress={onPressSelect7}>Andaime</Chip>
+                    <Chip icon="bulldozer" style={styles.item} selected={selected8}  onPress={onPressSelect8}>Betoneira</Chip>
+                    <Chip icon="circular-saw"  style={styles.item}   selected={selected9}  onPress={onPressSelect9}>Furadeira</Chip>
                 </View>
                     <DropDown style={styles.input} label="Urgencia" list={urgencias} value={urgencia} setValue={setUrgencia} />
                     <TextInput style={styles.input} label="Observações" value={observacoes} error={observacoesError} onChangeText={onChangeTextObs} />
@@ -207,7 +271,7 @@ export default function Ficha(props) {
                         )}
                     </View>
                 </SafeAreaView>
-            </ScrollView>
+            
             {!registerResponse.running && !registerResponse.success && (
                 <Snackbar visible={registerError} action={{ label: 'Ok', onPress: () => setRegisterError(false) }} onDismiss={() => { }}>
                     {registerResponse.body.status === 0 ? 'Não foi possível conectar ao servidor' : `ERROR ${registerResponse.body.status}: ${registerResponse.body.message}`}
@@ -240,7 +304,9 @@ export default function Ficha(props) {
                         </View>
                     </Dialog>
                 </Portal>
+                
             )}
+            </ScrollView>
         </>
     );
 }

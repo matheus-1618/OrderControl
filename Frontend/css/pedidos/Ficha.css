@@ -3,6 +3,12 @@ container {
     padding: 5px;
 }
 
+title {
+    align-items: center;
+    flex-grow: 1;
+    padding: 5px;
+}
+
 photoOuter {
     align-self: center;
     width: 50%;
@@ -12,15 +18,35 @@ photoInner {
     flex-grow: 1;
     margin: 5px;
 }
+card {
+    justify-content: center;
+    margin: 5px;
+    width:47%;
+    height: 32%;
+}
 
+buttons {
+    flex-grow: 1;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+cardContainer {
+    flex-grow: 1;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around; 
+    margin:10px;
+}
 chip {
     flex-grow: 1;
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: center;
-    margin:10px;
-
+    justify-content: center; 
+    margin:5px;
 }
 
 item {
