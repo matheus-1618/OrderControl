@@ -18,7 +18,7 @@ public class PedidoEndpoint extends Endpoint<Pedido> {
 	
 	@Override
 	public Pedido get(Args args) {
-		String key = args.get("key");
+		String key = args.get("id");
 		return dao.retrieve(key);
 	}
 
@@ -30,9 +30,7 @@ public class PedidoEndpoint extends Endpoint<Pedido> {
 	@Override
 	public Result post(Args args, Pedido pedido) {
 		dao.create(pedido);
-		Result result = new Result();
-		result.put("key", pedido.getKey());
-		return result;
+		return new Result();
 	}
 
 	@Override
@@ -43,7 +41,7 @@ public class PedidoEndpoint extends Endpoint<Pedido> {
 
 	@Override
 	public Result delete(Args args) {
-		String key = args.get("key");
+		String key = args.get("id");
 		dao.delete(key);
 		return new Result();
 	}

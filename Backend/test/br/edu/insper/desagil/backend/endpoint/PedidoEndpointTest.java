@@ -12,7 +12,7 @@ import br.edu.insper.desagil.backend.core.Urgencia;
 import br.edu.insper.desagil.backend.httpserver.EndpointTest;
 import br.edu.insper.desagil.backend.httpserver.Result;
 
-class GatoEndpointTest extends EndpointTest<Pedido> {
+class PedidoEndpointTest extends EndpointTest<Pedido> {
 	@BeforeEach
 	public void setUp() {
 		start(BackendTest.URL, "/pedido");
@@ -23,31 +23,36 @@ class GatoEndpointTest extends EndpointTest<Pedido> {
 	public void test() {
 		Pedido pedido;
 		Urgencia urgencia;
-	
 		pedido = new Pedido();
 		urgencia = Urgencia.BAIXA;
-		
 		pedido.setUrgencia(urgencia);
-		
-		Result result = post(pedido);
-		String key = (String) result.get("key");
-		pedido = get("key=" + key);
+		post(pedido);
+		pedido = get("id=" + pedido.getId());
+		assertEquals("1", pedido.getId());
 		assertEquals(Urgencia.BAIXA, pedido.getUrgencia());
 	}
 
 	@Test
 	public void testString() {
 		Pedido pedido;
-
 		String string = new String("Trazer cimento em caminhão Volvo");
 		pedido = new Pedido();
 		pedido.setObservacoes(string);
-		
-		Result result = post(pedido);
-		String key = (String) result.get("key");
-		pedido = get("key=" + key);
+		post(pedido);
+		pedido = get("id=" + pedido.getId());
 		assertEquals("Trazer cimento em caminhão Volvo", pedido.getObservacoes());
 	}
+	
+	@Test
+	public void testFerramenta() {
+		Pedido pedido;
+		pedido = new Pedido();
+		pedido.changeQuantidadeFerramenta("betoneira",5);
+		post(pedido);
+		pedido = get("id=" + pedido.getId());
+		assertEquals(5, pedido.getQuantidadeFerramenta("betoneira"));
+	}
+	
 	@AfterEach
 	public void tearDown() {
 		stop();

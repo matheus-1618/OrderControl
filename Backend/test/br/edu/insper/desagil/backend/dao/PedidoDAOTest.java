@@ -2,6 +2,7 @@ package br.edu.insper.desagil.backend.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,6 +16,7 @@ import br.edu.insper.desagil.backend.database.firestore.Firestore;
 public class PedidoDAOTest {
 	private static String name;
 	private PedidoDAO dao;
+	private Pedido pedido;
 
 	@BeforeAll
 	public static void setUpClass() {
@@ -25,34 +27,36 @@ public class PedidoDAOTest {
 	void setUp() {
 		dao = new PedidoDAO();
 		dao.deleteAll();
+		pedido = new Pedido();
 	}
 
 	@Test
 	void test() {
-		Pedido pedido;
 		Urgencia urgencia;
-		
-		pedido = new Pedido();
 		urgencia = Urgencia.ALTA;
-		
 		pedido.setUrgencia(urgencia);
 		dao.create(pedido);
-		String key = pedido.getKey();
-		pedido = dao.retrieve(key);
+		pedido = dao.retrieve(pedido.getId());
 		assertEquals(Urgencia.ALTA, pedido.getUrgencia());
 	}
 	
 	@Test
 	void testString() {
-		Pedido pedido;
 		String string = new String("Trazer cimento em caminhão Volvo");
-		pedido = new Pedido();
-	
 		pedido.setObservacoes(string);
 		dao.create(pedido);
-		String key = pedido.getKey();
-		pedido = dao.retrieve(key);
+		pedido = dao.retrieve(pedido.getId());
 		assertEquals("Trazer cimento em caminhão Volvo", pedido.getObservacoes());
+	}
+	
+	@Test
+	void testQntdMAterial() {
+		pedido.changeQuantidadeMaterial("madeira", 3);
+		pedido.changeQuantidadeMaterial("areia", 5);
+		dao.create(pedido);
+		pedido = dao.retrieve(pedido.getId());
+		assertEquals(3,pedido.getQuantidadeMaterial("madeira"));
+		assertEquals(5,pedido.getQuantidadeMaterial("areia"));
 	}
 
 	@AfterAll

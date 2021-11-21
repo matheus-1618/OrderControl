@@ -7,27 +7,44 @@ import org.junit.jupiter.api.Test;
 
 
 class PedidoTest {
-
 	private Pedido pedido;
-	private Cimento cimento;
-	private MarcaCimento marca;
 
 	@BeforeEach
 	public void setUp() {
 		pedido = new Pedido();
-		marca =  MarcaCimento.CIPLAN;
-		cimento = new Cimento(3,marca);
 		pedido.setObservacoes("Trazer cimento em caminhão Volvo");
-		
 	}
 
 	@Test
-	public void test() {
+	public void observacoesTest() {
 		String string = new String("Trazer cimento em caminhão Volvo");
-		pedido.setCimento(cimento);
 		pedido.setObservacoes(string);
-		assertEquals(3,pedido.getCimento().getQuantidade());
 		assertEquals("Trazer cimento em caminhão Volvo",pedido.getObservacoes());
 	}
+	
+	@Test
+	public void setQntdMaterial() {
+		pedido.changeQuantidadeMaterial("cimento", 3);
+		pedido.changeQuantidadeMaterial("madeira", 1);
+		assertEquals(3,pedido.getQuantidadeMaterial("cimento"));
+		assertEquals(1,pedido.getQuantidadeMaterial("madeira"));
+	}
+	
+	@Test
+	public void setQntdFerramenta() {
+		pedido.changeQuantidadeFerramenta("furadeira", 3);
+		pedido.changeQuantidadeFerramenta("andaime", 3);
+		assertEquals(3,pedido.getQuantidadeFerramenta("furadeira"));
+		assertEquals(3,pedido.getQuantidadeFerramenta("andaime"));
+	}
+	
+	@Test
+	public void testeId() {
+		assertEquals("2", pedido.getId());
+		assertEquals("3", new Pedido().getId());
+		assertEquals("4", new Pedido().getId());
+		assertEquals("5", new Pedido().getId());
+	}
+
 
 }
