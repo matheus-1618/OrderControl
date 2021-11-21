@@ -26,7 +26,7 @@ function PedidoItem(props) {
                     ( <Icon name="alarm-light" size={10} color="red"/>)
                     }
                 </View>
-                <Card.Title title="Pedido #4567" style={styles.detalhes} />
+                <Card.Title title={"Pedido #"+pedido.id} style={styles.detalhes} />
                 <Card.Content styles={styles.observacoes}>
                 Urgência: {pedido.urgencia} 
                     <Paragraph >
@@ -71,6 +71,9 @@ export default function Lista(props) {
                             <Text>
                                 Nenhum pedido registrado
                             </Text>
+                            <Button mode="outlined" onPress={() => navigation.navigate('Novo Pedido', null)}>
+                                Solicitar novo pedido
+                            </Button>
                         </View>
                     ) : (
                         <ScrollView>

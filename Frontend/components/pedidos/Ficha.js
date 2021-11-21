@@ -4,7 +4,7 @@ import { ScrollView, Image, View } from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { Chip, Title,Colors, TextInput, HelperText, Button, Snackbar, Portal, Dialog, Paragraph } from 'react-native-paper';
+import { Provider, Modal, Chip, Title,Colors, TextInput, HelperText, Button, Snackbar, Portal, Dialog, Paragraph } from 'react-native-paper';
 
 import { AspectView, Icon, DropDown, DateTimePicker, useEmit, useEffect, useStorage, useRequest } from '../../lib';
 
@@ -17,7 +17,6 @@ export default function Ficha(props) {
 
     const pedido = route.params;
 
-    const [photoError, setPhotoError] = useState(false);
     const [urgencia, setUrgencia] = useState(pedido ? pedido.urgencia : 'BAIXA');
     const [urgenciaError, setUrgenciaError] = useState(false);
     const [observacoes, setObservacao] = useState(pedido ? pedido.observacoes : '');
@@ -25,6 +24,7 @@ export default function Ficha(props) {
     const [registerError, setRegisterError] = useState(false);
     const [removeError, setRemoveError] = useState(false);
     const [removeVisible, setRemoveVisible] = useState(false);
+
     const [selected1, setSelected1] = useState(false);
     const [selected2, setSelected2] = useState(false);
     const [selected3, setSelected3] = useState(false);
@@ -35,53 +35,90 @@ export default function Ficha(props) {
     const [selected8, setSelected8] = useState(false);
     const [selected9, setSelected9] = useState(false);
 
-
-    //const emit = useEmit('updated-pedidos');
-
-    const { pick, file } = useStorage(pedido ? pedido.foto : null);
+    const emit = useEmit('updated-pedidos');
 
     const { post, put, response: registerResponse } = useRequest(settings.url);
     const { del, response: removeResponse } = useRequest(settings.url);
 
     function onPressSelect1() {
-        setSelected1(true);
+        if (selected1 == false){
+            setSelected1(true);
+        }
+        else{
+            setSelected1(false);
+        }
     }
 
     function onPressSelect2() {
-        setSelected2(true);
+        if (selected2 == false){
+            setSelected2(true);
+        }
+        else{
+            setSelected2(false);
+        }
     }
 
     function onPressSelect3() {
-        setSelected3(true);
+        if (selected3 == false){
+            setSelected3(true);
+        }
+        else{
+            setSelected3(false);
+        }
     }
 
     function onPressSelect4() {
-        setSelected4(true);
+        if (selected4 == false){
+            setSelected4(true);
+        }
+        else{
+            setSelected4(false);
+        }
     }
 
     function onPressSelect5() {
-        setSelected5(true);
+        if (selected5 == false){
+            setSelected5(true);
+        }
+        else{
+            setSelected5(false);
+        }
     }
 
     function onPressSelect6() {
-        setSelected6(true);
+        if (selected6 == false){
+            setSelected6(true);
+        }
+        else{
+            setSelected6(false);
+        }
     }
 
     function onPressSelect7() {
-        setSelected7(true);
+        if (selected7 == false){
+            setSelected7(true);
+        }
+        else{
+            setSelected7(false);
+        }
     }
     function onPressSelect8() {
-        setSelected8(true);
+        if (selected8 == false){
+            setSelected8(true);
+        }
+        else{
+            setSelected8(false);
+        }
     }
     function onPressSelect9() {
-        setSelected9(true);
+        if (selected9 == false){
+            setSelected9(true);
+        }
+        else{
+            setSelected9(false);
+        }
     }
 
-
-    function onPressPhoto() {
-        setPhotoError(true);
-        pick('image/*', true);
-    }
 
     function onChangeTextUrgencia(text) {
         setUrgencia(text);
@@ -95,7 +132,7 @@ export default function Ficha(props) {
             observacoes: observacoes,
         };
         if (pedido) {
-            body.key = pedido.key;
+            body.id = pedido.id;
             put('/pedido', body);
         } else {
             post('/pedido', body);
@@ -109,17 +146,17 @@ export default function Ficha(props) {
     function onConfirmRemove() {
         onDismissRemove();
         setRemoveError(true);
-        del(`/pedido?key=${pedido.key}`);
+        del(`/pedido?id=${pedido.id}`);
     }
 
-    // useEffect(() => {
-    //     if ((registerResponse.success && registerResponse.body !== null) || (removeResponse.success && removeResponse.body !== null)) {
-    //         emit();
-    //         navigation.navigate('ListaGatos');
-    //     } else {
-    //         navigation.setOptions({ title: gato ? gato.nome : 'Novo gato' });
-    //     }
-    // }, [registerResponse, removeResponse]);
+    useEffect(() => {
+        if ((registerResponse.success && registerResponse.body !== null) || (removeResponse.success && removeResponse.body !== null)) {
+            emit();
+            navigation.navigate('ListaPedidos');
+        } else {
+            navigation.setOptions({ title: pedido ? "Pedido #"+ pedido.id : 'Novo Pedido' });
+        }
+    }, [registerResponse, removeResponse]);
 
 
     const urgencias = [
@@ -138,7 +175,6 @@ export default function Ficha(props) {
                 <SafeAreaView style={styles.container} edges={['right', 'bottom', 'left']}>  
                 <Title>Materiais</Title>
                 <View style={styles.chip}>
-                    
                     <Chip icon="dump-truck"  style={styles.item} selected={selected1}   onPress={onPressSelect1}>Cimento</Chip>
                     <Chip icon="hard-hat" style={styles.item}  selected={selected2}   onPress={onPressSelect2}>Madeira</Chip>
                     <Chip icon="tower-fire" style={styles.item}  selected={selected3}  onPress={onPressSelect3}>Madeira</Chip>
