@@ -5,7 +5,7 @@ import React, { useRef, useState } from 'react';
 import { Platform, View, useWindowDimensions } from 'react-native';
 
 import * as FileSystem from 'expo-file-system';
-import { manipulateAsync } from 'expo-image-manipulator';
+//import { manipulateAsync } from 'expo-image-manipulator';
 import { Camera } from 'expo-camera';
 
 const MAX_SIZE = 512;
