@@ -49,26 +49,26 @@ export function DrawerContent(props) {
                     <DrawerItem 
                         icon={({color, size}) => (
                             <Icon 
-                            name="home-outline" 
+                            name="playlist-edit" 
                             color={color}
                             size={size}
                             />
                         )}
-                        label="Home"
-                        onPress={() => {props.navigation.navigate('Home')}}
+                        label="Pedidos Realizados"
+                        onPress={() => {props.navigation.navigate('Pedidos Realizados')}}
                     />
                     <DrawerItem 
                         icon={({color, size}) => (
                             <Icon 
-                            name="account-outline" 
+                            name="plus" 
                             color={color}
                             size={size}
                             />
                         )}
-                        label="Profile"
-                        onPress={() => {props.navigation.navigate('Profile')}}
+                        label="Novo Pedido"
+                        onPress={() => {props.navigation.navigate('Novo Pedido')}}
                     />
-                    <DrawerItem 
+                    {/* <DrawerItem 
                         icon={({color, size}) => (
                             <Icon 
                             name="bookmark-outline" 
@@ -100,12 +100,12 @@ export function DrawerContent(props) {
                         )}
                         label="Support"
                         onPress={() => {props.navigation.navigate('SupportScreen')}}
-                    />
+                    /> */}
                 </Drawer.Section>
-                <Drawer.Section title="Preferences">
+                <Drawer.Section title="Preferências">
                     <TouchableRipple onPress={() => {toggleTheme()}}>
                         <View style={styles.preference}>
-                            <Text>Dark Theme</Text>
+                            <Text>Modo noturno</Text>
                             <View pointerEvents="none">
                                 <Switch value={paperTheme.dark}/>
                             </View>
@@ -123,7 +123,7 @@ export function DrawerContent(props) {
                     size={size}
                     />
                 )}
-                label="Sign Out"
+                label="Sair"
                 onPress={() => {signOut()}}
             />
         </Drawer.Section>
