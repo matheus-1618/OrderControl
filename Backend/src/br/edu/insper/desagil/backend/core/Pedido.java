@@ -15,8 +15,8 @@ public class Pedido extends FirestoreObject {
 	
 	
 	public Pedido () {
-		idCount ++;
 		this.id = Integer.toString(idCount);
+		idCount ++;
 		this.materiais = new HashMap<String,Integer>() {{
 			put("areia",0);
 			put("brita",0);
@@ -37,11 +37,11 @@ public class Pedido extends FirestoreObject {
 	
 	@Override
 	public String key() {
-		return id;
+		return this.id;
 	}
 	
 	public String getId() {
-		return id;
+		return this.id;
 	}
 	
 	public Urgencia getUrgencia() {

@@ -10,7 +10,7 @@ public final class Backend {
 
 	private static final int PORT = 8080;
 
-	private static final boolean EXPOSE = true;
+	private static final boolean EXPOSE = false;
 
 	private static final boolean TEST = true;
 

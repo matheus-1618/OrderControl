@@ -6,7 +6,7 @@ import { View, Image, ScrollView } from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { Card,Paragraph , Title,Divider, ActivityIndicator, Text, Button, FAB, Snackbar } from 'react-native-paper';
+import { Colors, Chip, Card, Paragraph , Title,Divider, ActivityIndicator, Text, Button, FAB, Snackbar } from 'react-native-paper';
 
 import { Rounded, Icon,AspectView, useSignal, useEmit, useEffect, useRequest, map } from '../../lib';
 
@@ -14,34 +14,44 @@ import settings from '../../settings.json';
 
 import styles from '../../styles/pedidos/Lista.json';
 
+
+
 function PedidoItem(props) {
     const { navigation, pedido } = props;
     return (
         <>
             <Card style={styles.itemContainer} onPress={() => navigation.navigate('Novo Pedido', pedido)}>
-                <View style={styles.photoContainer}>
+                <View style={styles.cardTitle}>
+                    <View style={styles.urgenciaIcon}>
                     {pedido.urgencia == "BAIXA" ? (
                       <Icon name="alarm-light-outline" size={10} color="green"/>
                     ) :
                     ( <Icon name="alarm-light" size={10} color="red"/>)
                     }
+                    </View>
+                <Card.Title title={"Pedido #"+pedido.id}  />
                 </View>
-                <Card.Title title={"Pedido #"+pedido.id} style={styles.detalhes} />
                 <Card.Content styles={styles.observacoes}>
-                Urgência: {pedido.urgencia} 
-                    <Paragraph >
-                        Observações: {pedido.observacoes}
-                    </Paragraph>
+                <View style={styles.chipContainer}>
+                <Paragraph>Solicitações:</Paragraph>
+                </View>
+
+                    <View style={styles.chipContainer}>
+                        <Chip style={styles.chip} icon="wall">Andaime</Chip>
+                        <Chip style={styles.chip} icon="wall">Cimento</Chip>
+                        <Chip style={styles.chip} icon="wall">Cal</Chip>
+                        
+                    </View>   
                 </Card.Content>
-                    
                 <Card.Actions>
-                    <Button>Deletar Pedido</Button>
+                    <Paragraph>Observações: {pedido.observacoes}</Paragraph>
                 </Card.Actions>
             </Card>
             <Divider />
         </>
     );
 }
+
 
 export default function Lista(props) {
     const { navigation } = props;
@@ -90,7 +100,7 @@ export default function Lista(props) {
                     </View>
                 )
             )}
-            <FAB style={styles.fab} icon="plus" onPress={() => navigation.navigate('Novo Pedido', null)} />
+            <FAB style={styles.fab} icon="plus"  color={Colors.white500} onPress={() => navigation.navigate('Novo Pedido', null)} />
             {!response.running && !response.success && (
                 <Snackbar visible={getError} action={{ label: 'Ok', onPress: () => setGetError(false) }} onDismiss={() => { }}>
                     {response.body.status === 0 ? 'Não foi possível conectar ao servidor' : `ERROR ${response.body.status}: ${response.body.message}`}

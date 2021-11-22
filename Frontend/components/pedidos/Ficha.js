@@ -4,7 +4,7 @@ import { ScrollView, Image, View } from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { Provider, Modal, Chip, Title,Colors, TextInput, HelperText, Button, Snackbar, Portal, Dialog, Paragraph } from 'react-native-paper';
+import { Text, Card, IconButton, Chip, Title,Colors, TextInput, HelperText, Button, Snackbar, Portal, Dialog, Paragraph } from 'react-native-paper';
 
 import { AspectView, Icon, DropDown, DateTimePicker, useEmit, useEffect, useStorage, useRequest } from '../../lib';
 
@@ -18,19 +18,19 @@ export default function Ficha(props) {
     const pedido = route.params;
 
     const [urgencia, setUrgencia] = useState(pedido ? pedido.urgencia : 'BAIXA');
-    const [urgenciaError, setUrgenciaError] = useState(false);
     const [observacoes, setObservacao] = useState(pedido ? pedido.observacoes : '');
     const [observacoesError, setObservacaoError] = useState(typeof observacoes !== 'string' || !observacoes.trim());
     const [registerError, setRegisterError] = useState(false);
     const [removeError, setRemoveError] = useState(false);
     const [removeVisible, setRemoveVisible] = useState(false);
 
-    const [selected1, setSelected1] = useState(false);
-    const [selected2, setSelected2] = useState(false);
-    const [selected3, setSelected3] = useState(false);
-    const [selected4, setSelected4] = useState(false);
-    const [selected5, setSelected5] = useState(false);
-    const [selected6, setSelected6] = useState(false);
+    const [cimento, setCimento] = useState(pedido ? pedido.materiais.cimento : 0);
+    const [argamassa, setArgamassa] = useState(pedido ? pedido.materiais.argamassa : 0);
+    const [brita, setBrita] = useState(pedido ? pedido.materiais.brita : 0);
+    const [cal, setCal] = useState(pedido ? pedido.materiais.cal : 0);
+    const [areia, setAreia] = useState(pedido ? pedido.materiais.areia : 0);
+    const [outros, setOutros] = useState(pedido ? pedido.materiais.outros : 0);
+
     const [selected7, setSelected7] = useState(false);
     const [selected8, setSelected8] = useState(false);
     const [selected9, setSelected9] = useState(false);
@@ -40,58 +40,63 @@ export default function Ficha(props) {
     const { post, put, response: registerResponse } = useRequest(settings.url);
     const { del, response: removeResponse } = useRequest(settings.url);
 
-    function onPressSelect1() {
-        if (selected1 == false){
-            setSelected1(true);
-        }
-        else{
-            setSelected1(false);
+    function decrementaCimento() {
+        if (cimento >=1){
+        setCimento(cimento - 1);
         }
     }
 
-    function onPressSelect2() {
-        if (selected2 == false){
-            setSelected2(true);
-        }
-        else{
-            setSelected2(false);
+    function incrementaCimento() {
+        setCimento(cimento + 1);
+    }
+
+    function decrementaArgamassa() {
+        if (argamassa >=1){
+        setArgamassa(argamassa - 1);
         }
     }
 
-    function onPressSelect3() {
-        if (selected3 == false){
-            setSelected3(true);
-        }
-        else{
-            setSelected3(false);
+    function incrementaArgamassa() {
+        setArgamassa(argamassa + 1);
+    }
+
+    function decrementaBrita() {
+        if (brita >=1){
+        setBrita(brita - 1);
         }
     }
 
-    function onPressSelect4() {
-        if (selected4 == false){
-            setSelected4(true);
-        }
-        else{
-            setSelected4(false);
+    function incrementaBrita() {
+        setBrita(brita + 1);
+    }
+
+    function decrementaCal() {
+        if (cal >=1){
+        setCal(cal - 1);
         }
     }
 
-    function onPressSelect5() {
-        if (selected5 == false){
-            setSelected5(true);
-        }
-        else{
-            setSelected5(false);
+    function incrementaCal() {
+        setCal(cal + 1);
+    }
+
+    function decrementaAreia() {
+        if (areia >=1){
+        setAreia(areia - 1);
         }
     }
 
-    function onPressSelect6() {
-        if (selected6 == false){
-            setSelected6(true);
+    function incrementaAreia() {
+        setAreia(areia + 1);
+    }
+
+    function decrementaOutros() {
+        if (outros >=1){
+        setOutros(outros - 1);
         }
-        else{
-            setSelected6(false);
-        }
+    }
+    function incrementaOutros() {
+        setOutros(outros + 1);
     }
 
     function onPressSelect7() {
@@ -119,17 +124,13 @@ export default function Ficha(props) {
         }
     }
 
-
-    function onChangeTextUrgencia(text) {
-        setUrgencia(text);
-        setUrgenciaError(!text.trim());
-    }
-
     function onPressRegister() {
         setRegisterError(true);
         const body = {
             urgencia: urgencia,
             observacoes: observacoes,
+            materiais:{"cimento":cimento,"areia":areia,
+            "brita":brita,"cal":cal,"argamassa":argamassa,"outros":outros},
         };
         if (pedido) {
             body.id = pedido.id;
@@ -152,7 +153,7 @@ export default function Ficha(props) {
     useEffect(() => {
         if ((registerResponse.success && registerResponse.body !== null) || (removeResponse.success && removeResponse.body !== null)) {
             emit();
-            navigation.navigate('ListaPedidos');
+            navigation.navigate('Pedidos Realizados');
         } else {
             navigation.setOptions({ title: pedido ? "Pedido #"+ pedido.id : 'Novo Pedido' });
         }
@@ -164,6 +165,7 @@ export default function Ficha(props) {
         { label: 'Baixa', value: 'BAIXA' },
     ];
 
+
     function onChangeTextObs(text) {
         setObservacao(text);
         setObservacaoError(!text.trim());
@@ -173,27 +175,91 @@ export default function Ficha(props) {
         <>
             <ScrollView>
                 <SafeAreaView style={styles.container} edges={['right', 'bottom', 'left']}>  
-                <Title>Materiais</Title>
-                <View style={styles.chip}>
-                    <Chip icon="dump-truck"  style={styles.item} selected={selected1}   onPress={onPressSelect1}>Cimento</Chip>
-                    <Chip icon="hard-hat" style={styles.item}  selected={selected2}   onPress={onPressSelect2}>Madeira</Chip>
-                    <Chip icon="tower-fire" style={styles.item}  selected={selected3}  onPress={onPressSelect3}>Madeira</Chip>
-                    <Chip icon="truck-fast" style={styles.item}  selected={selected4}  onPress={onPressSelect4}>Madeira</Chip>
-                    <Chip icon="wrench"  style={styles.item}  selected={selected5}  onPress={onPressSelect5}>Madeira</Chip>
-                    <Chip icon="pillar" style={styles.item}  selected={selected6}   onPress={onPressSelect6}>Argamassa</Chip>
+                <View style={styles.title}>
+                    <Title>Materiais</Title>
+                </View>
+                <View style={styles.cardContainer}>
+                <Card style={styles.card}>
+                    <Card.Title title="Cimento" subtitle="Cimento Portland comum" />
+                    <Card.Cover source={{ uri: 'https://telhanorte.vteximg.com.br/arquivos/ids/330671-NaN-NaN/1444778.jpg?v=636652679501130000'  }} resizeMode="stretch" />
+                    <Card.Actions>
+                <View style={styles.buttons}>
+                    <IconButton icon="minus" color={Colors.red500} size={25} onPress={decrementaCimento} /> 
+                    <Text>{cimento}</Text>
+                    <IconButton icon="plus" color={Colors.red500} size={25} onPress={incrementaCimento} /> 
+                </View>
+                    </Card.Actions>
+                </Card>
+                <Card style={styles.card}>
+                    <Card.Title title="Argamassa" subtitle="Argamassa Portland comum" />
+                    <Card.Cover  source={{ uri: 'https://telhanorte.vteximg.com.br/arquivos/ids/317111-NaN-NaN/Argamassa-de-uso-interno-para-Porcelanato-20kg-cinza-Quartzolit.jpg?v=636649224491400000'  }} resizeMode="stretch" />
+                    <Card.Actions>
+                    <View style={styles.buttons}>
+                        <IconButton icon="minus" color={Colors.red500} size={25} onPress={decrementaArgamassa} /> 
+                        <Text>{argamassa}</Text>
+                        <IconButton icon="plus" color={Colors.red500} size={25} onPress={incrementaArgamassa} /> 
+                    </View> 
+                    </Card.Actions>
+                </Card>
+                <Card style={styles.card}>
+                    <Card.Title title="Brita" subtitle="Cimento Portland comum" />
+                    <Card.Cover source={{ uri: 'https://cdn.leroymerlin.com.br/products/pedra_britada_0_saco_de_20kg_casa_forte__89361104_0862_600x600.jpg'  }} resizeMode="stretch" />
+                    <Card.Actions>
+                    <View style={styles.buttons}>
+                        <IconButton icon="minus" color={Colors.red500} size={25} onPress={decrementaBrita} /> 
+                        <Text>{brita}</Text>
+                        <IconButton icon="plus" color={Colors.red500} size={25} onPress={incrementaBrita} /> 
+                    </View>
+                    </Card.Actions>
+                </Card>
+                <Card style={styles.card}>
+                    <Card.Title title="Cal" subtitle="Argamassa Portland comum" />
+                    <Card.Cover  source={{ uri: 'http://maisconectado.com/mccaltrevo/painel/imagens/1568391015-Cal_Hidratada_CH_I.jpg'  }} resizeMode="stretch" />
+                    <Card.Actions>
+                    <View style={styles.buttons}>
+                        <IconButton icon="minus" color={Colors.red500} size={25} onPress={decrementaCal} /> 
+                        <Text>{cal}</Text>
+                        <IconButton icon="plus" color={Colors.red500} size={25} onPress={incrementaCal} /> 
+                    </View> 
+                    </Card.Actions>
+                </Card>
+                <Card style={styles.card}>
+                    <Card.Title title="Areia" subtitle="Cimento Portland comum" />
+                    <Card.Cover source={{ uri: 'https://cdn.leroymerlin.com.br/products/areia_fina_ensacada_saco_de_20kg_casa_forte_89361090_f77c_600x600.jpg'  }} resizeMode="stretch" />
+                    <Card.Actions>
+                <View style={styles.buttons}>
+                    <IconButton icon="minus" color={Colors.red500} size={25} onPress={decrementaAreia} /> 
+                    <Text>{areia}</Text>
+                    <IconButton icon="plus" color={Colors.red500} size={25} onPress={incrementaAreia} /> 
+                </View>
+                    </Card.Actions>
+                </Card>
+                <Card style={styles.card}>
+                    <Card.Title title="Outros" subtitle="Argamassa Portland comum" />
+                    <Card.Cover  source={{ uri: 'https://www.sdmaterialdeconstrucao.com.br/img/artigo_26_20180710094908_0.jpeg'  }} resizeMode="stretch" />
+                    <Card.Actions>
+                    <View style={styles.buttons}>
+                        <IconButton icon="minus" color={Colors.red500} size={25} onPress={decrementaOutros} /> 
+                        <Text>{outros}</Text>
+                        <IconButton icon="plus" color={Colors.red500} size={25} onPress={incrementaOutros} /> 
+                    </View> 
+                    </Card.Actions>
+                </Card>
                 </View>
 
-                <Title>Ferramentas</Title>
+                <View style={styles.title}>
+                    <Title>Ferramentas</Title>
+                </View>
                 <View style={styles.chip}>
-                <Chip icon="wall" style={styles.item}  selected={selected7}  onPress={onPressSelect7}>Andaime</Chip>
-                <Chip icon="bulldozer" style={styles.item} selected={selected8}  onPress={onPressSelect8}>Betoneira</Chip>
-                <Chip icon="circular-saw"  style={styles.item}   selected={selected9}  onPress={onPressSelect9}>Furadeira</Chip>
+                    <Chip icon="wall" style={styles.item}  selected={selected7}  onPress={onPressSelect7}>Andaime</Chip>
+                    <Chip icon="bulldozer" style={styles.item} selected={selected8}  onPress={onPressSelect8}>Betoneira</Chip>
+                    <Chip icon="circular-saw"  style={styles.item}   selected={selected9}  onPress={onPressSelect9}>Furadeira</Chip>
                 </View>
                     <DropDown style={styles.input} label="Urgencia" list={urgencias} value={urgencia} setValue={setUrgencia} />
                     <TextInput style={styles.input} label="Observações" value={observacoes} error={observacoesError} onChangeText={onChangeTextObs} />
                     {observacoesError && (
                         <HelperText style={styles.error} type="error">
-                            Coloque uma observação
+                            Adicione uma observação
                         </HelperText>
                     )}
                     <View style={styles.buttonContainer}>
@@ -207,7 +273,7 @@ export default function Ficha(props) {
                         )}
                     </View>
                 </SafeAreaView>
-            </ScrollView>
+            
             {!registerResponse.running && !registerResponse.success && (
                 <Snackbar visible={registerError} action={{ label: 'Ok', onPress: () => setRegisterError(false) }} onDismiss={() => { }}>
                     {registerResponse.body.status === 0 ? 'Não foi possível conectar ao servidor' : `ERROR ${registerResponse.body.status}: ${registerResponse.body.message}`}
@@ -240,7 +306,9 @@ export default function Ficha(props) {
                         </View>
                     </Dialog>
                 </Portal>
+                
             )}
+            </ScrollView>
         </>
     );
 }
