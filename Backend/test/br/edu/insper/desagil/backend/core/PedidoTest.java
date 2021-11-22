@@ -38,13 +38,5 @@ class PedidoTest {
 		assertEquals(3,pedido.getQuantidadeFerramenta("andaime"));
 	}
 	
-	@Test
-	public void testeId() {
-		assertEquals("2", pedido.getId());
-		assertEquals("3", new Pedido().getId());
-		assertEquals("4", new Pedido().getId());
-		assertEquals("5", new Pedido().getId());
-	}
-
 
 }

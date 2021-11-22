@@ -18,7 +18,6 @@ export default function Ficha(props) {
     const pedido = route.params;
 
     const [urgencia, setUrgencia] = useState(pedido ? pedido.urgencia : 'BAIXA');
-    const [urgenciaError, setUrgenciaError] = useState(false);
     const [observacoes, setObservacao] = useState(pedido ? pedido.observacoes : '');
     const [observacoesError, setObservacaoError] = useState(typeof observacoes !== 'string' || !observacoes.trim());
     const [registerError, setRegisterError] = useState(false);
@@ -125,12 +124,6 @@ export default function Ficha(props) {
         }
     }
 
-
-    function onChangeTextUrgencia(text) {
-        setUrgencia(text);
-        setUrgenciaError(!text.trim());
-    }
-
     function onPressRegister() {
         setRegisterError(true);
         const body = {
@@ -160,7 +153,7 @@ export default function Ficha(props) {
     useEffect(() => {
         if ((registerResponse.success && registerResponse.body !== null) || (removeResponse.success && removeResponse.body !== null)) {
             emit();
-            navigation.navigate('ListaPedidos');
+            navigation.navigate('Pedidos Realizados');
         } else {
             navigation.setOptions({ title: pedido ? "Pedido #"+ pedido.id : 'Novo Pedido' });
         }
@@ -266,7 +259,7 @@ export default function Ficha(props) {
                     <TextInput style={styles.input} label="Observações" value={observacoes} error={observacoesError} onChangeText={onChangeTextObs} />
                     {observacoesError && (
                         <HelperText style={styles.error} type="error">
-                            Coloque uma observação
+                            Adicione uma observação
                         </HelperText>
                     )}
                     <View style={styles.buttonContainer}>
