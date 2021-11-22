@@ -1,6 +1,9 @@
 container {
     flex-grow: 1;
     margin:5px;
+    padding:5px;
+    flex-direction: column;
+    justify-content: center;
   
 }
 
@@ -12,8 +15,9 @@ center {
 }
 
 itemContainer {
-    padding: 5px;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
+    border: 1px solid rgb(78, 187, 187);
+    border-radius: 15px;
 }
 
 item {
@@ -25,16 +29,35 @@ paragraph {
     left: 500px;
 }
 
-photoContainer {
-    width: 50px;
-    height: 50px;
+cardTitle {
     margin: 5px;
     flex-direction: row;
+    align-items: left;
+}
+
+urgenciaIcon {
+    width: 40px;
+    height:40px;
+}
+
+chipContainer {
+    flex-grow: 1;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: left;
+    justify-content: center; 
     
 }
 
+chip {
+    margin:1px;
+    padding: 1px;
+}
+
 observacoes {
-     bottom: 3rem; 
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
 }
 
 detalhes {
@@ -43,6 +66,7 @@ detalhes {
 }
 
 fab {
+    background-image: linear-gradient(green, cyan);
     position: absolute;
     right: 10px;
     bottom: 10px;

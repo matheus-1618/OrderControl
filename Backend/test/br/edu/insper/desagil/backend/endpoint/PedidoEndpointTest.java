@@ -28,7 +28,6 @@ class PedidoEndpointTest extends EndpointTest<Pedido> {
 		pedido.setUrgencia(urgencia);
 		post(pedido);
 		pedido = get("id=" + pedido.getId());
-		assertEquals("1", pedido.getId());
 		assertEquals(Urgencia.BAIXA, pedido.getUrgencia());
 	}
 
