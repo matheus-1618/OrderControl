@@ -71,12 +71,13 @@ export default function useRequest(baseUrl) {
                         });
                 }
             })
-            .catch(() => {
+            .catch((error) => {
                 setState({
                     running: false,
                     success: false,
                     body: {
                         status: 0,
+                        message: error,
                     },
                 });
             });
@@ -87,6 +88,11 @@ export default function useRequest(baseUrl) {
         post: (uri, body) => request('POST', uri, body),
         put: (uri, body) => request('PUT', uri, body),
         del: (uri) => request('DELETE', uri),
+        skip: (body) => setState({
+            running: false,
+            success: true,
+            body: body,
+        }),
         response: state,
     };
 }
