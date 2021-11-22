@@ -16,7 +16,7 @@ export default function Main(props) {
 
     return (
         <Drawer.Navigator initialRouteName="Pedidos Realizados" screenOptions={theme.screenOptions}>
-             <Drawer.Screen name="Pedidos Realizados" component={Lista} options={{ drawerBarIcon: ({ color }) => <Icon name="format-list-checkbox" color={color} /> }} />
+             <Drawer.Screen name="Pedidos Realizados" component={Lista}  />
              <Drawer.Screen name="Novo Pedido" component={Ficha}  options={{ drawerBarIcon: ({ color }) => <Icon name="new-box" color={color}  /> }} />
         </Drawer.Navigator>
     );
