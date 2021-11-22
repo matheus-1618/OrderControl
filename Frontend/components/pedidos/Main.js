@@ -15,9 +15,9 @@ export default function Main(props) {
     const theme = useTheme();
 
     return (
-        <Drawer.Navigator initialRouteName="Pedidos Realizados" screenOptions={theme.screenOptions}>
-             <Drawer.Screen name="Pedidos Realizados" component={Lista}  />
-             <Drawer.Screen name="Novo Pedido" component={Ficha}  options={{ drawerBarIcon: ({ color }) => <Icon name="new-box" color={color}  /> }} />
+        <Drawer.Navigator initialRouteName="Pedidos Realizados" screenOptions={theme.screenOptions} >
+             <Drawer.Screen name="Pedidos Realizados" component={Lista}/>
+             <Drawer.Screen name="Novo Pedido" component={Ficha}/>
         </Drawer.Navigator>
     );
 }
