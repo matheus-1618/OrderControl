@@ -264,7 +264,7 @@ export default function Ficha(props) {
                     )}
                     <View style={styles.buttonContainer}>
                         <Button style={styles.button} mode="outlined" disabled={registerResponse.running || removeResponse.running} loading={registerResponse.running} onPress={onPressRegister}>
-                            {pedido ? 'Atualizar' : 'Solicitar Pedido'}
+                            {pedido ? 'Salvar' : 'Solicitar Pedido'}
                         </Button>
                         {pedido && (
                             <Button style={styles.button} mode="outlined" disabled={registerResponse.running || removeResponse.running} loading={removeResponse.running} onPress={() => setRemoveVisible(true)}>
