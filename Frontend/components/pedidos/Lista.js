@@ -32,11 +32,15 @@ function PedidoItem(props) {
                 <Card.Title title={"Pedido #"+pedido.id}  />
                 </View>
                 <Card.Content styles={styles.observacoes}>
-                <View style={styles.chip}>
-                    <Chip icon="wall">Andaime</Chip>
-                    <Chip icon="wall">Cimento</Chip>
-                    <Chip icon="wall">Cal</Chip>
-                </View>   
+
+                <Paragraph>Solicitações</Paragraph>
+
+                    <View style={styles.chipContainer}>
+                        <Chip style={styles.chip} icon="wall">Andaime</Chip>
+                        <Chip style={styles.chip} icon="wall">Cimento</Chip>
+                        <Chip style={styles.chip} icon="wall">Cal</Chip>
+                        
+                    </View>   
                 </Card.Content>
                 <Card.Actions>
                     <Paragraph>Observações: {pedido.observacoes}</Paragraph>
