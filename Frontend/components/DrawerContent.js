@@ -55,7 +55,7 @@ export function DrawerContent(props) {
                             />
                         )}
                         label="Pedidos Realizados"
-                        onPress={() => {props.navigation.navigate('Pedidos Realizados')}}
+                        onPress={() => {props.navigation.navigate('Pedidos')}}
                     />
                     <DrawerItem 
                         icon={({color, size}) => (
@@ -67,6 +67,30 @@ export function DrawerContent(props) {
                         )}
                         label="Novo Pedido"
                         onPress={() => {props.navigation.navigate('Novo Pedido')}}
+                    />
+
+                     <DrawerItem 
+                        icon={({color, size}) => (
+                            <Icon 
+                            name="barn" 
+                            color={color}
+                            size={size}
+                            />
+                        )}
+                        label="Estoques"
+                        onPress={() => {props.navigation.navigate('Estoques')}}
+                    />
+
+                     <DrawerItem 
+                        icon={({color, size}) => (
+                            <Icon 
+                            name="new-box" 
+                            color={color}
+                            size={size}
+                            />
+                        )}
+                        label="Adicionar novo Estoque"
+                        onPress={() => {props.navigation.navigate('Adicionar Estoque')}}
                     />
                     {/* <DrawerItem 
                         icon={({color, size}) => (

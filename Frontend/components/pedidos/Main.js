@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import { useTheme } from 'react-native-paper';
 
@@ -11,7 +11,7 @@ import Ficha from './Ficha';
 
 import styles from '../../styles/pedidos/Main.json';
 
-const Drawer = createDrawerNavigator();
+const Stack = createStackNavigator();
 
 import { DrawerContent } from '../DrawerContent';
 
@@ -19,9 +19,9 @@ export default function Main(props) {
     const theme = useTheme();
 
     return (
-        <Drawer.Navigator drawerContent={props => <DrawerContent {...props} /> } initialRouteName="Pedidos Realizados" screenOptions={theme.screenOptions} >
-             <Drawer.Screen name="Pedidos Realizados" component={Lista}/>
-             <Drawer.Screen name="Novo Pedido" component={Ficha}/>
-        </Drawer.Navigator>
+        <Stack.Navigator  initialRouteName="Pedidos Realizados" screenOptions={theme.screenOptions} >
+             <Stack.Screen name="Pedidos Realizados" component={Lista}/>
+             <Stack.Screen name="Novo Pedido" component={Ficha}/>
+        </Stack.Navigator>
     );
 }
