@@ -103,7 +103,7 @@ export default function Lista(props) {
                     </View>
                 )
             )}
-            <FAB style={styles.fab} icon="plus"  color={Colors.white500} onPress={() => navigation.navigate('Materiais Pedidos', null)} />
+            <FAB style={styles.fab} icon="plus"  color={Colors.white500} onPress={() => navigation.navigate('Novo Material', null)} />
             {!response.running && !response.success && (
                 <Snackbar visible={getError} action={{ label: 'Ok', onPress: () => setGetError(false) }} onDismiss={() => { }}>
                     {response.body.status === 0 ? 'Não foi possível conectar ao servidor' : `ERROR ${response.body.status}: ${response.body.message}`}

@@ -24,12 +24,12 @@ export default function Ficha(props) {
     const [removeError, setRemoveError] = useState(false);
     const [removeVisible, setRemoveVisible] = useState(false);
 
-    const [cimento, setCimento] = useState(pedido ? pedido.materiais.cimento : 0);
-    const [argamassa, setArgamassa] = useState(pedido ? pedido.materiais.argamassa : 0);
-    const [brita, setBrita] = useState(pedido ? pedido.materiais.brita : 0);
-    const [cal, setCal] = useState(pedido ? pedido.materiais.cal : 0);
-    const [areia, setAreia] = useState(pedido ? pedido.materiais.areia : 0);
-    const [outros, setOutros] = useState(pedido ? pedido.materiais.outros : 0);
+    const [andaime, setAndaime] = useState(pedido ? pedido.ferramentas.andaime : 0);
+    const [betoneira, setBetoneira] = useState(pedido ? pedido.ferramentas.betoneira : 0);
+    const [bomba, setBomba] = useState(pedido ? pedido.ferramentas.bomba : 0);
+    const [esmerilhadeira, setEsmerilhadeira] = useState(pedido ? pedido.ferramentas.esmerilhadeira : 0);
+    const [furadeira, setFuradeira] = useState(pedido ? pedido.ferramentas.furadeira : 0);
+    const [outros, setOutros] = useState(pedido ? pedido.ferramentas.outros : 0);
 
     const [selected7, setSelected7] = useState(false);
     const [selected8, setSelected8] = useState(false);
@@ -40,54 +40,54 @@ export default function Ficha(props) {
     const { post, put, response: registerResponse } = useRequest(settings.url);
     const { del, response: removeResponse } = useRequest(settings.url);
 
-    function decrementaCimento() {
-        if (cimento >=1){
-        setCimento(cimento - 1);
+    function decrementaAndaime() {
+        if (andaime >=1){
+        setAndaime(andaime - 1);
         }
     }
 
-    function incrementaCimento() {
-        setCimento(cimento + 1);
+    function incrementaAndaime() {
+        setAndaime(andaime + 1);
     }
 
-    function decrementaArgamassa() {
-        if (argamassa >=1){
-        setArgamassa(argamassa - 1);
+    function decrementaBetoneira() {
+        if (betoneira >=1){
+        setBetoneira(betoneira - 1);
         }
     }
 
-    function incrementaArgamassa() {
-        setArgamassa(argamassa + 1);
+    function incrementaBetoneira() {
+        setBetoneira(betoneira + 1);
     }
 
-    function decrementaBrita() {
-        if (brita >=1){
-        setBrita(brita - 1);
+    function decrementaBomba() {
+        if (bomba >=1){
+        setBomba(bomba - 1);
         }
     }
 
-    function incrementaBrita() {
-        setBrita(brita + 1);
+    function incrementaBomba() {
+        setBomba(bomba + 1);
     }
 
-    function decrementaCal() {
-        if (cal >=1){
-        setCal(cal - 1);
+    function decrementaEsmerilhadeira() {
+        if (esmerilhadeira >=1){
+        setEsmerilhadeira(esmerilhadeira - 1);
         }
     }
 
-    function incrementaCal() {
-        setCal(cal + 1);
+    function incrementaEsmerilhadeira() {
+        setEsmerilhadeira(esmerilhadeira + 1);
     }
 
-    function decrementaAreia() {
-        if (areia >=1){
-        setAreia(areia - 1);
+    function decrementaFuradeira() {
+        if (furadeira >=1){
+        setFuradeira(furadeira - 1);
         }
     }
 
-    function incrementaAreia() {
-        setAreia(areia + 1);
+    function incrementaFuradeira() {
+        setFuradeira(furadeira + 1);
     }
 
     function decrementaOutros() {
@@ -129,8 +129,8 @@ export default function Ficha(props) {
         const body = {
             urgencia: urgencia,
             observacoes: observacoes,
-            materiais:{"cimento":cimento,"areia":areia,
-            "brita":brita,"cal":cal,"argamassa":argamassa,"outros":outros},
+            ferramentas:{"andaime":andaime,"betoneira":betoneira,
+            "bomba":bomba,"esmerilhadeira":esmerilhadeira,"furadeira":furadeira,"outros":outros},
         };
         if (pedido) {
             body.id = pedido.id;
@@ -184,9 +184,9 @@ export default function Ficha(props) {
                     <Card.Cover source={{ uri: 'https://www.casadoconstrutor.com.br/wp-content/uploads/2018/07/andaimes.jpg'  }} resizeMode="stretch" />
                     <Card.Actions>
                 <View style={styles.buttons}>
-                    <IconButton icon="minus" color={Colors.red500} size={25} onPress={decrementaCimento} /> 
-                    <Text>{cimento}</Text>
-                    <IconButton icon="plus" color={Colors.red500} size={25} onPress={incrementaCimento} /> 
+                    <IconButton icon="minus" color={Colors.red500} size={25} onPress={decrementaAndaime} /> 
+                    <Text>{andaime}</Text>
+                    <IconButton icon="plus" color={Colors.red500} size={25} onPress={incrementaAndaime} /> 
                 </View>
                     </Card.Actions>
                 </Card>
@@ -195,9 +195,9 @@ export default function Ficha(props) {
                     <Card.Cover  source={{ uri: 'https://a-static.mlcdn.com.br/618x463/betoneira-menegotti-400-litros-prime/lojaszema/2116/6489f17ea00a03aa2beb1e9074686ada.jpg'  }} resizeMode="stretch" />
                     <Card.Actions>
                     <View style={styles.buttons}>
-                        <IconButton icon="minus" color={Colors.red500} size={25} onPress={decrementaArgamassa} /> 
-                        <Text>{argamassa}</Text>
-                        <IconButton icon="plus" color={Colors.red500} size={25} onPress={incrementaArgamassa} /> 
+                        <IconButton icon="minus" color={Colors.red500} size={25} onPress={decrementaBetoneira} /> 
+                        <Text>{betoneira}</Text>
+                        <IconButton icon="plus" color={Colors.red500} size={25} onPress={incrementaBetoneira} /> 
                     </View> 
                     </Card.Actions>
                 </Card>
@@ -206,9 +206,9 @@ export default function Ficha(props) {
                     <Card.Cover source={{ uri: 'https://images-submarino.b2w.io/produtos/01/00/item/111605/8/111605854_1GG.jpg'  }} resizeMode="stretch" />
                     <Card.Actions>
                     <View style={styles.buttons}>
-                        <IconButton icon="minus" color={Colors.red500} size={25} onPress={decrementaBrita} /> 
-                        <Text>{brita}</Text>
-                        <IconButton icon="plus" color={Colors.red500} size={25} onPress={incrementaBrita} /> 
+                        <IconButton icon="minus" color={Colors.red500} size={25} onPress={decrementaBomba} /> 
+                        <Text>{bomba}</Text>
+                        <IconButton icon="plus" color={Colors.red500} size={25} onPress={incrementaBomba} /> 
                     </View>
                     </Card.Actions>
                 </Card>
@@ -217,9 +217,9 @@ export default function Ficha(props) {
                     <Card.Cover  source={{ uri: 'https://casadosoldador.com.br/files/products_images/12587/esmerilhadeira-angular-840w-4-1-2-pol-9557hng-makita-casa-do-soldador-01.jpg?1515090040'  }} resizeMode="stretch" />
                     <Card.Actions>
                     <View style={styles.buttons}>
-                        <IconButton icon="minus" color={Colors.red500} size={25} onPress={decrementaCal} /> 
-                        <Text>{cal}</Text>
-                        <IconButton icon="plus" color={Colors.red500} size={25} onPress={incrementaCal} /> 
+                        <IconButton icon="minus" color={Colors.red500} size={25} onPress={decrementaEsmerilhadeira} /> 
+                        <Text>{esmerilhadeira}</Text>
+                        <IconButton icon="plus" color={Colors.red500} size={25} onPress={incrementaEsmerilhadeira} /> 
                     </View> 
                     </Card.Actions>
                 </Card>
@@ -228,9 +228,9 @@ export default function Ficha(props) {
                     <Card.Cover source={{ uri: 'https://m.media-amazon.com/images/I/612zj2sywuL._AC_SY355_.jpg'  }} resizeMode="stretch" />
                     <Card.Actions>
                 <View style={styles.buttons}>
-                    <IconButton icon="minus" color={Colors.red500} size={25} onPress={decrementaAreia} /> 
-                    <Text>{areia}</Text>
-                    <IconButton icon="plus" color={Colors.red500} size={25} onPress={incrementaAreia} /> 
+                    <IconButton icon="minus" color={Colors.red500} size={25} onPress={decrementaFuradeira} /> 
+                    <Text>{furadeira}</Text>
+                    <IconButton icon="plus" color={Colors.red500} size={25} onPress={incrementaFuradeira} /> 
                 </View>
                     </Card.Actions>
                 </Card>
