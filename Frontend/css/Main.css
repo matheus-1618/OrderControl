@@ -3,3 +3,17 @@ container {
     align-items: center;
     justify-content: center;
 }
+
+
+header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+center {
+    align-items:center;
+}
+
+
+

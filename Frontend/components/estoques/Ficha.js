@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 
-import { ScrollView, Image, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { TouchableRipple, Title, Divider, Portal, ActivityIndicator, FAB, Surface, TextInput, HelperText, List, IconButton, Dialog, Paragraph, Button, Snackbar } from 'react-native-paper';
+import { Title, Portal, TextInput, HelperText, Dialog, Paragraph, Button, Snackbar } from 'react-native-paper';
 
-import { Rounded, AspectView, Icon, useEmit, useEffect, useRequest, map } from '../../lib';
+import { useEmit, useEffect, useRequest } from '../../lib';
 
 import settings from '../../settings.json';
 
@@ -30,7 +30,6 @@ export default function Ficha(props) {
 
     const [registerError, setRegisterError] = useState(false);
     const [removeError, setRemoveError] = useState(false);
-    const [addVisible, setAddVisible] = useState(false);
     const [removeVisible, setRemoveVisible] = useState(false);
 
     const emit = useEmit('updated-estoques');

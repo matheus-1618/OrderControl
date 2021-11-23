@@ -20,11 +20,11 @@ export default {
     },
     screenOptions: {
         headerStyle: {
-            backgroundColor: '#18EEAB',
+            backgroundColor: '#ffffff',
         },
         headerTintColor: '#ffffff',
         headerTitleStyle: {
-            color: '#ffffff',
+            color: '#000000',
         },
     },
     fonts: Platform.select({

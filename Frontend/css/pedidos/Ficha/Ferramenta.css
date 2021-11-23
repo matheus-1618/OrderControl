@@ -20,7 +20,7 @@ photoInner {
 }
 card {
     border: 1px solid rgb(78, 187, 187);
-    border-radius: 15px;
+    border-radius: 5px;
     justify-content: center;
     margin: 5px;
     width:44%;

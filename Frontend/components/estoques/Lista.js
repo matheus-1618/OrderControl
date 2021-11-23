@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { View, Image, ScrollView } from 'react-native';
+import { View, ScrollView } from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -50,6 +50,9 @@ export default function Lista(props) {
 
     return (
         <>
+        <View style={styles.title}>
+        <Title>Estoques</Title>
+    </View>
             {response.running ? (
                 <View style={styles.center}>
                     <ActivityIndicator size="large" />
