@@ -1,0 +1,84 @@
+container {
+    flex-grow: 1;
+    padding: 5px;
+}
+
+preview {
+    flex-grow: 1;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 10px;
+}
+
+photoAspect {
+    align-self: center;
+    width: 50%;
+}
+
+photoSurface {
+    flex-grow: 1;
+    margin: 5px;
+    border-width: 1px;
+}
+
+photoContainer {
+    flex-grow: 1;
+}
+
+photoIcon {
+    margin: 10px;
+}
+
+photoImage {
+    flex-grow: 1;
+}
+
+input {
+    margin: 5px;
+}
+
+error {
+    margin: 0 5px 5px 5px;
+}
+
+list {
+    margin: 5px;
+    padding: 0;
+}
+
+listIndicator {
+    margin: 0 5px 5px 5px;
+}
+
+listItem {
+    margin: 0 5px 5px 5px;
+    padding: 0;
+}
+
+listIcon {
+    margin: 0;
+}
+
+listButton {
+    align-self: center;
+    margin: 0 5px 5px 5px;
+}
+
+title {
+    align-items: center;
+    flex-grow: 1;
+    padding: 5px;
+}
+
+catItem {
+    padding: 10px;
+}
+
+buttonContainer {
+    flex-direction: row;
+}
+
+button {
+    flex-grow: 1;
+    margin: 5px;
+}

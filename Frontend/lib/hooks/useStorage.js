@@ -9,7 +9,7 @@ import { useState } from 'react';
 import { Image, Platform } from 'react-native';
 
 import * as FileSystem from 'expo-file-system';
-import { manipulateAsync } from 'expo-image-manipulator';
+//import { manipulateAsync } from 'expo-image-manipulator';
 import * as DocumentPicker from 'expo-document-picker';
 
 const MAX_SIZE = 512;

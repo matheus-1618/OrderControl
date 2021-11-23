@@ -2,40 +2,40 @@ package br.edu.insper.desagil.backend.endpoint;
 
 import java.util.List;
 
-import br.edu.insper.desagil.backend.core.Pedido;
-import br.edu.insper.desagil.backend.dao.PedidoDAO;
+import br.edu.insper.desagil.backend.core.PedidoMaterial;
+import br.edu.insper.desagil.backend.dao.PedidoMaterialDAO;
 import br.edu.insper.desagil.backend.httpserver.Args;
 import br.edu.insper.desagil.backend.httpserver.Endpoint;
 import br.edu.insper.desagil.backend.httpserver.Result;
 
-public class PedidoEndpoint extends Endpoint<Pedido> {
-	private PedidoDAO dao;
+public class PedidoMaterialEndpoint extends Endpoint<PedidoMaterial> {
+	private PedidoMaterialDAO dao;
 	
-	public PedidoEndpoint() {
-		super("/pedido");
-		dao = new PedidoDAO();
+	public PedidoMaterialEndpoint() {
+		super("/material");
+		dao = new PedidoMaterialDAO();
 	}
 	
 	@Override
-	public Pedido get(Args args) {
+	public PedidoMaterial get(Args args) {
 		String key = args.get("id");
 		return dao.retrieve(key);
 	}
 
 	@Override
-	public List<Pedido> getList(Args args) {
+	public List<PedidoMaterial> getList(Args args) {
 		return dao.retrieveAll();
 	}
 
 	@Override
-	public Result post(Args args, Pedido pedido) {
-		dao.create(pedido);
+	public Result post(Args args, PedidoMaterial material) {
+		dao.create(material);
 		return new Result();
 	}
 
 	@Override
-	public Result put(Args args, Pedido pedido) {
-		dao.update(pedido);
+	public Result put(Args args, PedidoMaterial material) {
+		dao.update(material);
 		return new Result();
 	}
 

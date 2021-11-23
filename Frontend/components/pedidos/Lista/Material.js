@@ -8,11 +8,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Colors, Chip, Card, Paragraph , Title,Divider, ActivityIndicator, Text, Button, FAB, Snackbar } from 'react-native-paper';
 
-import { Rounded, Icon,AspectView, useSignal, useEmit, useEffect, useRequest, map } from '../../lib';
+import { Rounded, Icon,AspectView, useSignal, useEmit, useEffect, useRequest, map } from '../../../lib';
 
-import settings from '../../settings.json';
+import settings from '../../../settings.json';
 
-import styles from '../../styles/pedidos/Lista.json';
+import styles from '../../../styles/pedidos/Lista.json';
 
 
 
@@ -58,15 +58,18 @@ export default function Lista(props) {
 
     const [getError, setGetError] = useState(false);
 
-    const signal = useSignal('updated-pedidos');
-    const emit = useEmit('updated-pedidos');
+    const signal = useSignal('updated-materiais');
+    const emit = useEmit('updated-materiais');
+
 
     const { get, response } = useRequest(settings.url);
 
     useEffect(() => {
         setGetError(true);
-        get('/pedido/list');
+        get('/material/list');
+
     }, [signal]);
+
 
     return (
         <>

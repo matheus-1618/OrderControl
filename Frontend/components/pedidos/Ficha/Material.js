@@ -6,11 +6,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Text, Card, IconButton, Chip, Title,Colors, TextInput, HelperText, Button, Snackbar, Portal, Dialog, Paragraph } from 'react-native-paper';
 
-import { AspectView, Icon, DropDown, DateTimePicker, useEmit, useEffect, useStorage, useRequest } from '../../lib';
+import { AspectView, Icon, DropDown, DateTimePicker, useEmit, useEffect, useStorage, useRequest } from '../../../lib';
 
-import settings from '../../settings.json';
+import settings from '../../../settings.json';
 
-import styles from '../../styles/pedidos/Ficha.json';
+import styles from '../../../styles/pedidos/Ficha.json';
 
 export default function Ficha(props) {
     const { navigation, route } = props;
@@ -35,7 +35,7 @@ export default function Ficha(props) {
     const [selected8, setSelected8] = useState(false);
     const [selected9, setSelected9] = useState(false);
 
-    const emit = useEmit('updated-pedidos');
+    const emit = useEmit('updated-materiais');
 
     const { post, put, response: registerResponse } = useRequest(settings.url);
     const { del, response: removeResponse } = useRequest(settings.url);
@@ -134,9 +134,9 @@ export default function Ficha(props) {
         };
         if (pedido) {
             body.id = pedido.id;
-            put('/pedido', body);
+            put('/material', body);
         } else {
-            post('/pedido', body);
+            post('/material', body);
         }
     }
 
@@ -147,7 +147,7 @@ export default function Ficha(props) {
     function onConfirmRemove() {
         onDismissRemove();
         setRemoveError(true);
-        del(`/pedido?id=${pedido.id}`);
+        del(`/material?id=${pedido.id}`);
     }
 
     useEffect(() => {
@@ -155,7 +155,7 @@ export default function Ficha(props) {
             emit();
             navigation.navigate('Pedidos Realizados');
         } else {
-            navigation.setOptions({ title: pedido ? "Pedido #"+ pedido.id : 'Novo Pedido' });
+            navigation.setOptions({ title: pedido ? "Pedido #"+ pedido.id : 'Material' });
         }
     }, [registerResponse, removeResponse]);
 
@@ -246,15 +246,6 @@ export default function Ficha(props) {
                     </Card.Actions>
                 </Card>
                 </View>
-
-                <View style={styles.title}>
-                    <Title>Ferramentas</Title>
-                </View>
-                <View style={styles.chip}>
-                    <Chip icon="wall" style={styles.item}  selected={selected7}  onPress={onPressSelect7}>Andaime</Chip>
-                    <Chip icon="bulldozer" style={styles.item} selected={selected8}  onPress={onPressSelect8}>Betoneira</Chip>
-                    <Chip icon="circular-saw"  style={styles.item}   selected={selected9}  onPress={onPressSelect9}>Furadeira</Chip>
-                </View>
                     <DropDown style={styles.input} label="Urgencia" list={urgencias} value={urgencia} setValue={setUrgencia} />
                     <TextInput style={styles.input} label="Observações" value={observacoes} error={observacoesError} onChangeText={onChangeTextObs} />
                     {observacoesError && (
@@ -264,7 +255,7 @@ export default function Ficha(props) {
                     )}
                     <View style={styles.buttonContainer}>
                         <Button style={styles.button} mode="outlined" disabled={registerResponse.running || removeResponse.running} loading={registerResponse.running} onPress={onPressRegister}>
-                            {pedido ? 'Atualizar' : 'Solicitar Pedido'}
+                            {pedido ? 'Salvar' : 'Solicitar Pedido'}
                         </Button>
                         {pedido && (
                             <Button style={styles.button} mode="outlined" disabled={registerResponse.running || removeResponse.running} loading={removeResponse.running} onPress={() => setRemoveVisible(true)}>

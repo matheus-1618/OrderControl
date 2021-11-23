@@ -5,16 +5,15 @@ import java.util.Map;
 
 import br.edu.insper.desagil.backend.database.firestore.FirestoreObject;
 
-public class Pedido extends FirestoreObject {
+public class PedidoMaterial extends FirestoreObject {
 	private static int idCount = 0;
 	private String id;
 	private Urgencia urgencia;
 	private String observacoes;
 	private Map<String,Integer> materiais;
-	private Map<String,Integer> ferramentas;
 	
 	
-	public Pedido () {
+	public PedidoMaterial () {
 		this.id = Integer.toString(idCount);
 		idCount ++;
 		this.materiais = new HashMap<String,Integer>() {{
@@ -23,14 +22,6 @@ public class Pedido extends FirestoreObject {
 			put("cal",0);
 			put("madeira",0);
 			put("cimento",0);
-			put("outros",0);
-		}};
-		this.ferramentas = new HashMap<String,Integer>(){{
-			put("andaime",0);
-			put("betoneira",0);
-			put("bomba",0);
-			put("esmerilhadeira",0);
-			put("furadeira",0);
 			put("outros",0);
 		}};
 	}
@@ -66,17 +57,11 @@ public class Pedido extends FirestoreObject {
 		return this.materiais;
 	}
 	
-	public Map getFerramentas() {
-		return this.ferramentas;
-	}
 	
 	public int getQuantidadeMaterial(String material) {
 		return this.materiais.get(material);
 	}
 	
-	public int getQuantidadeFerramenta(String ferramenta) {
-		return this.ferramentas.get(ferramenta);
-	}
 	
 	public void changeQuantidadeMaterial(String material,int quantidade) {
 		if ((quantidade >= 0) && (this.materiais.containsKey(material))) {
@@ -84,10 +69,5 @@ public class Pedido extends FirestoreObject {
 		}
 	}
 	
-	public void changeQuantidadeFerramenta(String ferramenta,int quantidade) {
-		if ((quantidade >= 0) && (this.ferramentas.containsKey(ferramenta))) {
-			this.ferramentas.put(ferramenta,quantidade);
-		}
-	}
 	
 }
