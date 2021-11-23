@@ -8,11 +8,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Colors, Chip, Card, Paragraph , Title,Divider, ActivityIndicator, Text, Button, FAB, Snackbar } from 'react-native-paper';
 
-import { Rounded, Icon,AspectView, useSignal, useEmit, useEffect, useRequest, map } from '../../lib';
+import { Rounded, Icon,AspectView, useSignal, useEmit, useEffect, useRequest, map } from '../../../lib';
 
-import settings from '../../settings.json';
+import settings from '../../../settings.json';
 
-import styles from '../../styles/pedidos/Lista.json';
+import styles from '../../../styles/pedidos/Lista.json';
 
 
 
@@ -58,18 +58,17 @@ export default function Lista(props) {
 
     const [getError, setGetError] = useState(false);
 
-    const signalMaterial = useSignal('updated-materiais');
-    const emitMaterial = useEmit('updated-materiais');
-    const signalFerramenta = useSignal('updated-ferramentas');
-    const emitFerramenta = useEmit('updated-ferramentas');
+    const signal = useSignal('updated-materiais');
+    const emit = useEmit('updated-materiais');
+
 
     const { get, response } = useRequest(settings.url);
 
     useEffect(() => {
         setGetError(true);
         get('/material/list');
-        get('/ferramenta/list');
-    }, [signalMaterial,signalFerramenta]);
+
+    }, [signal]);
 
 
     return (
@@ -98,13 +97,13 @@ export default function Lista(props) {
                     )
                 ) : (
                     <View style={styles.center}>
-                        <Button mode="outlined" onPress={{emitFerramenta,emitMaterial}}>
+                        <Button mode="outlined" onPress={emit}>
                             Tentar novamente
                         </Button>
                     </View>
                 )
             )}
-            <FAB style={styles.fab} icon="plus"  color={Colors.white500} onPress={() => navigation.navigate('Novo Pedido', null)} />
+            <FAB style={styles.fab} icon="plus"  color={Colors.white500} onPress={() => navigation.navigate('Materiais Pedidos', null)} />
             {!response.running && !response.success && (
                 <Snackbar visible={getError} action={{ label: 'Ok', onPress: () => setGetError(false) }} onDismiss={() => { }}>
                     {response.body.status === 0 ? 'Não foi possível conectar ao servidor' : `ERROR ${response.body.status}: ${response.body.message}`}

@@ -6,8 +6,9 @@ import { useTheme } from 'react-native-paper';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import Lista from './Lista';
-import Ficha from './Ficha';
+import ListaMaterial from './Lista/Material';
+import ListaFerramenta from './Lista/Ferramenta';
+import Ficha from './Ficha/Main';
 
 import styles from '../../styles/pedidos/Main.json';
 
@@ -19,8 +20,9 @@ export default function Main(props) {
     const theme = useTheme();
 
     return (
-        <Stack.Navigator  initialRouteName="Pedidos Realizados" screenOptions={theme.screenOptions} >
-             <Stack.Screen name="Pedidos Realizados" component={Lista}/>
+        <Stack.Navigator  initialRouteName="Materiais Pedidos" screenOptions={theme.screenOptions} >
+             <Stack.Screen name="Materiais Pedidos" component={ListaMaterial}/>
+             <Stack.Screen name="Ferramentas Pedidas" component={ListaMaterial}/>
              <Stack.Screen name="Novo Pedido" component={Ficha}/>
         </Stack.Navigator>
     );

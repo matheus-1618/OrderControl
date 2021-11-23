@@ -35,7 +35,7 @@ export default function Ficha(props) {
     const [selected8, setSelected8] = useState(false);
     const [selected9, setSelected9] = useState(false);
 
-    const emit = useEmit('updated-pedidos');
+    const emit = useEmit('updated-ferramentas');
 
     const { post, put, response: registerResponse } = useRequest(settings.url);
     const { del, response: removeResponse } = useRequest(settings.url);
@@ -134,9 +134,9 @@ export default function Ficha(props) {
         };
         if (pedido) {
             body.id = pedido.id;
-            put('/pedido', body);
+            put('/ferramenta', body);
         } else {
-            post('/pedido', body);
+            post('/ferramenta', body);
         }
     }
 
@@ -147,7 +147,7 @@ export default function Ficha(props) {
     function onConfirmRemove() {
         onDismissRemove();
         setRemoveError(true);
-        del(`/pedido?id=${pedido.id}`);
+        del(`/ferramenta?id=${pedido.id}`);
     }
 
     useEffect(() => {
@@ -213,7 +213,7 @@ export default function Ficha(props) {
                     </Card.Actions>
                 </Card>
                 <Card style={styles.card}>
-                    <Card.Title title="Esmerilhadeira" subtitle="Argamassa Portland comum" />
+                    <Card.Title title="Lixadeira" subtitle="Argamassa Portland comum" />
                     <Card.Cover  source={{ uri: 'https://casadosoldador.com.br/files/products_images/12587/esmerilhadeira-angular-840w-4-1-2-pol-9557hng-makita-casa-do-soldador-01.jpg?1515090040'  }} resizeMode="stretch" />
                     <Card.Actions>
                     <View style={styles.buttons}>
@@ -225,7 +225,7 @@ export default function Ficha(props) {
                 </Card>
                 <Card style={styles.card}>
                     <Card.Title title="Furadeira" subtitle="Cimento Portland comum" />
-                    <Card.Cover source={{ uri: 'https://images.tcdn.com.br/img/img_prod/736567/furadeira_de_impacto_reversivel_1_2pol_800w_bosch_gsb_20_2re_205_1_20191121175105.jpg'  }} resizeMode="stretch" />
+                    <Card.Cover source={{ uri: 'https://m.media-amazon.com/images/I/612zj2sywuL._AC_SY355_.jpg'  }} resizeMode="stretch" />
                     <Card.Actions>
                 <View style={styles.buttons}>
                     <IconButton icon="minus" color={Colors.red500} size={25} onPress={decrementaAreia} /> 
@@ -236,7 +236,7 @@ export default function Ficha(props) {
                 </Card>
                 <Card style={styles.card}>
                     <Card.Title title="Outros" subtitle="Argamassa Portland comum" />
-                    <Card.Cover  source={{ uri: 'https://cdn.awsli.com.br/600x450/534/534211/produto/37151551/f7e3c0a07f.jpg'  }} resizeMode="stretch" />
+                    <Card.Cover  source={{ uri: 'https://m.media-amazon.com/images/I/71V4LbulRaL._AC_SY355_.jpg'  }} resizeMode="stretch" />
                     <Card.Actions>
                     <View style={styles.buttons}>
                         <IconButton icon="minus" color={Colors.red500} size={25} onPress={decrementaOutros} /> 

@@ -1,6 +1,9 @@
 import React from 'react';
 
 import { View, StyleSheet } from 'react-native';
+
+import { List } from 'react-native-paper';
+
 import {
     useTheme,
     Avatar,
@@ -24,7 +27,10 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 export function DrawerContent(props) {
 
     const paperTheme = useTheme();
+    const [expanded, setExpanded] = React.useState(true);
 
+    const handlePress = () => setExpanded(!expanded);
+  
 
     return( 
         <View style={{flex:1}}>
@@ -46,17 +52,21 @@ export function DrawerContent(props) {
                 </View>
 
                 <Drawer.Section style={styles.drawerSection}>
-                    <DrawerItem 
-                        icon={({color, size}) => (
-                            <Icon 
-                            name="playlist-edit" 
-                            color={color}
-                            size={size}
-                            />
-                        )}
-                        label="Pedidos Realizados"
-                        onPress={() => {props.navigation.navigate('Pedidos')}}
-                    />
+                    <List.Section >
+                        <List.Accordion
+                                title="Pedidos Realizados"
+                                left={props => <List.Icon {...props} icon="playlist-edit" />}>
+                                <View style={styles.list}>
+                                    <List.Icon icon="wall" style={styles.icon} />
+                                    <List.Item title="Materiais" onPress={() => {props.navigation.navigate('Materiais')}} />
+                                </View>
+                                <View style={styles.list}>
+                                    <List.Icon icon="hammer"/>
+                                    <List.Item title="Ferramentas" onPress={() => {props.navigation.navigate('Ferramentas')}} />
+                                </View> 
+                        </List.Accordion>
+                    </List.Section>
+                  
                     <DrawerItem 
                         icon={({color, size}) => (
                             <Icon 
@@ -92,6 +102,7 @@ export function DrawerContent(props) {
                         label="Adicionar novo Estoque"
                         onPress={() => {props.navigation.navigate('Adicionar Estoque')}}
                     />
+
                     {/* <DrawerItem 
                         icon={({color, size}) => (
                             <Icon 
@@ -162,6 +173,14 @@ const styles = StyleSheet.create({
     userInfoSection: {
       paddingLeft: 20,
     },
+    icon:{
+    marginTop:'1px',
+    },
+    list: {
+        flexDirection:'row',
+        justifyContent:'flex-start',
+        alignItems:'center',
+      },
     title: {
       fontSize: 16,
       marginTop: 3,

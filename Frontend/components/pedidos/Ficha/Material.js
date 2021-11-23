@@ -35,7 +35,7 @@ export default function Ficha(props) {
     const [selected8, setSelected8] = useState(false);
     const [selected9, setSelected9] = useState(false);
 
-    const emit = useEmit('updated-pedidos');
+    const emit = useEmit('updated-materiais');
 
     const { post, put, response: registerResponse } = useRequest(settings.url);
     const { del, response: removeResponse } = useRequest(settings.url);
@@ -134,9 +134,9 @@ export default function Ficha(props) {
         };
         if (pedido) {
             body.id = pedido.id;
-            put('/pedido', body);
+            put('/material', body);
         } else {
-            post('/pedido', body);
+            post('/material', body);
         }
     }
 
@@ -147,7 +147,7 @@ export default function Ficha(props) {
     function onConfirmRemove() {
         onDismissRemove();
         setRemoveError(true);
-        del(`/pedido?id=${pedido.id}`);
+        del(`/material?id=${pedido.id}`);
     }
 
     useEffect(() => {
