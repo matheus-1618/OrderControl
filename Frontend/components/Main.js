@@ -8,6 +8,8 @@ import Pedidos from './pedidos/Main'
 
 import styles from '../styles/Main.json';
 
+console.reportErrorsAsExceptions = false;
+
 import ListaMaterial from './pedidos/Lista/Material';
 import ListaFerramenta from './pedidos/Lista/Ferramenta';
 import FichaPedido from './pedidos/Ficha/Main';

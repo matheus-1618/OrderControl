@@ -31,10 +31,6 @@ export default function Ficha(props) {
     const [furadeira, setFuradeira] = useState(pedido ? pedido.ferramentas.furadeira : 0);
     const [outros, setOutros] = useState(pedido ? pedido.ferramentas.outros : 0);
 
-    const [selected7, setSelected7] = useState(false);
-    const [selected8, setSelected8] = useState(false);
-    const [selected9, setSelected9] = useState(false);
-
     const emit = useEmit('updated-ferramentas');
 
     const { post, put, response: registerResponse } = useRequest(settings.url);
@@ -97,31 +93,6 @@ export default function Ficha(props) {
     }
     function incrementaOutros() {
         setOutros(outros + 1);
-    }
-
-    function onPressSelect7() {
-        if (selected7 == false){
-            setSelected7(true);
-        }
-        else{
-            setSelected7(false);
-        }
-    }
-    function onPressSelect8() {
-        if (selected8 == false){
-            setSelected8(true);
-        }
-        else{
-            setSelected8(false);
-        }
-    }
-    function onPressSelect9() {
-        if (selected9 == false){
-            setSelected9(true);
-        }
-        else{
-            setSelected9(false);
-        }
     }
 
     function onPressRegister() {
