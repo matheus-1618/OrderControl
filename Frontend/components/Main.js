@@ -15,7 +15,7 @@ console.reportErrorsAsExceptions = false;
 import ListaMaterial from './pedidos/Lista/Material';
 import ListaFerramenta from './pedidos/Lista/Ferramenta';
 import FichaPedido from './pedidos/Ficha/Main';
-import ListaEstoque from './estoques/Lista';
+import ListaEstoque from './estoques/Main';
 import FichaEstoque from './estoques/Ficha';
 
 import { DrawerContent } from './DrawerContent';
@@ -37,11 +37,11 @@ export default function Main(props) {
     header: ({ navigation, route }) => {
         return (
             <View style={headerStyle}>
-              <IconButton icon="menu" onPress={navigation.openDrawer} />
+              <IconButton icon="menu" color="gray" onPress={navigation.openDrawer} />
               <View style={styles.center}>
                   <Avatar.Image source={{uri: 'https://gust-production.s3.amazonaws.com/uploads/startup/panoramic_image/887508/connectdata_marca_1_3.jpg' }} size={35}/>
               </View>
-              <IconButton icon="bell" onPress={() => {navigation.navigate('Estoques')}} />
+              <IconButton icon="bell" color="gray" onPress={() => {navigation.navigate('Estoques')}} />
             </View>
         );
     },

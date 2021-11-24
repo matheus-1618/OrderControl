@@ -52,7 +52,7 @@ export function DrawerContent(props) {
                 </View>
 
                 <Drawer.Section style={styles.drawerSection}>
-                    <List.Section >
+                    <List.Section>
                         <List.Accordion
                                 title="Pedidos Realizados"
                                 left={props => <List.Icon {...props} icon="playlist-edit" />}>
@@ -91,51 +91,6 @@ export function DrawerContent(props) {
                         onPress={() => {props.navigation.navigate('Estoques')}}
                     />
 
-                     <DrawerItem 
-                        icon={({color, size}) => (
-                            <Icon 
-                            name="new-box" 
-                            color={color}
-                            size={size}
-                            />
-                        )}
-                        label="Adicionar novo Estoque"
-                        onPress={() => {props.navigation.navigate('Adicionar Estoque')}}
-                    />
-
-                    {/* <DrawerItem 
-                        icon={({color, size}) => (
-                            <Icon 
-                            name="bookmark-outline" 
-                            color={color}
-                            size={size}
-                            />
-                        )}
-                        label="Bookmarks"
-                        onPress={() => {props.navigation.navigate('BookmarkScreen')}}
-                    />
-                    <DrawerItem 
-                        icon={({color, size}) => (
-                            <Icon 
-                            name="settings-outline" 
-                            color={color}
-                            size={size}
-                            />
-                        )}
-                        label="Settings"
-                        onPress={() => {props.navigation.navigate('SettingsScreen')}}
-                    />
-                    <DrawerItem 
-                        icon={({color, size}) => (
-                            <Icon 
-                            name="account-check-outline" 
-                            color={color}
-                            size={size}
-                            />
-                        )}
-                        label="Support"
-                        onPress={() => {props.navigation.navigate('SupportScreen')}}
-                    /> */}
                 </Drawer.Section>
                 <Drawer.Section title="Preferências">
                     <TouchableRipple onPress={() => {toggleTheme()}}>
@@ -174,7 +129,7 @@ const styles = StyleSheet.create({
       paddingLeft: 20,
     },
     icon:{
-    marginTop:'1px',
+    marginTop:'1.5rem',
     },
     list: {
         flexDirection:'row',

@@ -145,9 +145,16 @@ export default function Ficha(props) {
                         </HelperText>
                     )}
                     <View style={styles.buttonContainer}>
-                        <Button style={styles.button} mode="outlined" disabled={registerResponse.running || removeResponse.running} loading={registerResponse.running} onPress={onPressRegister}>
+                        <Button style={styles.button} mode="contained" color="#2385A2" disabled={registerResponse.running || removeResponse.running} loading={registerResponse.running} onPress={onPressRegister}>
                             {estoque ? 'Salvar' : 'Cadastrar Estoque'}
                         </Button>
+
+                        {!estoque && (
+                            <Button style={styles.button} mode="outlined" disabled={registerResponse.running || removeResponse.running} loading={removeResponse.running} onPress={() => {navigation.navigate('Estoques')}}>
+                                Cancelar
+                            </Button>
+                        )}
+
                         {estoque && (
                             <Button style={styles.button} mode="outlined" disabled={registerResponse.running || removeResponse.running} loading={removeResponse.running} onPress={() => setRemoveVisible(true)}>
                                 Excluir
