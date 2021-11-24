@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
       paddingLeft: 20,
     },
     icon:{
-    marginTop:'1.5rem',
+    // marginTop:'0.5rem',
     },
     list: {
         flexDirection:'row',

@@ -6,7 +6,6 @@ import { View } from 'react-native';
 
 import { useTheme,IconButton,Avatar,Title } from 'react-native-paper';
 
-import Pedidos from './pedidos/Main'
 
 import styles from '../styles/Main.json';
 
@@ -15,7 +14,7 @@ console.reportErrorsAsExceptions = false;
 import ListaMaterial from './pedidos/Lista/Material';
 import ListaFerramenta from './pedidos/Lista/Ferramenta';
 import FichaPedido from './pedidos/Ficha/Main';
-import ListaEstoque from './estoques/Main';
+import Estoque from './estoques/Main';
 import FichaEstoque from './estoques/Ficha';
 
 import { DrawerContent } from './DrawerContent';
@@ -51,7 +50,7 @@ export default function Main(props) {
              <Drawer.Screen name="Materiais" component={ListaMaterial}/>
              <Drawer.Screen name="Ferramentas" component={ListaFerramenta}/>
              <Drawer.Screen name="Novo Pedido" component={FichaPedido}/>
-             <Drawer.Screen name="Estoques" component={ListaEstoque}/>
+             <Drawer.Screen name="Estoques" component={Estoque}/>
              <Drawer.Screen name="Adicionar Estoque" component={FichaEstoque}/>
         </Drawer.Navigator>
     );
