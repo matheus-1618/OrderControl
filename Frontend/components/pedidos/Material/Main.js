@@ -16,7 +16,7 @@ export default function Main(props) {
 
     return (
         <Stack.Navigator initialRouteName="Lista" screenOptions={theme.screenOptions}>
-            <Stack.Screen name="Lista" component={Lista}/>
+            <Stack.Screen name="Lista" component={Lista} options={{headerShown: false}}/>
             <Stack.Screen name="Ficha" component={Ficha}/>
         </Stack.Navigator>
     );

@@ -176,7 +176,7 @@ export default function Ficha(props) {
 
     return (
         <>
-            <ScrollView>
+            <ScrollView style={styles.container}>
                 <SafeAreaView style={styles.container} edges={['right', 'bottom', 'left']}>  
                 <View style={styles.title}>
                     <Title>Materiais</Title>

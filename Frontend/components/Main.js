@@ -45,10 +45,10 @@ export default function Main(props) {
     },
   };
     return (
-         <Drawer.Navigator drawerContent={props => <DrawerContent {...props} /> } initialRouteName="Estoques" screenOptions={screenOptions}>  
+         <Drawer.Navigator drawerContent={props => <DrawerContent {...props} /> } initialRouteName="Pedidos" screenOptions={screenOptions}>  
              <Drawer.Screen name="Estoques" component={Estoque}/>
              <Drawer.Screen name="Pedidos" component={Pedido}/>
-             
+
         </Drawer.Navigator>
     );
 }

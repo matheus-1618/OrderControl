@@ -40,7 +40,7 @@ cardContainer {
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-around; 
-    margin:10px;
+    height: 80%;
 }
 chip {
     flex-grow: 1;
