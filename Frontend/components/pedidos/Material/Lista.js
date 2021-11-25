@@ -20,19 +20,19 @@ function PedidoItem(props) {
         <>
             <Card style={styles.itemContainer} onPress={() => navigation.navigate('Ficha', pedido)}>
                 <View style={styles.cardTitle}>
-                <View style={styles.cardheader}>
-                    <View style={styles.urgenciaIcon}>
-                    {pedido.urgencia == "BAIXA" ? (
-                      <Icon name="alarm-light-outline" size={10} color="green"/>
-                    ) :
-                    ( <Icon name="alarm-light" size={10} color="red"/>)
-                    }
+                    <View style={styles.cardheader}>
+                        <View style={styles.urgenciaIcon}>
+                        {pedido.urgencia == "BAIXA" ? (
+                        <Icon name="alarm-light-outline" size={10} color="green"/>
+                        ) :
+                        ( <Icon name="alarm-light" size={10} color="red"/>)
+                        }
+                        </View>
+                    <Card.Title title={"Pedido #"+pedido.id}  />
                     </View>
-                </View>
-                <Card.Title title={"Pedido #"+pedido.id}  />
-                <View style={styles.icon}>
-                    <Icon name="wall" size={1} color="gray"/>
-                </View>
+                    <View style={styles.icon}>
+                        <Icon name="wall" color="gray"/>
+                    </View>
                 </View>
                 <Card.Content styles={styles.observacoes}>
                 <View style={styles.chipContainer}>
