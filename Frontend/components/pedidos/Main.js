@@ -4,6 +4,8 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 
 import { useTheme } from 'react-native-paper';
 
+import { Icon } from '../../lib';
+
 import styles from '../../styles/pedidos/Main.json';
 
 import Material from './Material/Main';
@@ -16,8 +18,8 @@ export default function Main(props) {
 
     return (
         <Tab.Navigator initialRouteName="Material" screenOptions={theme.screenOptions}>
-             <Tab.Screen name="Material" component={Material}/>
-             <Tab.Screen name="Ferramenta" component={Ferramenta}/>
+             <Tab.Screen name="Material" component={Material} options={{ tabBarIcon: ({ color,size }) => <Icon name="wall" size={size} color={color} /> }}/>
+             <Tab.Screen name="Ferramenta" component={Ferramenta} options={{ tabBarIcon: ({ color,size }) => <Icon name="hammer" size={size} color={color} /> }}/>
         </Tab.Navigator>
     );
 }
