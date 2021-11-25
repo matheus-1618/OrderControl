@@ -20,6 +20,7 @@ function PedidoItem(props) {
     return (
         <>
             <Card style={styles.itemContainer} onPress={() => navigation.navigate('Ficha', pedido)}>
+            <View style={styles.cardheader}>
                 <View style={styles.cardTitle}>
                     <View style={styles.urgenciaIcon}>
                     {pedido.urgencia == "BAIXA" ? (
@@ -29,6 +30,10 @@ function PedidoItem(props) {
                     }
                     </View>
                 <Card.Title title={"Pedido #"+pedido.id}  />
+                <View style={styles.icon}>
+                    <Icon name="hammer" size={10} color="gray"/>
+                    </View>
+                </View>
                 </View>
                 <Card.Content styles={styles.observacoes}>
                 <View style={styles.chipContainer}>

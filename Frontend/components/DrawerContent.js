@@ -65,9 +65,6 @@ export function DrawerContent(props) {
                     />
 
 
-               
-                  
-                    
                      <DrawerItem 
                         icon={({color, size}) => (
                             <Icon 
@@ -77,7 +74,7 @@ export function DrawerContent(props) {
                             />
                         )}
                         label="Estoques"
-                        onPress={() => {props.navigation.navigate('Estoques')}}
+                        onPress={() => {props.navigation.navigate('Estoque')}}
                     />
 
                 <Drawer.Section title="Preferências">

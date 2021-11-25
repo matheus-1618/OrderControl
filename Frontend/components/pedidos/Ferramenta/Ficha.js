@@ -127,7 +127,7 @@ export default function Ficha(props) {
             emit();
             navigation.navigate('Lista');
         } else {
-            navigation.setOptions({ title: pedido ? "Pedido #"+ pedido.id : 'Ferramenta' });
+            navigation.setOptions({ title: pedido ? "Pedido #"+ pedido.id : 'Novo pedido de ferramenta' });
         }
     }, [registerResponse, removeResponse]);
 

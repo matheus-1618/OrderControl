@@ -13,7 +13,14 @@ center {
     align-items: center;
     
 }
+cardheader {
+    justify-content: center;
+}
 
+icon{
+    width: 40px;
+    height:40px;
+}
 itemContainer {
     margin-bottom: 10px;
     border: 1px solid rgb(78, 187, 187);

@@ -20,6 +20,7 @@ function PedidoItem(props) {
         <>
             <Card style={styles.itemContainer} onPress={() => navigation.navigate('Ficha', pedido)}>
                 <View style={styles.cardTitle}>
+                <View style={styles.cardheader}>
                     <View style={styles.urgenciaIcon}>
                     {pedido.urgencia == "BAIXA" ? (
                       <Icon name="alarm-light-outline" size={10} color="green"/>
@@ -27,7 +28,11 @@ function PedidoItem(props) {
                     ( <Icon name="alarm-light" size={10} color="red"/>)
                     }
                     </View>
+                </View>
                 <Card.Title title={"Pedido #"+pedido.id}  />
+                <View style={styles.icon}>
+                    <Icon name="wall" size={1} color="gray"/>
+                </View>
                 </View>
                 <Card.Content styles={styles.observacoes}>
                 <View style={styles.chipContainer}>
@@ -101,7 +106,7 @@ export default function Lista(props) {
                     </View>
                 )
             )}
-            <FAB style={styles.fab} icon="plus"  color={Colors.white500} onPress={() => navigation.navigate('Ficha', null)} />
+            <FAB style={styles.fab} icon="plus"  color="white" onPress={() => navigation.navigate('Ficha', null)} />
             {!response.running && !response.success && (
                 <Snackbar visible={getError} action={{ label: 'Ok', onPress: () => setGetError(false) }} onDismiss={() => { }}>
                     {response.body.status === 0 ? 'Não foi possível conectar ao servidor' : `ERROR ${response.body.status}: ${response.body.message}`}

@@ -158,7 +158,7 @@ export default function Ficha(props) {
             emit();
             navigation.navigate('Lista');
         } else {
-            navigation.setOptions({ title: pedido ? "Pedido #"+ pedido.id : 'Material' });
+            navigation.setOptions({ title: pedido ? "Pedido #"+ pedido.id : 'Novo pedido de material' });
         }
     }, [registerResponse, removeResponse]);
 
