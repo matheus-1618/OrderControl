@@ -20,7 +20,7 @@ public class PedidoMaterial extends FirestoreObject {
 			put("areia",0);
 			put("brita",0);
 			put("cal",0);
-			put("madeira",0);
+			put("argamassa",0);
 			put("cimento",0);
 			put("outros",0);
 		}};
