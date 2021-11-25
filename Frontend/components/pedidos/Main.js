@@ -4,7 +4,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 
 import { useTheme } from 'react-native-paper';
 
-import styles from '../../styles/pedidos/Ficha/Main.json';
+import styles from '../../styles/pedidos/Main.json';
 
 import Material from './Material/Main';
 import Ferramenta from './Ferramenta/Main';
