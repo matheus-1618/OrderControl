@@ -35,14 +35,26 @@ function PedidoItem(props) {
                     </View>
                 </View>
                 <Card.Content styles={styles.observacoes}>
-                <View style={styles.chipContainer}>
                 <Paragraph>Solicitações:</Paragraph>
+                <View style={styles.chipContainer}>
+                
                 </View>
 
                     <View style={styles.chipContainer}>
-                        <Chip style={styles.chip} icon="wall">Andaime</Chip>
-                        <Chip style={styles.chip} icon="wall">Cimento</Chip>
-                        <Chip style={styles.chip} icon="wall">Cal</Chip>
+                        {pedido.materiais.brita != 0 &&
+                            (<Chip style={styles.chip} selectedColor="blue" icon="wall">Brita {pedido.materiais.brita}x</Chip>)}
+                        {pedido.materiais.argamassa != 0 &&
+                            (<Chip style={styles.chip} selectedColor="blue" icon="pillar">Argamassa {pedido.materiais.argamassa}x</Chip>)}
+                        {pedido.materiais.cal != 0 &&
+                            (<Chip style={styles.chip} selectedColor="blue" icon="hard-hat">Cal {pedido.materiais.cal}x</Chip>)}
+                        {pedido.materiais.cimento != 0 &&
+                            (<Chip style={styles.chip} selectedColor="blue" icon="texture">Cimento {pedido.materiais.cimento}x</Chip>)}
+                        {pedido.materiais.areia != 0 &&
+                            (<Chip style={styles.chip} selectedColor="blue" icon="nut">Areia {pedido.materiais.areia}x</Chip>)}
+                        {pedido.materiais.outros != 0 &&
+                            (<Chip style={styles.chip} selectedColor="blue" icon="help-circle">Outros {pedido.materiais.outros}x</Chip>)}
+
+                        
                         
                     </View>   
                 </Card.Content>

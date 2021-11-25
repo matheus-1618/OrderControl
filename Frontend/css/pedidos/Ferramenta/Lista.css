@@ -54,14 +54,11 @@ chipContainer {
     flex-grow: 1;
     flex-direction: row;
     flex-wrap: wrap;
-    align-items: left;
-    justify-content: center; 
-    
+    justify-content: center;    
 }
 
 chip {
-    margin:1px;
-    padding: 1px;
+    margin:3px;
 }
 
 observacoes {
