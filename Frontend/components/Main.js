@@ -12,11 +12,9 @@ import styles from '../styles/Main.json';
 
 console.reportErrorsAsExceptions = false;
 
-import ListaMaterial from './pedidos/Lista/Material';
-import ListaFerramenta from './pedidos/Lista/Ferramenta';
-import FichaPedido from './pedidos/Ficha/Main';
-import ListaEstoque from './estoques/Main';
-import FichaEstoque from './estoques/Ficha';
+import Pedido from './pedidos/Main';
+import Estoque from './estoques/Main';
+
 
 import { DrawerContent } from './DrawerContent';
 
@@ -47,12 +45,10 @@ export default function Main(props) {
     },
   };
     return (
-         <Drawer.Navigator drawerContent={props => <DrawerContent {...props} /> } initialRouteName="Materiais" screenOptions={screenOptions}>  
-             <Drawer.Screen name="Materiais" component={ListaMaterial}/>
-             <Drawer.Screen name="Ferramentas" component={ListaFerramenta}/>
-             <Drawer.Screen name="Novo Pedido" component={FichaPedido}/>
-             <Drawer.Screen name="Estoques" component={ListaEstoque}/>
-             <Drawer.Screen name="Adicionar Estoque" component={FichaEstoque}/>
+         <Drawer.Navigator drawerContent={props => <DrawerContent {...props} /> } initialRouteName="Estoques" screenOptions={screenOptions}>  
+             <Drawer.Screen name="Estoques" component={Estoque}/>
+             <Drawer.Screen name="Pedidos" component={Pedido}/>
+             
         </Drawer.Navigator>
     );
 }

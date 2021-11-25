@@ -50,35 +50,24 @@ export function DrawerContent(props) {
                         </View>
                     </View>
                 </View>
+                    
 
-                <Drawer.Section style={styles.drawerSection}>
-                    <List.Section>
-                        <List.Accordion
-                                title="Pedidos Realizados"
-                                left={props => <List.Icon {...props} icon="playlist-edit" />}>
-                                <View style={styles.list}>
-                                    <List.Icon icon="wall" style={styles.icon} />
-                                    <List.Item title="Materiais" onPress={() => {props.navigation.navigate('Materiais')}} />
-                                </View>
-                                <View style={styles.list}>
-                                    <List.Icon icon="hammer"/>
-                                    <List.Item title="Ferramentas" onPress={() => {props.navigation.navigate('Ferramentas')}} />
-                                </View> 
-                        </List.Accordion>
-                    </List.Section>
-                  
-                    <DrawerItem 
+                <DrawerItem 
                         icon={({color, size}) => (
                             <Icon 
-                            name="plus" 
+                            name="playlist-edit" 
                             color={color}
                             size={size}
                             />
                         )}
-                        label="Novo Pedido"
-                        onPress={() => {props.navigation.navigate('Novo Pedido')}}
+                        label="Pedidos"
+                        onPress={() => {props.navigation.navigate('Pedidos')}}
                     />
 
+
+               
+                  
+                    
                      <DrawerItem 
                         icon={({color, size}) => (
                             <Icon 
@@ -91,7 +80,6 @@ export function DrawerContent(props) {
                         onPress={() => {props.navigation.navigate('Estoques')}}
                     />
 
-                </Drawer.Section>
                 <Drawer.Section title="Preferências">
                     <TouchableRipple onPress={() => {toggleTheme()}}>
                         <View style={styles.preference}>
