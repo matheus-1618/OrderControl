@@ -18,6 +18,11 @@ photoInner {
     flex-grow: 1;
     margin: 5px;
 }
+
+photoContainer {
+    flex-grow: 1;
+}
+
 card {
     border: 1px solid rgb(78, 187, 187);
     border-radius: 15px;
@@ -78,4 +83,31 @@ buttonContainer {
 button {
     flex-grow: 1;
     margin: 5px;
+}
+
+estoqueItem {
+    padding: 10px;
+}
+
+list {
+    margin: 5px;
+    padding: 0;
+}
+
+listIndicator {
+    margin: 0 5px 5px 5px;
+}
+
+listItem {
+    margin: 0 5px 5px 5px;
+    padding: 0;
+}
+
+listIcon {
+    margin: 0;
+}
+
+listButton {
+    align-self: center;
+    margin: 0 5px 5px 5px;
 }

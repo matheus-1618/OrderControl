@@ -44,17 +44,17 @@ function PedidoItem(props) {
 
                     <View style={styles.chipContainer}>
                     {pedido.ferramentas.andaime != 0 &&
-                            (<Chip style={styles.chip} selectedColor="red" icon="escalator">Andaime {pedido.ferramentas.andaime}x</Chip>)}
+                            (<Chip style={styles.chip} selectedColor="green" icon="escalator">Andaime {pedido.ferramentas.andaime}x</Chip>)}
                         {pedido.ferramentas.betoneira != 0 &&
-                            (<Chip style={styles.chip} selectedColor="red" icon="wrench">Betoneira {pedido.ferramentas.betoneira}x</Chip>)}
+                            (<Chip style={styles.chip} selectedColor="green" icon="wrench">Betoneira {pedido.ferramentas.betoneira}x</Chip>)}
                         {pedido.ferramentas.bomba != 0 &&
-                            (<Chip style={styles.chip} selectedColor="red" icon="guitar-pick">Bomba {pedido.ferramentas.bomba}x</Chip>)}
+                            (<Chip style={styles.chip} selectedColor="green" icon="guitar-pick">Bomba {pedido.ferramentas.bomba}x</Chip>)}
                         {pedido.ferramentas.esmerilhadeira != 0 &&
-                            (<Chip style={styles.chip} selectedColor="red" icon="circular-saw">Lixadeira {pedido.ferramentas.esmerilhadeira}x</Chip>)}
+                            (<Chip style={styles.chip} selectedColor="green" icon="circular-saw">Lixadeira {pedido.ferramentas.esmerilhadeira}x</Chip>)}
                         {pedido.ferramentas.furadeira != 0 &&
-                            (<Chip style={styles.chip} selectedColor="red" icon="screw-flat-top">Furadeira {pedido.ferramentas.furadeira}x</Chip>)}
+                            (<Chip style={styles.chip} selectedColor="green" icon="screw-flat-top">Furadeira {pedido.ferramentas.furadeira}x</Chip>)}
                         {pedido.ferramentas.outros != 0 &&
-                            (<Chip style={styles.chip} selectedColor="red" icon="help-box">Outros {pedido.ferramentas.outros}x</Chip>)}
+                            (<Chip style={styles.chip} selectedColor="green" icon="help-box">Outros {pedido.ferramentas.outros}x</Chip>)}
                         
                     </View>   
                 </Card.Content>
@@ -116,7 +116,7 @@ export default function Lista(props) {
                     </View>
                 )
             )}
-            <FAB style={styles.fab} icon="plus"  color={Colors.white500} onPress={() => navigation.navigate('Ficha', null)} />
+            <FAB style={styles.fab} icon="plus"  color="white" onPress={() => navigation.navigate('Ficha', null)} />
             {!response.running && !response.success && (
                 <Snackbar visible={getError} action={{ label: 'Ok', onPress: () => setGetError(false) }} onDismiss={() => { }}>
                     {response.body.status === 0 ? 'Não foi possível conectar ao servidor' : `ERROR ${response.body.status}: ${response.body.message}`}
