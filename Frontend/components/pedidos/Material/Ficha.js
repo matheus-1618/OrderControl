@@ -3,11 +3,11 @@ import { View } from 'react-native';
 
 import React, { useState } from 'react';
 
-import { ScrollView, Image } from 'react-native';
+import { ScrollView } from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { TouchableRipple,Divider,List,Text, Card, IconButton, ActivityIndicator, Title,Colors, TextInput, HelperText, Button, Snackbar, Portal, Dialog, Paragraph } from 'react-native-paper';
+import {  Switch,TouchableRipple, Divider, List, Text, Card, IconButton, ActivityIndicator, Title,Colors, TextInput, HelperText, Button, Snackbar, Portal, Dialog, Paragraph } from 'react-native-paper';
 
 import {  Icon, DropDown, DateTimePicker, useEmit, useEffect, map, useRequest } from '../../../lib';
 
@@ -33,7 +33,7 @@ export default function Ficha(props) {
 
     const pedido = route.params;
 
-    const [urgencia, setUrgencia] = useState(pedido ? pedido.urgencia : 'BAIXA');
+    const [urgencia, setUrgencia] = useState(pedido ? pedido.urgencia : false);
     const [observacoes, setObservacao] = useState(pedido ? pedido.observacoes : '');
     const [observacoesError, setObservacaoError] = useState(typeof observacoes !== 'string' || !observacoes.trim());
     const [registerError, setRegisterError] = useState(false);
@@ -180,6 +180,8 @@ export default function Ficha(props) {
         del(`/material?id=${pedido.id}`);
     }
 
+    const onToggleSwitch = () => setUrgencia(!urgencia);
+
     useEffect(() => {
         if ((registerResponse.success && registerResponse.body !== null) || (removeResponse.success && removeResponse.body !== null)) {
             emit();
@@ -193,11 +195,6 @@ export default function Ficha(props) {
         getPedidoEstoque();
     }, []);
 
-    const urgencias = [
-        { label: 'Alta', value: 'ALTA' },
-        { label: 'Baixa', value: 'BAIXA' },
-    ];
-
 
     function onChangeTextObs(text) {
         setObservacao(text);
@@ -208,9 +205,6 @@ export default function Ficha(props) {
         <>
             <ScrollView style={styles.container}>
                 <SafeAreaView style={styles.container} edges={['right', 'bottom', 'left']}>  
-                <View style={styles.title}>
-                    <Title>Materiais</Title>
-                </View>
                 <View style={styles.cardContainer}>
                 <Card style={styles.card}>
                     <Card.Title title="Cimento" subtitle="Cimento Portland comum" />
@@ -279,7 +273,7 @@ export default function Ficha(props) {
                     </Card.Actions>
                 </Card>
                 </View>
-                <List.Accordion style={styles.list} title="Estoques">
+                <List.Accordion style={styles.list} title="Estoques" left={props => <List.Icon {...props} icon="barn" />}>
                             {pedidoEstoqueResponse.running ? (
                                 <ActivityIndicator style={styles.listIndicator} size="small" />
                             ) : (
@@ -310,7 +304,7 @@ export default function Ficha(props) {
                                                                 {map(outroEstoqueResponse.body, (estoque) => <EstoqueItem estoque={estoque} onPress={onConfirmAddEstoque} />)}
                                                             </>
                                                         ) : (
-                                                            <Paragraph>Todos os estoques que receberam a solicitação.</Paragraph>
+                                                            <Paragraph>Todos os estoques cadastraods já receberam a solicitação.</Paragraph>
                                                         )
                                                     ) : (
                                                         <Paragraph>Não foi possível conectar ao servidor.</Paragraph>
@@ -327,7 +321,15 @@ export default function Ficha(props) {
                                 </>
                             )}
                         </List.Accordion>
-                    <DropDown style={styles.input} label="Urgencia" list={urgencias} value={urgencia} setValue={setUrgencia} />
+                        
+                    
+                    <View style={styles.switchContainer}>
+                        <View style={styles.urgenciaLine}>
+                            <Icon name="alarm-light" style={styles.urgenciaIcon} color={urgencia==true ? "red" : "grey"}/>
+                            <Text style={styles.text}>Urgência</Text>
+                        </View>
+                        <Switch style={styles.switch} value={urgencia} onValueChange={onToggleSwitch} color="red"/>
+                    </View>
                     <TextInput style={styles.input} label="Observações" value={observacoes} error={observacoesError} onChangeText={onChangeTextObs} />
                     {observacoesError && (
                         <HelperText style={styles.error} type="error">

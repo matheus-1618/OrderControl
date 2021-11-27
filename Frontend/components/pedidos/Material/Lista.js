@@ -22,7 +22,7 @@ function PedidoItem(props) {
                 <View style={styles.cardTitle}>
                     <View style={styles.cardheader}>
                         <View style={styles.urgenciaIcon}>
-                        {pedido.urgencia == "BAIXA" ? (
+                        {pedido.urgencia == false ? (
                         <Icon name="alarm-light-outline" size={10} color="green"/>
                         ) :
                         ( <Icon name="alarm-light" size={10} color="red"/>)
@@ -53,9 +53,7 @@ function PedidoItem(props) {
                             (<Chip style={styles.chip} selectedColor="blue" icon="nut">Areia {pedido.materiais.areia}x</Chip>)}
                         {pedido.materiais.outros != 0 &&
                             (<Chip style={styles.chip} selectedColor="blue" icon="help-circle">Outros {pedido.materiais.outros}x</Chip>)}
-
-                        
-                        
+       
                     </View>   
                 </Card.Content>
                 <Card.Actions>
