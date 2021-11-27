@@ -1,6 +1,6 @@
 container {
     flex-grow: 1;
-    padding: 5px;
+    padding: 3px;
 }
 
 title {
@@ -18,6 +18,35 @@ photoInner {
     flex-grow: 1;
     margin: 5px;
 }
+
+photoContainer {
+    flex-grow: 1;
+}
+
+
+text{
+    font-size:16px;
+    margin-left:20px;
+}
+switchContainer {
+    flex-direction: row;
+
+}
+
+urgenciaLine{
+    flex-direction: row;
+    align-items: center;
+    margin-left:20px;
+}
+urgenciaIcon{
+    width:30px;
+    height: 30px;
+}
+
+switch {
+    margin-left: 170px;
+}
+
 card {
     border: 1px solid rgb(78, 187, 187);
     border-radius: 15px;
@@ -40,7 +69,8 @@ cardContainer {
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-around; 
-    margin:10px;
+    height: 55%;
+
 }
 chip {
     flex-grow: 1;
@@ -77,4 +107,31 @@ buttonContainer {
 button {
     flex-grow: 1;
     margin: 5px;
+}
+
+estoqueItem {
+    padding: 10px;
+}
+
+list {
+    margin: 5px;
+    padding: 0;
+}
+
+listIndicator {
+    margin: 0 5px 5px 5px;
+}
+
+listItem {
+    margin: 0 5px 5px 5px;
+    padding: 0;
+}
+
+listIcon {
+    margin: 0;
+}
+
+listButton {
+    align-self: center;
+    margin: 0 5px 5px 5px;
 }

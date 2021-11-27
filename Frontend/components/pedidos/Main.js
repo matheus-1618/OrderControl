@@ -1,30 +1,26 @@
 import React from 'react';
 
-import { createStackNavigator } from '@react-navigation/stack';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
 import { useTheme } from 'react-native-paper';
 
-import Icon from 'react-native-vector-icons/MaterialIcons';
-
-import ListaMaterial from './Lista/Material';
-import ListaFerramenta from './Lista/Ferramenta';
-import FichaMaterial from './Ficha/Main';
-import FichaFerramenta from './Ficha/Main';
+import { Icon } from '../../lib';
 
 import styles from '../../styles/pedidos/Main.json';
 
-const Stack = createStackNavigator();
+import Material from './Material/Main';
+import Ferramenta from './Ferramenta/Main';
 
+const Tab = createMaterialTopTabNavigator();
 
 export default function Main(props) {
     const theme = useTheme();
 
     return (
-        <Stack.Navigator  initialRouteName="Materiais Pedidos" screenOptions={theme.screenOptions} >
-             <Stack.Screen name="Materiais Pedidos" component={ListaMaterial}/>
-             <Stack.Screen name="Ferramentas Pedidas" component={ListaFerramenta}/>
-             <Stack.Screen name="Novo Material" component={FichaMaterial}/>
-             <Stack.Screen name="Nova Ferramenta" component={FichaFerramenta}/>
-        </Stack.Navigator>
+        <Tab.Navigator initialRouteName="Material" screenOptions={theme.screenOptions}>
+             <Tab.Screen name="Material" component={Material} options={{ tabBarIcon: ({ color,size }) => <Icon name="wall" size={size} color={color} /> }}/>
+             <Tab.Screen name="Ferramenta" component={Ferramenta} options={{ tabBarIcon: ({ color,size }) => <Icon name="hammer" size={size} color={color} /> }}/>
+        </Tab.Navigator>
     );
 }
+

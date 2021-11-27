@@ -14,6 +14,15 @@ center {
     
 }
 
+cardheader {
+    flex-direction: row;
+}
+
+icon{
+    height: 40px;
+    width: 40px;
+}
+
 itemContainer {
     margin-bottom: 10px;
     border: 1px solid rgb(78, 187, 187);
@@ -30,9 +39,10 @@ paragraph {
 }
 
 cardTitle {
-    margin: 5px;
+    margin: 5px 40px 5px;
     flex-direction: row;
-    align-items: left;
+    justify-content: space-around;
+    align-items:left;
 }
 
 urgenciaIcon {
@@ -44,14 +54,11 @@ chipContainer {
     flex-grow: 1;
     flex-direction: row;
     flex-wrap: wrap;
-    align-items: left;
-    justify-content: center; 
-    
+    justify-content: center;    
 }
 
 chip {
-    margin:1px;
-    padding: 1px;
+    margin:3px;
 }
 
 observacoes {

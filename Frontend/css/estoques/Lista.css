@@ -1,7 +1,5 @@
 container {
     flex-grow: 1;
-    border: 1px solid rgb(78, 187, 187);
-    border-radius: 15px;
 }
 
 center {
@@ -12,6 +10,9 @@ center {
 
 itemContainer {
     padding: 5px;
+    margin:5px;
+    border: 1px solid rgb(78, 187, 187);
+    border-radius: 15px;
 }
 
 title {

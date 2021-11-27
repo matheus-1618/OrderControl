@@ -1,0 +1,80 @@
+container {
+    flex-grow: 1;
+    margin:5px;
+    padding:5px;
+    flex-direction: column;
+    justify-content: center;
+  
+}
+
+center {
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+cardheader {
+    flex-direction: row;
+}
+
+icon{
+    height: 40px;
+    width: 40px;
+}
+
+itemContainer {
+    margin-bottom: 10px;
+    border: 1px solid rgb(78, 187, 187);
+    border-radius: 15px;
+}
+
+item {
+    flex-direction: row;
+    align-items: center;
+}
+
+paragraph {
+    left: 500px;
+}
+
+cardTitle {
+    margin: 5px 40px 5px;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items:left;
+}
+
+urgenciaIcon {
+    width: 40px;
+    height:40px;
+}
+
+chipContainer {
+    flex-grow: 1;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;    
+}
+
+chip {
+    margin:3px;
+}
+
+observacoes {
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+detalhes {
+    bottom: 3.3rem;
+    left: 3rem;
+}
+
+fab {
+    background-image: linear-gradient(green, cyan);
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+}
