@@ -31,9 +31,8 @@ export function DrawerContent(props) {
 
     const paperTheme = useTheme();
     const [expanded, setExpanded] = React.useState(true);
-    const [mode, setMode] = useGlobal("theme");
 
-    const onToggleSwitch = () => setMode(!mode);
+    //const onToggleSwitch = () => setMode(!mode);
 
     const handlePress = () => setExpanded(!expanded);
   
@@ -83,11 +82,11 @@ export function DrawerContent(props) {
                     />
 
                 <Drawer.Section title="Preferências">
-                    <TouchableRipple onPress={onToggleSwitch}>
+                    <TouchableRipple >
                         <View style={styles.preference}>
                             <Text>Modo noturno</Text>
                             <View pointerEvents="none">
-                                <Switch value={mode}/>
+                                <Switch/>
                             </View>
                         </View>
                     </TouchableRipple>
