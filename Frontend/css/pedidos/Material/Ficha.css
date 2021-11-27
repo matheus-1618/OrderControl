@@ -69,7 +69,7 @@ cardContainer {
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-around; 
-    height: 75%;
+    height: 55%;
 
 }
 chip {

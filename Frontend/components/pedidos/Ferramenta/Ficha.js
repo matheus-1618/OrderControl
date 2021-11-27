@@ -335,6 +335,13 @@ export default function Ficha(props) {
                             Adicione uma observação
                         </HelperText>
                     )}
+
+                    {outros>0 && ( <TextInput style={styles.input} label="Nome do material" />)}
+                    {outros>0 && ( <TextInput style={styles.input} label="Código do produto" />)}
+                    {outros>0 && ( <TextInput style={styles.input} label="Código NCM" />)}
+                    {outros>0 && ( <TextInput style={styles.input} label="Código ERP" />)}
+                    {outros>0 && ( <TextInput style={styles.input} label="Descrição do material" />)}
+
                     <View style={styles.buttonContainer}>
                         <Button style={styles.button} mode="outlined" disabled={registerResponse.running || removeResponse.running} loading={registerResponse.running} onPress={onPressRegister}>
                             {pedido ? 'Salvar' : 'Solicitar Pedido'}
