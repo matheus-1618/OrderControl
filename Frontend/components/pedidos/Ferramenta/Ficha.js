@@ -1,28 +1,44 @@
+
+import { View } from 'react-native';
+
 import React, { useState } from 'react';
 
-import { ScrollView, Image, View } from 'react-native';
+import { ScrollView } from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { Text, Card, IconButton, Chip, Title,Colors, TextInput, HelperText, Button, Snackbar, Portal, Dialog, Paragraph } from 'react-native-paper';
+import {  Switch,TouchableRipple, Divider, List, Text, Card, IconButton, ActivityIndicator, Title,Colors, TextInput, HelperText, Button, Snackbar, Portal, Dialog, Paragraph } from 'react-native-paper';
 
-import { AspectView, Icon, DropDown, DateTimePicker, useEmit, useEffect, useStorage, useRequest } from '../../../lib';
+import {  Icon, DropDown, DateTimePicker, useEmit, useEffect, map, useRequest } from '../../../lib';
 
 
 import settings from '../../../settings.json';
 
 import styles from '../../../styles/pedidos/Ferramenta/Ficha.json';
 
+function EstoqueItem(props) {
+    const estoque = props.estoque;
+    return (
+        <>
+            <TouchableRipple style={styles.estoqueItem} onPress={() => props.onPress(estoque)}>
+                <Text>{estoque.nome}</Text>
+            </TouchableRipple>
+            <Divider />
+        </>
+    );
+}
+
 export default function Ficha(props) {
     const { navigation, route } = props;
 
     const pedido = route.params;
 
-    const [urgencia, setUrgencia] = useState(pedido ? pedido.urgencia : 'BAIXA');
+    const [urgencia, setUrgencia] = useState(pedido ? pedido.urgencia : false);
     const [observacoes, setObservacao] = useState(pedido ? pedido.observacoes : '');
     const [observacoesError, setObservacaoError] = useState(typeof observacoes !== 'string' || !observacoes.trim());
     const [registerError, setRegisterError] = useState(false);
     const [removeError, setRemoveError] = useState(false);
+    const [addVisible, setAddVisible] = useState(false);
     const [removeVisible, setRemoveVisible] = useState(false);
 
     const [andaime, setAndaime] = useState(pedido ? pedido.ferramentas.andaime : 0);
@@ -31,6 +47,47 @@ export default function Ficha(props) {
     const [esmerilhadeira, setEsmerilhadeira] = useState(pedido ? pedido.ferramentas.esmerilhadeira : 0);
     const [furadeira, setFuradeira] = useState(pedido ? pedido.ferramentas.furadeira : 0);
     const [outros, setOutros] = useState(pedido ? pedido.ferramentas.outros : 0);
+
+    const [estoqueKeys, setEstoqueKeys] = useState(pedido && pedido.chavesEstoques instanceof Array ? pedido.chavesEstoques : []);
+
+    const { get: pedidoEstoqueGet, skip: pedidoEstoqueSkip, response: pedidoEstoqueResponse } = useRequest(settings.url);
+    const { get: outroEstoqueGet, response: outroEstoqueResponse } = useRequest(settings.url);
+
+    function getPedidoEstoque() {
+        if (estoqueKeys.length === 0) {
+            pedidoEstoqueSkip([]);
+        } else {
+            pedidoEstoqueGet(`/estoque/list?keys=${estoqueKeys.join(',')}`);
+        }
+    }
+
+    function getOutroEstoque() {
+        if (estoqueKeys.length === 0) {
+            outroEstoqueGet('/estoque/list');
+        } else {
+            outroEstoqueGet(`/estoque/list?other=true&keys=${estoqueKeys.join(',')}`);
+        }
+    }
+
+    function onPressAddEstoque() {
+        getOutroEstoque();
+        setAddVisible(true);
+    }
+
+    function onDismissAddEstoque() {
+        setAddVisible(false);
+    }
+
+    function onConfirmAddEstoque(estoque) {
+        onDismissAddEstoque();
+        setEstoqueKeys([...estoqueKeys, estoque.key]);
+        pedidoEstoqueSkip([...pedidoEstoqueResponse.body, estoque]);
+    }
+
+    function onPressRemoveEstoque(estoque) {
+        setEstoqueKeys(estoqueKeys.filter((x) => x !== estoque.key));
+        pedidoEstoqueSkip(pedidoEstoqueResponse.body.filter((x) => x !== estoque));
+    }
 
     const emit = useEmit('updated-ferramentas');
 
@@ -103,6 +160,7 @@ export default function Ficha(props) {
             observacoes: observacoes,
             ferramentas:{"andaime":andaime,"betoneira":betoneira,
             "bomba":bomba,"esmerilhadeira":esmerilhadeira,"furadeira":furadeira,"outros":outros},
+            chavesEstoques: estoqueKeys,
         };
         if (pedido) {
             body.id = pedido.id;
@@ -122,6 +180,8 @@ export default function Ficha(props) {
         del(`/ferramenta?id=${pedido.id}`);
     }
 
+    const onToggleSwitch = () => setUrgencia(!urgencia);
+
     useEffect(() => {
         if ((registerResponse.success && registerResponse.body !== null) || (removeResponse.success && removeResponse.body !== null)) {
             emit();
@@ -131,11 +191,9 @@ export default function Ficha(props) {
         }
     }, [registerResponse, removeResponse]);
 
-
-    const urgencias = [
-        { label: 'Alta', value: 'ALTA' },
-        { label: 'Baixa', value: 'BAIXA' },
-    ];
+    useEffect(() => {
+        getPedidoEstoque();
+    }, []);
 
 
     function onChangeTextObs(text) {
@@ -147,9 +205,6 @@ export default function Ficha(props) {
         <>
             <ScrollView>
                 <SafeAreaView style={styles.container} edges={['right', 'bottom', 'left']}>  
-                <View style={styles.title}>
-                    <Title>Ferramentas</Title>
-                </View>
                 <View style={styles.cardContainer}>
                 <Card style={styles.card}>
                     <Card.Title title="Andaime" subtitle="Cimento Portland comum" />
@@ -218,8 +273,62 @@ export default function Ficha(props) {
                     </Card.Actions>
                 </Card>
                 </View>
+                <List.Accordion style={styles.list} title="Estoques" left={props => <List.Icon {...props} icon="barn" />}>
+                            {pedidoEstoqueResponse.running ? (
+                                <ActivityIndicator style={styles.listIndicator} size="small" />
+                            ) : (
+                                <>
+                                    {pedidoEstoqueResponse.success ? (
+                                        <>
+                                            {pedidoEstoqueResponse.body !== null && (
+                                                map(pedidoEstoqueResponse.body, (estoque) => <List.Item style={styles.listItem} title={estoque.nome} right={(props) => <TouchableRipple onPress={() => onPressRemoveEstoque(estoque)}><List.Icon {...props} style={styles.listIcon} icon="minus-circle-outline" /></TouchableRipple>} />)
+                                            )}
+                                            <IconButton style={styles.listButton} icon="plus-circle-outline" onPress={onPressAddEstoque} />
+                                        </>
+                                    ) : (
+                                        <List.Item style={styles.listItem} title="Tentar novamente" onPress={getPedidoEstoque} right={(props) => <List.Icon {...props} style={styles.listIcon} icon="refresh" />} />
+                                    )}
+                                    <Portal>
+                                        <Dialog visible={addVisible} onDismiss={onDismissAddEstoque}>
+                                            <Dialog.Title>
+                                                Adicionar estoque
+                                            </Dialog.Title>
+                                            <Dialog.Content>
+                                                {outroEstoqueResponse.running ? (
+                                                    <ActivityIndicator style={styles.photoContainer} size="large" />
+                                                ) : (
+                                                    outroEstoqueResponse.success ? (
+                                                        outroEstoqueResponse.body !== null && outroEstoqueResponse.body.length > 0 ? (
+                                                            <>
+                                                                <Divider />
+                                                                {map(outroEstoqueResponse.body, (estoque) => <EstoqueItem estoque={estoque} onPress={onConfirmAddEstoque} />)}
+                                                            </>
+                                                        ) : (
+                                                            <Paragraph>Todos os estoques cadastraods já receberam a solicitação.</Paragraph>
+                                                        )
+                                                    ) : (
+                                                        <Paragraph>Não foi possível conectar ao servidor.</Paragraph>
+                                                    )
+                                                )}
+                                            </Dialog.Content>
+                                            <Dialog.Actions>
+                                                <Button onPress={onDismissAddEstoque}>
+                                                    Fechar
+                                                </Button>
+                                            </Dialog.Actions>
+                                        </Dialog>
+                                    </Portal>
+                                </>
+                            )}
+                        </List.Accordion>
 
-                    <DropDown style={styles.input} label="Urgencia" list={urgencias} value={urgencia} setValue={setUrgencia} />
+                    <View style={styles.switchContainer}>
+                        <View style={styles.urgenciaLine}>
+                            <Icon name="alarm-light" style={styles.urgenciaIcon} color={urgencia==true ? "red" : "grey"}/>
+                            <Text style={styles.text}>Urgência</Text>
+                        </View>
+                        <Switch style={styles.switch} value={urgencia} onValueChange={onToggleSwitch} color="red"/>
+                    </View>
                     <TextInput style={styles.input} label="Observações" value={observacoes} error={observacoesError} onChangeText={onChangeTextObs} />
                     {observacoesError && (
                         <HelperText style={styles.error} type="error">
@@ -243,6 +352,13 @@ export default function Ficha(props) {
                     {registerResponse.body.status === 0 ? 'Não foi possível conectar ao servidor' : `ERROR ${registerResponse.body.status}: ${registerResponse.body.message}`}
                 </Snackbar>
             )}
+
+            {!pedidoEstoqueResponse.running && !pedidoEstoqueResponse.success && (
+                <Snackbar visible={registerError} action={{ label: 'Ok', onPress: () => setRegisterError(false) }} onDismiss={() => { }}>
+                    {pedidoEstoqueResponse.body.status === 0 ? 'Não foi possível conectar ao servidor' : `ERROR ${pedidoEstoqueResponse.body.status}: ${pedidoEstoqueResponse.body.message}`}
+                </Snackbar>
+            )}
+
             {!removeResponse.running && !removeResponse.success && (
                 <Snackbar visible={removeError} action={{ label: 'Ok', onPress: () => setRemoveError(false) }} onDismiss={() => { }}>
                     {removeResponse.body.status === 0 ? 'Não foi possível conectar ao servidor' : `ERROR ${removeResponse.body.status}: ${removeResponse.body.message}`}

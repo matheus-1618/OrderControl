@@ -23,11 +23,17 @@ import {
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import { useGlobal } from '../lib';
+
+import settings from '../settings.json';
 
 export function DrawerContent(props) {
 
     const paperTheme = useTheme();
     const [expanded, setExpanded] = React.useState(true);
+    const [mode, setMode] = useGlobal("theme");
+
+    const onToggleSwitch = () => setMode(!mode);
 
     const handlePress = () => setExpanded(!expanded);
   
@@ -64,7 +70,6 @@ export function DrawerContent(props) {
                         onPress={() => {props.navigation.navigate('Pedidos')}}
                     />
 
-
                      <DrawerItem 
                         icon={({color, size}) => (
                             <Icon 
@@ -78,11 +83,11 @@ export function DrawerContent(props) {
                     />
 
                 <Drawer.Section title="Preferências">
-                    <TouchableRipple onPress={() => {toggleTheme()}}>
+                    <TouchableRipple onPress={onToggleSwitch}>
                         <View style={styles.preference}>
                             <Text>Modo noturno</Text>
                             <View pointerEvents="none">
-                                <Switch value={paperTheme.dark}/>
+                                <Switch value={mode}/>
                             </View>
                         </View>
                     </TouchableRipple>
