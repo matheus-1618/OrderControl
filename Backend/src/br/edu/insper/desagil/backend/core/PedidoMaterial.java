@@ -1,6 +1,7 @@
 package br.edu.insper.desagil.backend.core;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import br.edu.insper.desagil.backend.database.firestore.FirestoreObject;
@@ -8,9 +9,10 @@ import br.edu.insper.desagil.backend.database.firestore.FirestoreObject;
 public class PedidoMaterial extends FirestoreObject {
 	private static int idCount = 0;
 	private String id;
-	private Urgencia urgencia;
+	private boolean urgencia;
 	private String observacoes;
 	private Map<String,Integer> materiais;
+	private List<String> chavesEstoques;
 	
 	
 	public PedidoMaterial () {
@@ -20,7 +22,7 @@ public class PedidoMaterial extends FirestoreObject {
 			put("areia",0);
 			put("brita",0);
 			put("cal",0);
-			put("madeira",0);
+			put("argamassa",0);
 			put("cimento",0);
 			put("outros",0);
 		}};
@@ -31,15 +33,37 @@ public class PedidoMaterial extends FirestoreObject {
 		return this.id;
 	}
 	
+
+	public static int getIdCount() {
+		return idCount;
+	}
+
+	public static void setIdCount(int idCount) {
+		PedidoMaterial.idCount = idCount;
+	}
+
+	public List<String> getChavesEstoques() {
+		return chavesEstoques;
+	}
+
+	public void setChavesEstoques(List<String> chavesEstoques) {
+		this.chavesEstoques = chavesEstoques;
+	}
+	
+	
+	public void setId(String id) {
+		this.id = id;
+	}
+	
 	public String getId() {
 		return this.id;
 	}
 	
-	public Urgencia getUrgencia() {
+	public boolean getUrgencia() {
 		return urgencia;
 	}
 	
-	public void setUrgencia(Urgencia urgencia) {
+	public void setUrgencia(boolean urgencia) {
 		this.urgencia = urgencia;
 	}
 	
@@ -52,6 +76,9 @@ public class PedidoMaterial extends FirestoreObject {
 		this.observacoes = observacoes;
 	}
 	
+	public void setMateriais(Map<String, Integer> materiais) {
+		this.materiais = materiais;
+	}
 	
 	public Map getMateriais() {
 		return this.materiais;
