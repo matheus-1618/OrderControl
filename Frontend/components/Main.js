@@ -14,6 +14,7 @@ console.reportErrorsAsExceptions = false;
 
 import Pedido from './pedidos/Main';
 import Estoque from './estoques/Main';
+import Notificacoes from './Notificaoes';
 
 import settings from '../settings.json';
 
@@ -38,7 +39,7 @@ export default function Main(props) {
               <View style={styles.center}>
                   <Avatar.Image source={{uri: 'https://gust-production.s3.amazonaws.com/uploads/startup/panoramic_image/887508/connectdata_marca_1_3.jpg' }} size={35}/>
               </View>
-              <IconButton icon="bell" color="gray" onPress={() => {navigation.navigate('Pedidos')}} />
+              <IconButton icon="bell" color="gray" onPress={() => {navigation.navigate('Notificacao')}} />
             </View>
         );
     },
@@ -46,7 +47,8 @@ export default function Main(props) {
     return (
          <Drawer.Navigator drawerContent={props => <DrawerContent {...props} /> } initialRouteName="Pedidos" screenOptions={screenOptions}>  
             <Drawer.Screen name="Pedidos" component={Pedido}/>
-             <Drawer.Screen name="Estoque" component={Estoque}/>
+            <Drawer.Screen name="Estoque" component={Estoque}/>
+            <Drawer.Screen name="Notificacao" component={Notificacoes}/>
         </Drawer.Navigator>
     );
 }

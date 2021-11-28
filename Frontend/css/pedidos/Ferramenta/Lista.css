@@ -42,7 +42,7 @@ cardTitle {
     margin: 5px 40px 5px;
     flex-direction: row;
     justify-content: space-around;
-    align-items:left;
+    align-items:flex-start;
 }
 
 urgenciaIcon {
