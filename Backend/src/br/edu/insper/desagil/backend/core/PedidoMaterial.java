@@ -11,6 +11,11 @@ public class PedidoMaterial extends FirestoreObject {
 	private Urgencia urgencia;
 	private String observacoes;
 	private Map<String,Integer> materiais;
+	private String nomeMaterial;
+	private Integer codigoMaterial;
+	private Integer codigoNCM;
+	private Integer codigoERP;
+	private String descricao;
 	
 	
 	public PedidoMaterial () {
@@ -68,6 +73,48 @@ public class PedidoMaterial extends FirestoreObject {
 			this.materiais.put(material,quantidade);
 		}
 	}
+
+	public String getNomeMaterial() {
+		return nomeMaterial;
+	}
+
+	public void setNomeMaterial(String nomeMaterial) {
+		this.nomeMaterial = nomeMaterial;
+	}
+
+	public Integer getCodigoMaterial() {
+		return codigoMaterial;
+	}
+
+	public void setCodigoMaterial(Integer codigoMaterial) {
+		this.codigoMaterial = codigoMaterial;
+	}
+
+	public Integer getCodigoNCM() {
+		return codigoNCM;
+	}
+
+	public void setCodigoNCM(Integer codigoNCM) {
+		this.codigoNCM = codigoNCM;
+	}
+
+	public Integer getCodigoERP() {
+		return codigoERP;
+	}
+
+	public void setCodigoERP(Integer codigoERP) {
+		this.codigoERP = codigoERP;
+	}
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+	
+	
 	
 	
 }

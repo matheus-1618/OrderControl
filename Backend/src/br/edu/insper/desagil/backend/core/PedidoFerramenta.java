@@ -11,7 +11,11 @@ public class PedidoFerramenta extends FirestoreObject {
 	private Urgencia urgencia;
 	private String observacoes;
 	private Map<String,Integer> ferramentas;
-	
+	private String nomeFerramenta;
+	private Integer codigoFerramenta;
+	private Integer codigoNCM;
+	private Integer codigoERP;
+	private String descricao;
 	
 	public PedidoFerramenta () {
 		this.id = Integer.toString(idCount);
@@ -68,5 +72,48 @@ public class PedidoFerramenta extends FirestoreObject {
 			this.ferramentas.put(ferramenta,quantidade);
 		}
 	}
+
+	public String getNomeFerramenta() {
+		return nomeFerramenta;
+	}
+
+	public void setNomeFerramenta(String nomeFerramenta) {
+		this.nomeFerramenta = nomeFerramenta;
+	}
+
+	public Integer getCodigoFerramenta() {
+		return codigoFerramenta;
+	}
+
+	public void setCodigoFerramenta(Integer codigoFerramenta) {
+		this.codigoFerramenta = codigoFerramenta;
+	}
+
+	public Integer getCodigoNCM() {
+		return codigoNCM;
+	}
+
+	public void setCodigoNCM(Integer codigoNCM) {
+		this.codigoNCM = codigoNCM;
+	}
+
+	public Integer getCodigoERP() {
+		return codigoERP;
+	}
+
+	public void setCodigoERP(Integer codigoERP) {
+		this.codigoERP = codigoERP;
+	}
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+	
+	
+	
 	
 }
