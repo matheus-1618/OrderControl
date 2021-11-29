@@ -234,18 +234,23 @@ export default class Log extends React.Component {
         <Datatable
           header={[
             {
-              name: 'Email',
+              name: 'Data',
               attr: 'email',
+              sortDirection: 'descending',
             },
             {
-              name: 'Firstname',
+              name: 'Modificação',
               attr: 'name.first',
-              sortDirection: 'ascending',
+             
             },
             {
-              name: 'Surname',
+              name: 'Tipo',
               attr: 'name.last',
             },
+            {
+              name: 'Usuário',
+              attr: 'company',
+              },
           ]}
           datatable={datatable}
           //page={page}
@@ -259,8 +264,7 @@ export default class Log extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-
+    flex: 0.5,
     backgroundColor: '#ecf0f1',
     
   },

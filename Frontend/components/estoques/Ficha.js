@@ -85,10 +85,24 @@ export default function Ficha(props) {
             localizacao: localizacao,
         };
         if (estoque) {
+            const alteration = {
+                modificacao: "Alteração do Estoque " + estoque.nome,
+                data: "29/11/2021 14:58",
+                tipo:"Estoque",
+                usuario: "Funcionario",
+            };
+            post('/modificacoes',alteration)
             body.key = estoque.key;
             put('/estoque', body);
         } else {
             post('/estoque', body);
+            const newOne = {
+                modificacao: "Cadastro do Estoque " + body.nome,
+                data: "29/11/2021 14:58",
+                tipo:"Estoque",
+                usuario: "Funcionario",
+            };
+            post('/modificacoes',newOne)
         }
     }
 

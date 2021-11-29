@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { DataTable } from 'react-native-paper';
 
-function Datatable({ header, datatable = [], page = 1, perPage = 9, style }) {
+function Datatable({ header, datatable = [], page = 1, perPage = 10, style }) {
   const [state, setState] = useState({
     datatable,
     page: page - 1,

@@ -163,10 +163,24 @@ export default function Ficha(props) {
             chavesEstoques: estoqueKeys,
         };
         if (pedido) {
+            const alteration = {
+                modificacao: "Alteração do Pedido #" + pedido.id,
+                data: "29/11/2021 14:58",
+                tipo:"Ferramenta",
+                usuario: "Funcionario",
+            };
+            post('/modificacoes',alteration)
             body.id = pedido.id;
             put('/ferramenta', body);
         } else {
             post('/ferramenta', body);
+            const newOne = {
+                modificacao: "Cadastro de Pedido",
+                data: "29/11/2021 14:58",
+                tipo:"Ferramenta",
+                usuario: "Funcionario",
+            };
+            post('/modificacoes',newOne)
         }
     }
 

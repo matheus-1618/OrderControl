@@ -162,11 +162,26 @@ export default function Ficha(props) {
             "brita":brita,"cal":cal,"argamassa":argamassa,"outros":outros},
             chavesEstoques: estoqueKeys,
         };
+        
         if (pedido) {
+            const alteration = {
+                modificacao: "Alteração do Pedido #" + pedido.id,
+                data: "29/11/2021 14:58",
+                tipo:"Material",
+                usuario: "Funcionario",
+            };
+            post('/modificacoes',alteration)
             body.id = pedido.id;
             put('/material', body);
         } else {
             post('/material', body);
+            const newOne = {
+                modificacao: "Cadastro de Pedido",
+                data: "29/11/2021 14:58",
+                tipo:"Material",
+                usuario: "Funcionario",
+            };
+            post('/modificacoes',newOne)
         }
     }
 
