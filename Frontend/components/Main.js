@@ -12,11 +12,10 @@ import styles from '../styles/Main.json';
 
 console.reportErrorsAsExceptions = false;
 
-import ListaMaterial from './pedidos/Lista/Material';
-import ListaFerramenta from './pedidos/Lista/Ferramenta';
-import FichaPedido from './pedidos/Ficha/Main';
-import ListaEstoque from './estoques/Main';
-import FichaEstoque from './estoques/Ficha';
+import Pedido from './pedidos/Main';
+import Estoque from './estoques/Main';
+
+import settings from '../settings.json';
 
 import { DrawerContent } from './DrawerContent';
 
@@ -30,8 +29,6 @@ export default function Main(props) {
     ...styles.header,
     };
 
-  const headerTintColor = theme.screenOptions.headerTintColor;
-  const headerTitleStyle = theme.screenOptions.headerTitleStyle;
   const screenOptions = {
     ...theme.screenOptions,
     header: ({ navigation, route }) => {
@@ -41,18 +38,15 @@ export default function Main(props) {
               <View style={styles.center}>
                   <Avatar.Image source={{uri: 'https://gust-production.s3.amazonaws.com/uploads/startup/panoramic_image/887508/connectdata_marca_1_3.jpg' }} size={35}/>
               </View>
-              <IconButton icon="bell" color="gray" onPress={() => {navigation.navigate('Estoques')}} />
+              <IconButton icon="bell" color="gray" onPress={() => {navigation.navigate('Pedidos')}} />
             </View>
         );
     },
   };
     return (
-         <Drawer.Navigator drawerContent={props => <DrawerContent {...props} /> } initialRouteName="Materiais" screenOptions={screenOptions}>  
-             <Drawer.Screen name="Materiais" component={ListaMaterial}/>
-             <Drawer.Screen name="Ferramentas" component={ListaFerramenta}/>
-             <Drawer.Screen name="Novo Pedido" component={FichaPedido}/>
-             <Drawer.Screen name="Estoques" component={ListaEstoque}/>
-             <Drawer.Screen name="Adicionar Estoque" component={FichaEstoque}/>
+         <Drawer.Navigator drawerContent={props => <DrawerContent {...props} /> } initialRouteName="Pedidos" screenOptions={screenOptions}>  
+            <Drawer.Screen name="Pedidos" component={Pedido}/>
+             <Drawer.Screen name="Estoque" component={Estoque}/>
         </Drawer.Navigator>
     );
 }

@@ -10,37 +10,50 @@ import { Colors, Chip, Card, Paragraph , Title,Divider, ActivityIndicator, Text,
 
 import { Rounded, Icon,AspectView, useSignal, useEmit, useEffect, useRequest, map } from '../../../lib';
 
+import styles from '../../../styles/pedidos/Material/Lista.json';
+
 import settings from '../../../settings.json';
-
-import styles from '../../../styles/pedidos/Lista.json';
-
-
 
 function PedidoItem(props) {
     const { navigation, pedido } = props;
     return (
         <>
-            <Card style={styles.itemContainer} onPress={() => navigation.navigate('Novo Pedido', pedido)}>
+            <Card style={styles.itemContainer} onPress={() => navigation.navigate('Ficha', pedido)}>
                 <View style={styles.cardTitle}>
-                    <View style={styles.urgenciaIcon}>
-                    {pedido.urgencia == "BAIXA" ? (
-                      <Icon name="alarm-light-outline" size={10} color="green"/>
-                    ) :
-                    ( <Icon name="alarm-light" size={10} color="red"/>)
-                    }
+                    <View style={styles.cardheader}>
+                        <View style={styles.urgenciaIcon}>
+                        {pedido.urgencia == false ? (
+                        <Icon name="alarm-light-outline" size={10} color="green"/>
+                        ) :
+                        ( <Icon name="alarm-light" size={10} color="red"/>)
+                        }
+                        </View>
+                    <Card.Title title={"Pedido #"+pedido.id}  />
                     </View>
-                <Card.Title title={"Pedido #"+pedido.id}  />
+                    <View style={styles.icon}>
+                        <Icon name="wall" color="gray"/>
+                    </View>
                 </View>
                 <Card.Content styles={styles.observacoes}>
-                <View style={styles.chipContainer}>
                 <Paragraph>Solicitações:</Paragraph>
+                <View style={styles.chipContainer}>
+                
                 </View>
 
                     <View style={styles.chipContainer}>
-                        <Chip style={styles.chip} icon="wall">Andaime</Chip>
-                        <Chip style={styles.chip} icon="wall">Cimento</Chip>
-                        <Chip style={styles.chip} icon="wall">Cal</Chip>
-                        
+                        {pedido.materiais.brita != 0 &&
+                            (<Chip style={styles.chip} selectedColor="blue" icon="wall">Brita {pedido.materiais.brita}x</Chip>)}
+                        {pedido.materiais.argamassa != 0 &&
+                            (<Chip style={styles.chip} selectedColor="blue" icon="pillar">Argamassa {pedido.materiais.argamassa}x</Chip>)}
+                        {pedido.materiais.cal != 0 &&
+                            (<Chip style={styles.chip} selectedColor="blue" icon="hard-hat">Cal {pedido.materiais.cal}x</Chip>)}
+                        {pedido.materiais.cimento != 0 &&
+                            (<Chip style={styles.chip} selectedColor="blue" icon="texture">Cimento {pedido.materiais.cimento}x</Chip>)}
+                        {pedido.materiais.areia != 0 &&
+                            (<Chip style={styles.chip} selectedColor="blue" icon="nut">Areia {pedido.materiais.areia}x</Chip>)}
+                        {pedido.materiais.outros != 0 &&
+                            (<Chip style={styles.chip} selectedColor="blue" icon="help-circle">Outros {pedido.materiais.outros}x</Chip>)}
+       
                     </View>   
                 </Card.Content>
                 <Card.Actions>
@@ -84,7 +97,7 @@ export default function Lista(props) {
                             <Text>
                                 Nenhum pedido registrado
                             </Text>
-                            <Button mode="outlined" onPress={() => navigation.navigate('Novo Pedido', null)}>
+                            <Button mode="outlined" onPress={() => navigation.navigate('Ficha', null)}>
                                 Solicitar novo pedido
                             </Button>
                         </View>
@@ -103,7 +116,7 @@ export default function Lista(props) {
                     </View>
                 )
             )}
-            <FAB style={styles.fab} icon="plus"  color={Colors.white500} onPress={() => navigation.navigate('Novo Pedido', null)} />
+            <FAB style={styles.fab} icon="plus"  color="white" onPress={() => navigation.navigate('Ficha', null)} />
             {!response.running && !response.success && (
                 <Snackbar visible={getError} action={{ label: 'Ok', onPress: () => setGetError(false) }} onDismiss={() => { }}>
                     {response.body.status === 0 ? 'Não foi possível conectar ao servidor' : `ERROR ${response.body.status}: ${response.body.message}`}

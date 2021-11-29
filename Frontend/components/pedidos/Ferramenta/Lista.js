@@ -12,18 +12,18 @@ import { Rounded, Icon,AspectView, useSignal, useEmit, useEffect, useRequest, ma
 
 import settings from '../../../settings.json';
 
-import styles from '../../../styles/pedidos/Lista.json';
 
-
+import styles from '../../../styles/pedidos/Ferramenta/Lista.json';
 
 function PedidoItem(props) {
     const { navigation, pedido } = props;
     return (
         <>
-            <Card style={styles.itemContainer} onPress={() => navigation.navigate('Novo Pedido', pedido)}>
+            <Card style={styles.itemContainer} onPress={() => navigation.navigate('Ficha', pedido)}>
                 <View style={styles.cardTitle}>
+                <View style={styles.cardheader}>
                     <View style={styles.urgenciaIcon}>
-                    {pedido.urgencia == "BAIXA" ? (
+                    {pedido.urgencia == false ? (
                       <Icon name="alarm-light-outline" size={10} color="green"/>
                     ) :
                     ( <Icon name="alarm-light" size={10} color="red"/>)
@@ -31,15 +31,30 @@ function PedidoItem(props) {
                     </View>
                 <Card.Title title={"Pedido #"+pedido.id}  />
                 </View>
+                <View style={styles.icon}>
+                    <Icon name="hammer" size={10} color="gray"/>
+                    </View>
+               
+                </View>
                 <Card.Content styles={styles.observacoes}>
-                <View style={styles.chipContainer}>
                 <Paragraph>Solicitações:</Paragraph>
+                <View style={styles.chipContainer}>
+                
                 </View>
 
                     <View style={styles.chipContainer}>
-                        <Chip style={styles.chip} icon="wall">Andaime</Chip>
-                        <Chip style={styles.chip} icon="wall">Cimento</Chip>
-                        <Chip style={styles.chip} icon="wall">Cal</Chip>
+                    {pedido.ferramentas.andaime != 0 &&
+                            (<Chip style={styles.chip} selectedColor="green" icon="escalator">Andaime {pedido.ferramentas.andaime}x</Chip>)}
+                        {pedido.ferramentas.betoneira != 0 &&
+                            (<Chip style={styles.chip} selectedColor="green" icon="wrench">Betoneira {pedido.ferramentas.betoneira}x</Chip>)}
+                        {pedido.ferramentas.bomba != 0 &&
+                            (<Chip style={styles.chip} selectedColor="green" icon="guitar-pick">Bomba {pedido.ferramentas.bomba}x</Chip>)}
+                        {pedido.ferramentas.esmerilhadeira != 0 &&
+                            (<Chip style={styles.chip} selectedColor="green" icon="circular-saw">Lixadeira {pedido.ferramentas.esmerilhadeira}x</Chip>)}
+                        {pedido.ferramentas.furadeira != 0 &&
+                            (<Chip style={styles.chip} selectedColor="green" icon="screw-flat-top">Furadeira {pedido.ferramentas.furadeira}x</Chip>)}
+                        {pedido.ferramentas.outros != 0 &&
+                            (<Chip style={styles.chip} selectedColor="green" icon="help-box">Outros {pedido.ferramentas.outros}x</Chip>)}
                         
                     </View>   
                 </Card.Content>
@@ -51,7 +66,6 @@ function PedidoItem(props) {
         </>
     );
 }
-
 
 export default function Lista(props) {
     const { navigation } = props;
@@ -82,7 +96,7 @@ export default function Lista(props) {
                             <Text>
                                 Nenhum pedido registrado
                             </Text>
-                            <Button mode="outlined" onPress={() => navigation.navigate('Novo Pedido', null)}>
+                            <Button mode="outlined" onPress={() => navigation.navigate('Ficha', null)}>
                                 Solicitar novo pedido
                             </Button>
                         </View>
@@ -101,7 +115,7 @@ export default function Lista(props) {
                     </View>
                 )
             )}
-            <FAB style={styles.fab} icon="plus"  color={Colors.white500} onPress={() => navigation.navigate('Novo Pedido', null)} />
+            <FAB style={styles.fab} icon="plus"  color="white" onPress={() => navigation.navigate('Ficha', null)} />
             {!response.running && !response.success && (
                 <Snackbar visible={getError} action={{ label: 'Ok', onPress: () => setGetError(false) }} onDismiss={() => { }}>
                     {response.body.status === 0 ? 'Não foi possível conectar ao servidor' : `ERROR ${response.body.status}: ${response.body.message}`}
