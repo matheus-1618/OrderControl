@@ -81,6 +81,18 @@ export function DrawerContent(props) {
                         onPress={() => {props.navigation.navigate('Estoque')}}
                     />
 
+<DrawerItem 
+                        icon={({color, size}) => (
+                            <Icon 
+                            name="table" 
+                            color={color}
+                            size={size}
+                            />
+                        )}
+                        label="Logs"
+                        onPress={() => {props.navigation.navigate('Logs')}}
+                    />
+
                 <Drawer.Section title="Preferências">
                     <TouchableRipple >
                         <View style={styles.preference}>

@@ -14,8 +14,6 @@ public class PedidoFerramenta extends FirestoreObject {
 	private Map<String,Integer> ferramentas;
 	private List<String> chavesEstoques;
 	
-	
-	
 
 	public PedidoFerramenta () {
 		this.id = Integer.toString(idCount);

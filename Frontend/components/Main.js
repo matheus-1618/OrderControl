@@ -15,6 +15,7 @@ console.reportErrorsAsExceptions = false;
 import Pedido from './pedidos/Main';
 import Estoque from './estoques/Main';
 import Notificacoes from './Notificaoes';
+import Logs from './log/Main';
 
 import settings from '../settings.json';
 
@@ -49,6 +50,7 @@ export default function Main(props) {
             <Drawer.Screen name="Pedidos" component={Pedido}/>
             <Drawer.Screen name="Estoque" component={Estoque}/>
             <Drawer.Screen name="Notificacao" component={Notificacoes}/>
+            <Drawer.Screen name="Logs" component={Logs}/>
         </Drawer.Navigator>
     );
 }
