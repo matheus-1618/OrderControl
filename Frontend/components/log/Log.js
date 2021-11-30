@@ -17,9 +17,7 @@ function ModificacaoItem(props) {
   const { navigation, modificacoes } = props;
   return (
       <>
-          {/* <TouchableRipple style={styles.itemContainer} onPress={() => navigation.navigate('Adicionar Estoque', estoque)}> */}
           <View style={styles.container}>
-
               <ScrollView>
               <DataTable.Row style={styles.row}>
                 <DataTable.Cell style={styles.data} ><Text style={styles.fonte}>{modificacoes.data}</Text></DataTable.Cell>
@@ -28,9 +26,8 @@ function ModificacaoItem(props) {
                 <DataTable.Cell  style={styles.tipo}><Text style={styles.fonte}>{modificacoes.tipo}</Text></DataTable.Cell>
               </DataTable.Row>
               </ScrollView>
-
               </View>
-          {/* </TouchableRipple> */}
+
           <Divider />
       </>
   );

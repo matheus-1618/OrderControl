@@ -51,7 +51,7 @@ export default function Lista(props) {
     return (
         <>
         <View style={styles.title}>
-        <Title>Estoques</Title>
+        <Title>Estoques cadastrados</Title>
     </View>
             {response.running ? (
                 <View style={styles.center}>

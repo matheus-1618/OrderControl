@@ -191,6 +191,13 @@ export default function Ficha(props) {
     function onConfirmRemove() {
         onDismissRemove();
         setRemoveError(true);
+        const newOne = {
+            modificacao: "Pedido #" + pedido.id +" excluído",
+            data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
+            tipo:"Ferramenta",
+            hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
+        };
+        post('/modificacoes',newOne)
         del(`/ferramenta?id=${pedido.id}`);
     }
 

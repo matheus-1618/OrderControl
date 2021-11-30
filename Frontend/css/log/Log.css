@@ -1,6 +1,5 @@
 container {
-    border: 1px gray;
-    border-radius: 5px;
+
 }
 
 center {
@@ -14,12 +13,6 @@ icon {
     height:40px;
 }
 
-itemContainer {
-    padding: 5px;
-    margin:5px;
-    border: 1px solid rgb(78, 187, 187);
-    border-radius: 15px;
-}
 
 title {
     align-items: center;
