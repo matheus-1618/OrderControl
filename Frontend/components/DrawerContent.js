@@ -81,7 +81,7 @@ export function DrawerContent(props) {
                         onPress={() => {props.navigation.navigate('Estoque')}}
                     />
 
-<DrawerItem 
+                        <DrawerItem 
                         icon={({color, size}) => (
                             <Icon 
                             name="table" 
@@ -89,9 +89,9 @@ export function DrawerContent(props) {
                             size={size}
                             />
                         )}
-                        label="Logs"
+                        label="Log de Modificações"
                         onPress={() => {props.navigation.navigate('Logs')}}
-                    />
+                        />
 
                 <Drawer.Section title="Preferências">
                     <TouchableRipple >

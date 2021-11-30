@@ -87,9 +87,9 @@ export default function Ficha(props) {
         if (estoque) {
             const alteration = {
                 modificacao: "Alteração do Estoque " + estoque.nome,
-                data: "29/11/2021 14:58",
+                data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
                 tipo:"Estoque",
-                usuario: "Funcionario",
+                hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
             };
             post('/modificacoes',alteration)
             body.key = estoque.key;
@@ -97,10 +97,10 @@ export default function Ficha(props) {
         } else {
             post('/estoque', body);
             const newOne = {
-                modificacao: "Cadastro do Estoque " + body.nome,
-                data: "29/11/2021 14:58",
+                modificacao: "Cadastro de Estoque",
+                data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
                 tipo:"Estoque",
-                usuario: "Funcionario",
+                hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
             };
             post('/modificacoes',newOne)
         }

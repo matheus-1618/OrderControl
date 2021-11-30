@@ -7,8 +7,9 @@ import br.edu.insper.desagil.backend.database.firestore.AutokeyFirestoreObject;
 public class Modificacoes extends AutokeyFirestoreObject{
 	private String modificacao;
 	private String data;
+	private String hora;
 	private String tipo;
-	private String usuario;
+	
 	public String getModificacao() {
 		return modificacao;
 	}
@@ -27,11 +28,11 @@ public class Modificacoes extends AutokeyFirestoreObject{
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
-	public String getUsuario() {
-		return usuario;
+	public String getHora() {
+		return hora;
 	}
-	public void setUsuario(String usuario) {
-		this.usuario = usuario;
+	public void setHora(String hora) {
+		this.hora = hora;
 	}
 	
 

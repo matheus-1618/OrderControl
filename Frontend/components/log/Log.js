@@ -1,271 +1,107 @@
+import React, { useState } from 'react';
 
-// import styles from '../../styles/log/Log.json';
+import { View, ScrollView } from 'react-native';
 
-import * as React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
-import Constants from 'expo-constants';
-import Datatable from './Tabela';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default class Log extends React.Component {
-  render() {
+import { TouchableRipple, Title, Divider, ActivityIndicator, Text, Button, DataTable, Snackbar } from 'react-native-paper';
 
-    let datatable = [
-      {
-        _id: '5d406a171ed43384972f04b5',
-        index: 0,
-        age: 28,
-        eyeColor: 'brown',
-        name: {
-          first: 'Myra',
-          last: 'Navarro',
-        },
-        company: 'SUSTENZA',
-        email: 'myra.navarro@sustenza.net',
-      },
-      {
-        _id: '5d406a170db0f4b04d9a9acf',
-        index: 1,
-        age: 23,
-        eyeColor: 'blue',
-        name: {
-          first: 'Harriett',
-          last: 'Tanner',
-        },
-        company: 'VALPREAL',
-        email: 'harriett.tanner@valpreal.com',
-      },
-      {
-        _id: '5d406a17e95da8ff80a759c5',
-        index: 2,
-        age: 39,
-        eyeColor: 'blue',
-        name: {
-          first: 'Vega',
-          last: 'Hanson',
-        },
-        company: 'BEDLAM',
-        email: 'vega.hanson@bedlam.tv',
-      },
-      {
-        _id: '5d406a175505da190e6875ec',
-        index: 3,
-        age: 31,
-        eyeColor: 'blue',
-        name: {
-          first: 'Rosemary',
-          last: 'Fields',
-        },
-        company: 'QUAILCOM',
-        email: 'rosemary.fields@quailcom.me',
-      },
-      {
-        _id: '5d406a17ea96044c027f4e50',
-        index: 4,
-        age: 27,
-        eyeColor: 'brown',
-        name: {
-          first: 'Dale',
-          last: 'Wilkinson',
-        },
-        company: 'QIAO',
-        email: 'dale.wilkinson@qiao.org',
-      },
-      {
-        _id: '5d406a17c5fff1ff6653a555',
-        index: 5,
-        age: 25,
-        eyeColor: 'blue',
-        name: {
-          first: 'Beatrice',
-          last: 'Contreras',
-        },
-        company: 'ZENOLUX',
-        email: 'beatrice.contreras@zenolux.us',
-      },
-      {
-        _id: '5d406a17a199efcba25e1f26',
-        index: 6,
-        age: 34,
-        eyeColor: 'blue',
-        name: {
-          first: 'Hancock',
-          last: 'Wynn',
-        },
-        company: 'PLASMOS',
-        email: 'hancock.wynn@plasmos.co.uk',
-      },
-      {
-        _id: '5d406a17019a2a4544a4f134',
-        index: 7,
-        age: 40,
-        eyeColor: 'blue',
-        name: {
-          first: 'Brown',
-          last: 'Stanton',
-        },
-        company: 'SNACKTION',
-        email: 'brown.stanton@snacktion.name',
-      },
-      {
-        _id: '5d406a17e516dd71af8210d4',
-        index: 8,
-        age: 39,
-        eyeColor: 'blue',
-        name: {
-          first: 'Barnes',
-          last: 'Dunn',
-        },
-        company: 'PORTALINE',
-        email: 'barnes.dunn@portaline.ca',
-      },
-      {
-        _id: '5d406a17516936a025b73c33',
-        index: 9,
-        age: 34,
-        eyeColor: 'green',
-        name: {
-          first: 'Blanche',
-          last: 'Cherry',
-        },
-        company: 'ISOSWITCH',
-        email: 'blanche.cherry@isoswitch.io',
-      },
-      {
-        _id: '5d406a17527a4d2c6a7897dd',
-        index: 10,
-        age: 33,
-        eyeColor: 'blue',
-        name: {
-          first: 'Gilliam',
-          last: 'Farley',
-        },
-        company: 'AMTAS',
-        email: 'gilliam.farley@amtas.biz',
-      },
-      {
-        _id: '5d406a175ff11478c416c30b',
-        index: 11,
-        age: 26,
-        eyeColor: 'brown',
-        name: {
-          first: 'Laura',
-          last: 'Short',
-        },
-        company: 'FISHLAND',
-        email: 'laura.short@fishland.info',
-      },
-      {
-        _id: '5d406a1738181b471847339a',
-        index: 12,
-        age: 20,
-        eyeColor: 'brown',
-        name: {
-          first: 'Moreno',
-          last: 'Barber',
-        },
-        company: 'KEENGEN',
-        email: 'moreno.barber@keengen.net',
-      },
-      {
-        _id: '5d406a17a6bcae6fe3ad1735',
-        index: 13,
-        age: 30,
-        eyeColor: 'brown',
-        name: {
-          first: 'Fischer',
-          last: 'French',
-        },
-        company: 'INCUBUS',
-        email: 'fischer.french@incubus.com',
-      },
-      {
-        _id: '5d406a17600ca53e8f63f263',
-        index: 14,
-        age: 30,
-        eyeColor: 'brown',
-        name: {
-          first: 'Donaldson',
-          last: 'Carr',
-        },
-        company: 'SUNCLIPSE',
-        email: 'donaldson.carr@sunclipse.tv',
-      },
-      {
-        _id: '5d406a17530655789a27174f',
-        index: 15,
-        age: 35,
-        eyeColor: 'green',
-        name: {
-          first: 'Sophia',
-          last: 'Payne',
-        },
-        company: 'PRISMATIC',
-        email: 'sophia.payne@prismatic.me',
-      },
-      {
-        _id: '5d406a175dbc687b4c7669d8',
-        index: 16,
-        age: 34,
-        eyeColor: 'green',
-        name: {
-          first: 'Simone',
-          last: 'Pollard',
-        },
-        company: 'DIGIGEN',
-        email: 'simone.pollard@digigen.org',
-      },
-      {
-        _id: '5d406a179f35ed326a6a5567',
-        index: 17,
-        age: 28,
-        eyeColor: 'green',
-        name: {
-          first: 'Yvette',
-          last: 'Daugherty',
-        },
-        company: 'CHILLIUM',
-        email: 'yvette.daugherty@chillium.us',
-      },
-    ];
-    let page = 3;
+import { Rounded, Icon, useSignal, useEmit, useEffect, useRequest, map } from '../../lib';
 
-    return (
-      <View style={styles.container}>
-        <Datatable
-          header={[
-            {
-              name: 'Data',
-              attr: 'email',
-              sortDirection: 'descending',
-            },
-            {
-              name: 'Modificação',
-              attr: 'name.first',
-             
-            },
-            {
-              name: 'Tipo',
-              attr: 'name.last',
-            },
-            {
-              name: 'Usuário',
-              attr: 'company',
-              },
-          ]}
-          datatable={datatable}
-          //page={page}
-          //perPage={4}
-          style={{ backgroundColor: '#fff' }}
-        />
-      </View>
-    );
-  }
+import settings from '../../settings.json';
+
+import styles from '../../styles/log/Log.json';
+
+
+function ModificacaoItem(props) {
+  const { navigation, modificacoes } = props;
+  return (
+      <>
+          {/* <TouchableRipple style={styles.itemContainer} onPress={() => navigation.navigate('Adicionar Estoque', estoque)}> */}
+          <View style={styles.container}>
+
+              <ScrollView>
+              <DataTable.Row style={styles.row}>
+                <DataTable.Cell style={styles.data} ><Text style={styles.fonte}>{modificacoes.data}</Text></DataTable.Cell>
+                <DataTable.Cell style={styles.hora}><Text style={styles.fonte}>{modificacoes.hora}</Text></DataTable.Cell> 
+                <DataTable.Cell style={styles.text}><Text style={styles.fonte}>{modificacoes.modificacao}</Text></DataTable.Cell>
+                <DataTable.Cell  style={styles.tipo}><Text style={styles.fonte}>{modificacoes.tipo}</Text></DataTable.Cell>
+              </DataTable.Row>
+              </ScrollView>
+
+              </View>
+          {/* </TouchableRipple> */}
+          <Divider />
+      </>
+  );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 0.5,
-    backgroundColor: '#ecf0f1',
-    
-  },
-});
+export default function Lista(props) {
+  const { navigation } = props;
+
+  const [getError, setGetError] = useState(false);
+
+  const signal = useSignal('updated-estoques');
+  const signal1 = useSignal('updated-materiais');
+  const signal2 = useSignal('updated-ferramentas');
+  const emit = useEmit('updated-estoques');
+
+  const { get, response } = useRequest(settings.url);
+
+  useEffect(() => {
+      setGetError(true);
+      get('/modificacoes/list');
+  }, [signal,signal1,signal2]);
+
+  return (
+      <>
+      <View style={styles.title}>
+        <Title>Modificações</Title>
+      </View>
+          {response.running ? (
+              <View style={styles.center}>
+                  <ActivityIndicator size="large" />
+              </View>
+          ) : (
+              response.success ? (
+                  response.body === null || response.body.length === 0 ? (
+                      <View style={styles.center}>
+                          <Text>
+                              Nenhuma alteração notificada 
+                          </Text>
+                      </View>
+                  ) : (
+                      
+                         <DataTable>
+                            <DataTable.Header>
+                              <DataTable.Title sortDirection="ascending" style={styles.data}>Data</DataTable.Title>
+                              <DataTable.Title style={styles.hora}>Hora</DataTable.Title>
+                              <DataTable.Title style={styles.text}>Modificação</DataTable.Title>
+                              <DataTable.Title  style={styles.tipo}>Tipo</DataTable.Title>
+                            </DataTable.Header>
+                              {map(response.body, (modificacoes) => <ModificacaoItem navigation={navigation} modificacoes={modificacoes} />)}
+                          <DataTable.Pagination
+                          page={1}
+                          numberOfPages={3}
+                          // onPageChange={(page) => setPage(page)}
+                          label="1-2 of 6"
+                          // optionsPerPage={optionsPerPage}
+                          // itemsPerPage={itemsPerPage}
+                          // setItemsPerPage={setItemsPerPage}
+                          showFastPagination
+                          optionsLabel={'Rows per page'}
+                        />
+                      </DataTable>
+                    
+                  )
+              ) : (
+                  <View style={styles.center}>
+                      <Button mode="contained" onPress={emit}>
+                          Tentar novamente
+                      </Button>
+                  </View>
+              )
+          )}
+      </>
+  );
+}

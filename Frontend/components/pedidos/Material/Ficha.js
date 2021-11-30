@@ -166,9 +166,9 @@ export default function Ficha(props) {
         if (pedido) {
             const alteration = {
                 modificacao: "Alteração do Pedido #" + pedido.id,
-                data: "29/11/2021 14:58",
+                data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
                 tipo:"Material",
-                usuario: "Funcionario",
+                hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
             };
             post('/modificacoes',alteration)
             body.id = pedido.id;
@@ -177,9 +177,9 @@ export default function Ficha(props) {
             post('/material', body);
             const newOne = {
                 modificacao: "Cadastro de Pedido",
-                data: "29/11/2021 14:58",
+                data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
                 tipo:"Material",
-                usuario: "Funcionario",
+                hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
             };
             post('/modificacoes',newOne)
         }
