@@ -20,7 +20,7 @@ function EstoqueItem(props) {
                 <View style={styles.item}>
                     <Rounded>
                         <View style={styles.photoContainer}>
-                            <Icon name="barn"  />
+                            <Icon style={styles.icon} name="barn"  />
                         </View>
                     </Rounded>
                     <Title style={styles.name}>
@@ -51,7 +51,7 @@ export default function Lista(props) {
     return (
         <>
         <View style={styles.title}>
-        <Title>Estoques</Title>
+        <Title>Estoques cadastrados</Title>
     </View>
             {response.running ? (
                 <View style={styles.center}>

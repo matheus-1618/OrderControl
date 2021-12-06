@@ -1,0 +1,45 @@
+container {
+
+}
+
+center {
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+}
+
+icon {
+    width:40px;
+    height:40px;
+}
+
+
+title {
+    align-items: center;
+    padding: 5px;
+}
+
+item {
+    flex-direction: row;
+    align-items: center;
+}
+
+fonte {
+    font-size:10px;
+}
+
+text {
+    flex:3.5;
+}
+
+tipo {
+    flex:1.2;
+}
+
+data {
+    flex:1.4;
+}
+
+hora {
+    flex:1;
+}

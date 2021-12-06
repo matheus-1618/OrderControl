@@ -104,6 +104,7 @@ export default function Lista(props) {
                     ) : (
                         <ScrollView>
                             <SafeAreaView style={styles.container}>
+                                
                                 {map(response.body, (pedido) => <PedidoItem navigation={navigation} pedido={pedido} />)}
                             </SafeAreaView>
                         </ScrollView>

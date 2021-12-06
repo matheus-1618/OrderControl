@@ -85,10 +85,24 @@ export default function Ficha(props) {
             localizacao: localizacao,
         };
         if (estoque) {
+            const alteration = {
+                modificacao: "Alteração do Estoque " + estoque.nome,
+                data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
+                tipo:"Estoque",
+                hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
+            };
+            post('/modificacoes',alteration)
             body.key = estoque.key;
             put('/estoque', body);
         } else {
             post('/estoque', body);
+            const newOne = {
+                modificacao: "Cadastro de Estoque",
+                data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
+                tipo:"Estoque",
+                hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
+            };
+            post('/modificacoes',newOne)
         }
     }
 
@@ -99,6 +113,14 @@ export default function Ficha(props) {
     function onConfirmRemove() {
         onDismissRemove();
         setRemoveError(true);
+        const newOne = {
+            modificacao: "Estoque " + estoque.nome +" excluído",
+            data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
+            tipo:"Estoque",
+            hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
+        };
+        post('/modificacoes',newOne)
+        
         del(`/estoque?key=${estoque.key}`);
     }
 

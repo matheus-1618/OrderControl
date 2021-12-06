@@ -162,11 +162,26 @@ export default function Ficha(props) {
             "brita":brita,"cal":cal,"argamassa":argamassa,"outros":outros},
             chavesEstoques: estoqueKeys,
         };
+        
         if (pedido) {
+            const alteration = {
+                modificacao: "Alteração do Pedido #" + pedido.id,
+                data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
+                tipo:"Material",
+                hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
+            };
+            post('/modificacoes',alteration)
             body.id = pedido.id;
             put('/material', body);
         } else {
             post('/material', body);
+            const newOne = {
+                modificacao: "Cadastro de Pedido",
+                data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
+                tipo:"Material",
+                hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
+            };
+            post('/modificacoes',newOne)
         }
     }
 
@@ -177,6 +192,13 @@ export default function Ficha(props) {
     function onConfirmRemove() {
         onDismissRemove();
         setRemoveError(true);
+        const newOne = {
+            modificacao: "Pedido #" + pedido.id +" excluído",
+            data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
+            tipo:"Material",
+            hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
+        };
+        post('/modificacoes',newOne)
         del(`/material?id=${pedido.id}`);
     }
 
@@ -187,7 +209,7 @@ export default function Ficha(props) {
             emit();
             navigation.navigate('Lista');
         } else {
-            navigation.setOptions({ title: pedido ? "Pedido #"+ pedido.id : 'Novo pedido de material' });
+            navigation.setOptions({ title: pedido ? "Pedido #"+ pedido.id : 'Novo pedido' });
         }
     }, [registerResponse, removeResponse]);
 

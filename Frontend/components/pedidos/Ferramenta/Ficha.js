@@ -163,10 +163,24 @@ export default function Ficha(props) {
             chavesEstoques: estoqueKeys,
         };
         if (pedido) {
+            const alteration = {
+                modificacao: "Alteração do Pedido #" + pedido.id,
+                data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
+                tipo:"Ferramenta",
+                hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
+            };
+            post('/modificacoes',alteration)
             body.id = pedido.id;
             put('/ferramenta', body);
         } else {
             post('/ferramenta', body);
+            const newOne = {
+                modificacao: "Cadastro de Pedido",
+                data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
+                tipo:"Ferramenta",
+                hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
+            };
+            post('/modificacoes',newOne)
         }
     }
 
@@ -177,6 +191,13 @@ export default function Ficha(props) {
     function onConfirmRemove() {
         onDismissRemove();
         setRemoveError(true);
+        const newOne = {
+            modificacao: "Pedido #" + pedido.id +" excluído",
+            data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
+            tipo:"Ferramenta",
+            hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
+        };
+        post('/modificacoes',newOne)
         del(`/ferramenta?id=${pedido.id}`);
     }
 
@@ -187,7 +208,7 @@ export default function Ficha(props) {
             emit();
             navigation.navigate('Lista');
         } else {
-            navigation.setOptions({ title: pedido ? "Pedido #"+ pedido.id : 'Novo pedido de ferramenta' });
+            navigation.setOptions({ title: pedido ? "Pedido #"+ pedido.id : 'Novo pedido' });
         }
     }, [registerResponse, removeResponse]);
 
@@ -336,11 +357,11 @@ export default function Ficha(props) {
                         </HelperText>
                     )}
 
-                    {outros>0 && ( <TextInput style={styles.input} label="Nome do material" />)}
-                    {outros>0 && ( <TextInput style={styles.input} label="Código do produto" />)}
+                    {outros>0 && ( <TextInput style={styles.input} label="Nome da Ferramenta" />)}
+                    {outros>0 && ( <TextInput style={styles.input} label="Código da ferramenta" />)}
                     {outros>0 && ( <TextInput style={styles.input} label="Código NCM" />)}
                     {outros>0 && ( <TextInput style={styles.input} label="Código ERP" />)}
-                    {outros>0 && ( <TextInput style={styles.input} label="Descrição do material" />)}
+                    {outros>0 && ( <TextInput style={styles.input} label="Descrição da ferramenta" />)}
 
                     <View style={styles.buttonContainer}>
                         <Button style={styles.button} mode="outlined" disabled={registerResponse.running || removeResponse.running} loading={registerResponse.running} onPress={onPressRegister}>
