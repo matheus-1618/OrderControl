@@ -18,22 +18,36 @@ function ModificacaoItem(props) {
   return (
       <>
           <View style={styles.container}>
-              <ScrollView>
               <DataTable.Row style={styles.row}>
                 <DataTable.Cell style={styles.data} ><Text style={styles.fonte}>{modificacoes.data}</Text></DataTable.Cell>
                 <DataTable.Cell style={styles.hora}><Text style={styles.fonte}>{modificacoes.hora}</Text></DataTable.Cell> 
                 <DataTable.Cell style={styles.text}><Text style={styles.fonte}>{modificacoes.modificacao}</Text></DataTable.Cell>
                 <DataTable.Cell  style={styles.tipo}><Text style={styles.fonte}>{modificacoes.tipo}</Text></DataTable.Cell>
               </DataTable.Row>
-              </ScrollView>
               </View>
-
           <Divider />
       </>
   );
 }
 
+
 export default function Lista(props) {
+  const numberOfItemsPerPageList = [2, 3, 4];
+
+  const items = [
+    {
+      key: 1,
+      name: 'Page 1',
+    },
+    {
+      key: 2,
+      name: 'Page 2',
+    },
+    {
+      key: 3,
+      name: 'Page 3',
+    },
+  ];
   const { navigation } = props;
 
   const [getError, setGetError] = useState(false);
@@ -50,6 +64,14 @@ export default function Lista(props) {
       get('/modificacoes/list');
   }, [signal,signal1,signal2]);
 
+  const [page, setPage] = useState(0);
+  const [numberOfItemsPerPage, onItemsPerPageChange] = useState(numberOfItemsPerPageList[0]);
+  const from = page * numberOfItemsPerPage;
+
+
+  useEffect(() => {
+     setPage(0);
+  }, [numberOfItemsPerPage]);
   return (
       <>
       <View style={styles.title}>
@@ -76,17 +98,19 @@ export default function Lista(props) {
                               <DataTable.Title style={styles.text}>Modificação</DataTable.Title>
                               <DataTable.Title  style={styles.tipo}>Tipo</DataTable.Title>
                             </DataTable.Header>
+                            <ScrollView>
                               {map(response.body, (modificacoes) => <ModificacaoItem navigation={navigation} modificacoes={modificacoes} />)}
+                            </ScrollView>
                           <DataTable.Pagination
-                          page={1}
-                          numberOfPages={3}
-                          // onPageChange={(page) => setPage(page)}
-                          label="1-2 of 6"
-                          // optionsPerPage={optionsPerPage}
-                          // itemsPerPage={itemsPerPage}
-                          // setItemsPerPage={setItemsPerPage}
-                          showFastPagination
-                          optionsLabel={'Rows per page'}
+                            page={page}
+                            numberOfPages={Math.ceil(response.body.length / numberOfItemsPerPage)}
+                            onPageChange={page => setPage(page)}
+                            label={`${from + 1}-${Math.min((page + 1) * numberOfItemsPerPage,response.body.length)} de ${response.body.length}`}
+                            showFastPaginationControls
+                            numberOfItemsPerPageList={numberOfItemsPerPageList}
+                            numberOfItemsPerPage={numberOfItemsPerPage}
+                            onItemsPerPageChange={onItemsPerPageChange}
+                            selectPageDropdownLabel={'Linhas por página'}
                         />
                       </DataTable>
                     
