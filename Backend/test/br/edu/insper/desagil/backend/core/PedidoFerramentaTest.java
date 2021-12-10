@@ -35,6 +35,16 @@ class PedidoFerramentaTest {
 		assertEquals(3,ferramenta.getQuantidadeFerramenta("furadeira"));
 		assertEquals(3,ferramenta.getQuantidadeFerramenta("andaime"));
 	}
+	////////
+	@Test
+	public void testUrgenciaObservacao() {
+		Urgencia urgencia;
+		urgencia = Urgencia.ALTA;
+		ferramenta.setUrgencia(urgencia);
+		ferramenta.setObservacoes("Observação");
+		assertEquals(Urgencia.ALTA, ferramenta.getUrgencia());
+		assertEquals("Observação", ferramenta.getObservacoes());
+	}
 }
 
 
