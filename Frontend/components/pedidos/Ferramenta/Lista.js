@@ -82,6 +82,8 @@ export default function Lista(props) {
         get('/ferramenta/list');
     }, [signal]);
 
+    
+
 
     return (
         <>

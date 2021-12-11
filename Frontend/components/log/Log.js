@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { TouchableRipple, Title, Divider, ActivityIndicator, Text, Button, DataTable, Snackbar } from 'react-native-paper';
 
-import { Rounded, Icon, useSignal, useEmit, useEffect, useRequest, map } from '../../lib';
+import { useGlobal, useSignal, useEmit, useEffect, useRequest, map } from '../../lib';
 
 import settings from '../../settings.json';
 
@@ -59,6 +59,8 @@ export default function Lista(props) {
 
   const { get, response } = useRequest(settings.url);
 
+  const [notificacoes, setNotificacoes] = useGlobal("size");
+
   useEffect(() => {
       setGetError(true);
       get('/modificacoes/list');
@@ -77,6 +79,7 @@ export default function Lista(props) {
       <View style={styles.title}>
         <Title>Modificações</Title>
       </View>
+      <ScrollView>
           {response.running ? (
               <View style={styles.center}>
                   <ActivityIndicator size="large" />
@@ -98,9 +101,8 @@ export default function Lista(props) {
                               <DataTable.Title style={styles.text}>Modificação</DataTable.Title>
                               <DataTable.Title  style={styles.tipo}>Tipo</DataTable.Title>
                             </DataTable.Header>
-                            <ScrollView>
+                  
                               {map(response.body, (modificacoes) => <ModificacaoItem navigation={navigation} modificacoes={modificacoes} />)}
-                            </ScrollView>
                           <DataTable.Pagination
                             page={page}
                             numberOfPages={Math.ceil(response.body.length / numberOfItemsPerPage)}
@@ -123,6 +125,7 @@ export default function Lista(props) {
                   </View>
               )
           )}
+          </ScrollView>
       </>
   );
 }

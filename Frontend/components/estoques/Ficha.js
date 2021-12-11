@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Title, Portal, TextInput, HelperText, Dialog, Paragraph, Button, Snackbar } from 'react-native-paper';
 
-import { useEmit, useEffect, useRequest } from '../../lib';
+import { useEmit, useEffect, useRequest,useGlobal } from '../../lib';
 
 import settings from '../../settings.json';
 
@@ -32,12 +32,16 @@ export default function Ficha(props) {
     const [removeError, setRemoveError] = useState(false);
     const [removeVisible, setRemoveVisible] = useState(false);
 
-    const emit = useEmit('updated-estoques');
+    const [getSize, setGetSize] = useGlobal("size");
 
+    const emit = useEmit('updated-estoques');
 
     const { post, put, response: registerResponse } = useRequest(settings.url);
     const { del, response: removeResponse } = useRequest(settings.url);
 
+    function notificacao() {
+        setGetSize(getSize + 1);
+    }
 
     function nomeInvalid(nome) {
         return !nome.trim();
@@ -86,11 +90,12 @@ export default function Ficha(props) {
         };
         if (estoque) {
             const alteration = {
-                modificacao: "Alteração do Estoque " + estoque.nome,
+                modificacao: "Alteração do Estoque ",
                 data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
                 tipo:"Estoque",
                 hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
             };
+            notificacao()
             post('/modificacoes',alteration)
             body.key = estoque.key;
             put('/estoque', body);
@@ -102,6 +107,7 @@ export default function Ficha(props) {
                 tipo:"Estoque",
                 hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
             };
+            notificacao()
             post('/modificacoes',newOne)
         }
     }
@@ -119,8 +125,8 @@ export default function Ficha(props) {
             tipo:"Estoque",
             hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
         };
+        notificacao()
         post('/modificacoes',newOne)
-        
         del(`/estoque?key=${estoque.key}`);
     }
 

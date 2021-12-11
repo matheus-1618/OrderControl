@@ -1,16 +1,18 @@
-import React from 'react';
+import React,{ useState } from 'react';
 
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import { View } from 'react-native';
 
-import { useTheme,IconButton,Avatar,Title } from 'react-native-paper';
+import { useTheme,IconButton,Avatar,Badge } from 'react-native-paper';
 
 import Pedidos from './pedidos/Main'
 
 import styles from '../styles/Main.json';
 
 console.reportErrorsAsExceptions = false;
+
+import { useGlobal } from '../lib';
 
 import Pedido from './pedidos/Main';
 import Estoque from './estoques/Main';
@@ -25,11 +27,18 @@ const Drawer = createDrawerNavigator();
 
 export default function Main(props) {
   const theme = useTheme();
+  const { navigation } = props;
+  const [getSize, setGetSize] = useGlobal("size");
+
+  function notificacao() {
+    setGetSize(0);
+}
 
   const headerStyle = {
     ...theme.screenOptions.headerStyle,
     ...styles.header,
     };
+
 
   const screenOptions = {
     ...theme.screenOptions,
@@ -40,7 +49,10 @@ export default function Main(props) {
               <View style={styles.center}>
                   <Avatar.Image source={{uri: 'https://gust-production.s3.amazonaws.com/uploads/startup/panoramic_image/887508/connectdata_marca_1_3.jpg' }} size={35}/>
               </View>
-              <IconButton icon="bell" color="gray" onPress={() => {navigation.navigate('Notificacao')}} />
+              <IconButton icon="bell" animated={true} color="gray" onPress={() => {navigation.navigate('Notificacao'),notificacao()}} />
+              <View style={styles.badge}>
+              {getSize>0 && (<Badge color="blue" style={styles.size} size={17}>{getSize}</Badge>)}
+              </View>
             </View>
         );
     },

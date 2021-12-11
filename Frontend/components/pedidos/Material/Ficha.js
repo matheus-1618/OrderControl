@@ -9,7 +9,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import {  Switch,TouchableRipple, Divider, List, Text, Card, IconButton, ActivityIndicator, Title,Colors, TextInput, HelperText, Button, Snackbar, Portal, Dialog, Paragraph } from 'react-native-paper';
 
-import {  Icon, DropDown, DateTimePicker, useEmit, useEffect, map, useRequest } from '../../../lib';
+import {  Icon, DropDown, useGlobal, useEmit, useEffect, map, useRequest } from '../../../lib';
 
 import settings from '../../../settings.json';
 
@@ -48,6 +48,19 @@ export default function Ficha(props) {
     const [areia, setAreia] = useState(pedido ? pedido.materiais.areia : 0);
     const [outros, setOutros] = useState(pedido ? pedido.materiais.outros : 0);
 
+    const [getSize, setGetSize] = useGlobal("size");
+
+    const [nomeMaterial, setNomeMaterial] = useState(pedido ? pedido.nomeMaterial : '');
+    const [nomeMaterialError, setNomeMaterialError] = useState(typeof nomeMaterial !== 'string' || !nomeMaterial.trim());
+    const [codigoMaterial, setCodigoMaterial] = useState(pedido ? pedido.codigoMaterial : '');
+    const [codigoMaterialError, setCodigoMaterialError] = useState(typeof codigoMaterial !== 'string' || !codigoMaterial.trim());
+    const [codigoNCM, setCodigoNCM] = useState(pedido ? pedido.codigoNCM : '');
+    const [codigoNCMError, setCodigoNCMError] = useState(typeof codigoNCM !== 'string' || !codigoNCM.trim());
+    const [codigoERP, setCodigoERP] = useState(pedido ? pedido.codigoERP : '');
+    const [codigoERPError, setCodigoERPError] = useState(typeof codigoERP !== 'string' || !codigoERP.trim());
+    const [descricao, setDescricao] = useState(pedido ? pedido.descricao : '');
+    const [descricaoError, setDescricaoError] = useState(typeof descricao !== 'string' || !descricao.trim());
+
     const [estoqueKeys, setEstoqueKeys] = useState(pedido && pedido.chavesEstoques instanceof Array ? pedido.chavesEstoques : []);
 
     const emit = useEmit('updated-materiais');
@@ -57,6 +70,10 @@ export default function Ficha(props) {
 
     const { get: pedidoEstoqueGet, skip: pedidoEstoqueSkip, response: pedidoEstoqueResponse } = useRequest(settings.url);
     const { get: outroEstoqueGet, response: outroEstoqueResponse } = useRequest(settings.url);
+
+    function notificacao() {
+        setGetSize(getSize + 1);
+    }
 
     function getPedidoEstoque() {
         if (estoqueKeys.length === 0) {
@@ -160,6 +177,11 @@ export default function Ficha(props) {
             observacoes: observacoes,
             materiais:{"cimento":cimento,"areia":areia,
             "brita":brita,"cal":cal,"argamassa":argamassa,"outros":outros},
+            nomeMaterial:nomeMaterial,
+            codigoMaterial:codigoMaterial,
+            codigoNCM:codigoNCM,
+            codigoERP:codigoERP,
+            descricao:descricao,
             chavesEstoques: estoqueKeys,
         };
         
@@ -170,6 +192,7 @@ export default function Ficha(props) {
                 tipo:"Material",
                 hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
             };
+            notificacao()
             post('/modificacoes',alteration)
             body.id = pedido.id;
             put('/material', body);
@@ -181,6 +204,7 @@ export default function Ficha(props) {
                 tipo:"Material",
                 hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
             };
+            notificacao()
             post('/modificacoes',newOne)
         }
     }
@@ -198,6 +222,7 @@ export default function Ficha(props) {
             tipo:"Material",
             hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
         };
+        notificacao()
         post('/modificacoes',newOne)
         del(`/material?id=${pedido.id}`);
     }
@@ -221,6 +246,31 @@ export default function Ficha(props) {
     function onChangeTextObs(text) {
         setObservacao(text);
         setObservacaoError(!text.trim());
+    }
+
+    function onChangeTextNome(text) {
+        setNomeMaterial(text);
+        setNomeMaterialError(!text.trim());
+    }
+
+    function onChangeTextCodigo(text) {
+        setCodigoMaterial(text);
+        setCodigoMaterialError(!text.trim());
+    }
+
+    function onChangeTextERP(text) {
+        setCodigoERP(text);
+        setCodigoERPError(!text.trim());
+    }
+
+    function onChangeTextNCM(text) {
+        setCodigoNCM(text);
+        setCodigoNCMError(!text.trim());
+    }
+
+    function onChangeTextDescricao(text) {
+        setDescricao(text);
+        setDescricaoError(text.trim());
     }
 
     return (
@@ -326,7 +376,7 @@ export default function Ficha(props) {
                                                                 {map(outroEstoqueResponse.body, (estoque) => <EstoqueItem estoque={estoque} onPress={onConfirmAddEstoque} />)}
                                                             </>
                                                         ) : (
-                                                            <Paragraph>Todos os estoques cadastraods já receberam a solicitação.</Paragraph>
+                                                            <Paragraph>Todos os estoques cadastrados já receberam a solicitação.</Paragraph>
                                                         )
                                                     ) : (
                                                         <Paragraph>Não foi possível conectar ao servidor.</Paragraph>
@@ -359,13 +409,32 @@ export default function Ficha(props) {
                         </HelperText>
                     )}
 
-                    {outros>0 && ( <TextInput style={styles.input} label="Nome do material" />)}
-                    {outros>0 && ( <TextInput style={styles.input} label="Código do produto" />)}
-                    {outros>0 && ( <TextInput style={styles.input} label="Código NCM" />)}
-                    {outros>0 && ( <TextInput style={styles.input} label="Código ERP" />)}
-                    {outros>0 && ( <TextInput style={styles.input} label="Descrição do material" />)}
+                    {outros>0 && ( <TextInput style={styles.input} label="Nome do material"  value={nomeMaterial} error={nomeMaterialError} onChangeText={onChangeTextNome}/>)}
+                    {nomeMaterialError && outros>0 && (
+                        <HelperText style={styles.error} type="error">
+                           Necessário o nome do Material
+                        </HelperText>
+                    )}
+                    {outros>0 && ( <TextInput style={styles.input} label="Código do produto"  value={codigoMaterial} error={codigoMaterialError} onChangeText={onChangeTextCodigo} />)}
+                    {codigoMaterialError && outros>0 && (
+                        <HelperText style={styles.error} type="error">
+                            O código do Material é um número inteiro
+                        </HelperText>
+                    )}
+                    {outros>0 && ( <TextInput style={styles.input} label="Código NCM"  value={codigoNCM} error={codigoNCMError} onChangeText={onChangeTextNCM} />)}
+                    {codigoNCMError && outros>0 && (
+                        <HelperText style={styles.error} type="error">
+                            O código NCM é um número inteiro
+                        </HelperText>
+                    )}
+                    {outros>0 && ( <TextInput style={styles.input} label="Código ERP"  value={codigoERP} error={codigoERPError} onChangeText={onChangeTextERP}/>)}
+                    {codigoERPError && outros>0 && (
+                        <HelperText style={styles.error} type="error">
+                            O código ERP é um número inteiro
+                        </HelperText>
+                    )}
+                    {outros>0 && ( <TextInput style={styles.input} label="Descrição do material"  value={descricao} error={descricaoError} onChangeText={onChangeTextDescricao}/>)}
 
-                       
 
                     <View style={styles.buttonContainer}>
                         <Button style={styles.button} mode="outlined" disabled={registerResponse.running || removeResponse.running} loading={registerResponse.running} onPress={onPressRegister}>

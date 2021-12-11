@@ -4,6 +4,7 @@ import { View, StyleSheet } from 'react-native';
 
 import { List } from 'react-native-paper';
 
+
 import {
     useTheme,
     Avatar,
@@ -36,7 +37,7 @@ export function DrawerContent(props) {
     //const onToggleSwitch = () => setMode(!mode);
 
     const handlePress = () => setExpanded(!expanded);
-    const onToggleSwitch = () => setDark(!dark);
+    const onToggleSwitch = () => setDark();
   
 
     return( 
