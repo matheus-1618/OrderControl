@@ -37,24 +37,20 @@ item {
 paragraph {
     left: 500px;
 }
-
-cardTitle {
-    margin: 5px 40px 5px;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items:flex-start;
+title {
+    font-size: 19px;
 }
-
-urgenciaIcon {
-    width: 40px;
-    height:40px;
+cardTitle {
+    flex-direction: row;
+    justify-content:flex-start;
+    align-items:flex-start;
 }
 
 chipContainer {
     flex-grow: 1;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: center;    
+    justify-content: flex-start;    
 }
 
 chip {

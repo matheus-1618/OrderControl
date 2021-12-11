@@ -19,6 +19,12 @@ title {
     padding: 5px;
 }
 
+
+modificacao {
+    align-items: center;
+    padding: 5px;
+}
+
 item {
     flex-direction: row;
     align-items: center;

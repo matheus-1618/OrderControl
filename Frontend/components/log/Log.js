@@ -4,7 +4,7 @@ import { View, ScrollView } from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { TouchableRipple, Title, Divider, ActivityIndicator, Text, Button, DataTable, Snackbar } from 'react-native-paper';
+import {Title, Divider, ActivityIndicator, Text, Button, DataTable, Snackbar } from 'react-native-paper';
 
 import { useGlobal, useSignal, useEmit, useEffect, useRequest, map } from '../../lib';
 
@@ -29,7 +29,6 @@ function ModificacaoItem(props) {
       </>
   );
 }
-
 
 export default function Lista(props) {
   const numberOfItemsPerPageList = [2, 3, 4];
@@ -89,31 +88,23 @@ export default function Lista(props) {
                   response.body === null || response.body.length === 0 ? (
                       <View style={styles.center}>
                           <Text>
-                              Nenhuma alteração notificada 
+                              Nenhuma modificação notificada 
                           </Text>
                       </View>
                   ) : (
                       
                          <DataTable>
+                           <View style={styles.modificacao}>
+                            <Text>{response.body.length} modificações catalogadas</Text>
+                            </View>
                             <DataTable.Header>
                               <DataTable.Title sortDirection="ascending" style={styles.data}>Data</DataTable.Title>
                               <DataTable.Title style={styles.hora}>Hora</DataTable.Title>
                               <DataTable.Title style={styles.text}>Modificação</DataTable.Title>
                               <DataTable.Title  style={styles.tipo}>Tipo</DataTable.Title>
                             </DataTable.Header>
-                  
                               {map(response.body, (modificacoes) => <ModificacaoItem navigation={navigation} modificacoes={modificacoes} />)}
-                          <DataTable.Pagination
-                            page={page}
-                            numberOfPages={Math.ceil(response.body.length / numberOfItemsPerPage)}
-                            onPageChange={page => setPage(page)}
-                            label={`${from + 1}-${Math.min((page + 1) * numberOfItemsPerPage,response.body.length)} de ${response.body.length}`}
-                            showFastPaginationControls
-                            numberOfItemsPerPageList={numberOfItemsPerPageList}
-                            numberOfItemsPerPage={numberOfItemsPerPage}
-                            onItemsPerPageChange={onItemsPerPageChange}
-                            selectPageDropdownLabel={'Linhas por página'}
-                        />
+                         
                       </DataTable>
                     
                   )

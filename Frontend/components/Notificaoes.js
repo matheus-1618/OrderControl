@@ -6,35 +6,31 @@ import { View, ScrollView } from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { Card, Divider, ActivityIndicator, Text, Button, Paragraph,Snackbar } from 'react-native-paper';
+import { Card, Divider, ActivityIndicator, Text, Button, Paragraph,Snackbar,Avatar } from 'react-native-paper';
 
 import { Icon, useSignal, useEmit, useEffect, useRequest, map } from '../lib';
 
 import settings from '../settings.json';
 
-function ModificacaoItem(props) {
-  const { modificacoes } = props;
+function NotificacaoItem(props) {
+  const { notificacoes } = props;
   return (
       <>
           <Card style={styles.itemContainer}>
-              <View style={styles.cardTitle}>
-              <View style={styles.cardheader}>
-              <Card.Title title={modificacoes.modificacao}  />
-              <View style={styles.urgenciaIcon}>
-                 
-              {modificacoes.tipo == "Material" ? (
-                    <Icon name="wall" size={40} color="red"/>
-                  ) :  ( modificacoes.tipo == "Ferramenta" ?
-                  (<Icon name="hammer" size={40} color="red"/>) : 
-                  (<Icon name="barn" size={40} color="red"/>))
+             
+              <View style={styles.cardTitle}> 
+              {notificacoes.tipo == "Material" ? (
+                  <Card.Title title={notificacoes.notificacao} titleStyle={styles.title} left={(props) => <Avatar.Icon {...props} icon="wall" />}  />
+                   
+                  ) :  ( notificacoes.tipo == "Ferramenta" ?
+                  (<Card.Title title={notificacoes.notificacao} titleStyle={styles.title} left={(props) => <Avatar.Icon {...props} icon="hammer" />}  />) : 
+                  (<Card.Title title={notificacoes.notificacao} titleStyle={styles.title} left={(props) => <Avatar.Icon {...props} icon="barn" />}  />))
                   }
-              </View>
-              </View>
               </View>
             
               <Card.Content styles={styles.observacoes}>
               <View style={styles.chipContainer}>
-              <Paragraph>Data:{modificacoes.data} {modificacoes.hora}  </Paragraph>
+              <Paragraph>Data: {notificacoes.data} {notificacoes.hora}  </Paragraph>
               </View>
               </Card.Content>
           </Card>
@@ -48,6 +44,8 @@ export default function Lista(props) {
   const { navigation } = props;
 
   const [getError, setGetError] = useState(false);
+  const [removeVisible, setRemoveVisible] = useState(false);
+  const [removeError, setRemoveError] = useState(false);
 
   const signal = useSignal('updated-estoques');
   const signal1 = useSignal('updated-materiais');
@@ -56,15 +54,36 @@ export default function Lista(props) {
   const emit = useEmit('updated-ferramentas');
 
   const { get, response } = useRequest(settings.url);
+  const { del, response: removeResponse } = useRequest(settings.url);
 
+  function onDismissRemove() {
+    setRemoveVisible(false);
+}
+
+  function onConfirmRemove() {
+    onDismissRemove();
+    setRemoveError(true);
+    del(`/notificacoes/list`);
+}
 
   useEffect(() => {
       setGetError(true);
-      get('/modificacoes/list');
+      get('/notificacoes/list');
   }, [signal,signal1,signal2]);
+
+  useEffect(() => {
+    if ((removeResponse.success && removeResponse.body !== null)) {
+        emit();
+        navigation.navigate('Pedidos');
+    } 
+}, [removeResponse]);
 
     return (
         <>
+        <Button mode="contained" disabled={removeResponse.running} loading={removeResponse.running} onPress={onConfirmRemove}>
+        Limpar notificações
+        </Button>
+        <ScrollView>
             {response.running ? (
                 <View style={styles.center}>
                     <ActivityIndicator size="large" />
@@ -78,11 +97,12 @@ export default function Lista(props) {
                             </Text>
                         </View>
                     ) : (
-                        <ScrollView>
+                        <View>
                             <SafeAreaView style={styles.container}>
-                            {map(response.body, (modificacoes) => <ModificacaoItem navigation={navigation} modificacoes={modificacoes} />)}
+                            {map(response.body, (notificacoes) => <NotificacaoItem navigation={navigation} notificacoes={notificacoes} />)}
                             </SafeAreaView>
-                        </ScrollView>
+    
+                        </View>
                     )
                 ) : (
                     <View style={styles.center}>
@@ -98,6 +118,7 @@ export default function Lista(props) {
                     {response.body.status === 0 ? 'Não foi possível conectar ao servidor' : `ERROR ${response.body.status}: ${response.body.message}`}
                 </Snackbar>
                 )}
+                </ScrollView>
         </>
     );
 }

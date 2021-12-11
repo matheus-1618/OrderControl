@@ -95,8 +95,15 @@ export default function Ficha(props) {
                 tipo:"Estoque",
                 hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
             };
+            const notification = {
+                notificacao: "Estoque "+estoque.nome+" alterado" ,
+                data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
+                tipo:"Estoque",
+                hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
+            };
             notificacao()
             post('/modificacoes',alteration)
+            post('/notificacoes',notification)
             body.key = estoque.key;
             put('/estoque', body);
         } else {
@@ -107,7 +114,14 @@ export default function Ficha(props) {
                 tipo:"Estoque",
                 hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
             };
+            const newNotification = {
+                notificacao: "Novo estoque cadastrado",
+                data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
+                tipo:"Estoque",
+                hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
+            };
             notificacao()
+            post('/notificacoes',newNotification)
             post('/modificacoes',newOne)
         }
     }
@@ -125,8 +139,15 @@ export default function Ficha(props) {
             tipo:"Estoque",
             hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
         };
+        const newNotification = {
+            notificacao: "Estoque " + estoque.nome +" removido",
+            data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
+            tipo:"Estoque",
+            hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
+        };
         notificacao()
         post('/modificacoes',newOne)
+        post('/notificacoes',newNotification)
         del(`/estoque?key=${estoque.key}`);
     }
 

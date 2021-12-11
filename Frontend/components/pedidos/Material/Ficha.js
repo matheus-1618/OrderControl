@@ -52,11 +52,11 @@ export default function Ficha(props) {
 
     const [nomeMaterial, setNomeMaterial] = useState(pedido ? pedido.nomeMaterial : '');
     const [nomeMaterialError, setNomeMaterialError] = useState(typeof nomeMaterial !== 'string' || !nomeMaterial.trim());
-    const [codigoMaterial, setCodigoMaterial] = useState(pedido ? pedido.codigoMaterial : '');
+    const [codigoMaterial, setCodigoMaterial] = useState(pedido ? pedido.codigoMaterial : 0);
     const [codigoMaterialError, setCodigoMaterialError] = useState(typeof codigoMaterial !== 'string' || !codigoMaterial.trim());
-    const [codigoNCM, setCodigoNCM] = useState(pedido ? pedido.codigoNCM : '');
+    const [codigoNCM, setCodigoNCM] = useState(pedido ? pedido.codigoNCM : 0);
     const [codigoNCMError, setCodigoNCMError] = useState(typeof codigoNCM !== 'string' || !codigoNCM.trim());
-    const [codigoERP, setCodigoERP] = useState(pedido ? pedido.codigoERP : '');
+    const [codigoERP, setCodigoERP] = useState(pedido ? pedido.codigoERP : 0);
     const [codigoERPError, setCodigoERPError] = useState(typeof codigoERP !== 'string' || !codigoERP.trim());
     const [descricao, setDescricao] = useState(pedido ? pedido.descricao : '');
     const [descricaoError, setDescricaoError] = useState(typeof descricao !== 'string' || !descricao.trim());
@@ -192,8 +192,15 @@ export default function Ficha(props) {
                 tipo:"Material",
                 hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
             };
+            const notification = {
+                notificacao: "Pedido #"+ pedido.id +" foi alterado",
+                data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
+                tipo:"Material",
+                hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
+            };
             notificacao()
             post('/modificacoes',alteration)
+            post('/notificacoes',notification)
             body.id = pedido.id;
             put('/material', body);
         } else {
@@ -204,8 +211,15 @@ export default function Ficha(props) {
                 tipo:"Material",
                 hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
             };
+            const newNotification = {
+                notificacao: "Pedido de material solicitado",
+                data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
+                tipo:"Material",
+                hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
+            };
             notificacao()
             post('/modificacoes',newOne)
+            post('/notificacoes',newNotification)
         }
     }
 
@@ -222,8 +236,15 @@ export default function Ficha(props) {
             tipo:"Material",
             hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
         };
+        const newNotification = {
+            notificacao: "Pedido #" + pedido.id +" excluído",
+            data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
+            tipo:"Material",
+            hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
+        };
         notificacao()
         post('/modificacoes',newOne)
+        post('/notificacoes',newNotification)
         del(`/material?id=${pedido.id}`);
     }
 
@@ -437,7 +458,7 @@ export default function Ficha(props) {
 
 
                     <View style={styles.buttonContainer}>
-                        <Button style={styles.button} mode="outlined" disabled={registerResponse.running || removeResponse.running} loading={registerResponse.running} onPress={onPressRegister}>
+                        <Button style={styles.button} mode="contained" color="#72bcd4" disabled={registerResponse.running || removeResponse.running} loading={registerResponse.running} onPress={onPressRegister}>
                             {pedido ? 'Salvar' : 'Solicitar Pedido'}
                         </Button>
                         {pedido && (
