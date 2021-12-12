@@ -47,7 +47,7 @@ export default function Main(props) {
             <View style={headerStyle}>
               <IconButton icon="menu" color="gray" onPress={navigation.openDrawer} />
               <View style={styles.center}>
-                  <Avatar.Image source={{uri: 'https://gust-production.s3.amazonaws.com/uploads/startup/panoramic_image/887508/connectdata_marca_1_3.jpg' }} size={35}/>
+                  <Avatar.Image source={{uri: 'https://gust-production.s3.amazonaws.com/uploads/startup/panoramic_image/887508/connectdata_marca_1_3.jpg'}} size={35} />
               </View>
               <IconButton icon="bell" animated={true} color="gray" onPress={() => {navigation.navigate('Notificacao'),notificacao()}} />
               <View style={styles.badge}>

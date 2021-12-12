@@ -2,7 +2,7 @@ import styles from '../styles/Notificaoes.json';
 
 import React, { useState } from 'react';
 
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView,ImageBackground } from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -95,6 +95,8 @@ export default function Lista(props) {
                             <Text>
                                 Nenhuma nova notificação
                             </Text>
+                            
+                           
                         </View>
                     ) : (
                         <View>

@@ -30,7 +30,7 @@ text{
 }
 switchContainer {
     flex-direction: row;
-
+    justify-content: space-between;
 }
 
 urgenciaLine{
@@ -44,7 +44,7 @@ urgenciaIcon{
 }
 
 switch {
-    margin-left: 170px;
+    right: 20px;
 }
 
 card {
