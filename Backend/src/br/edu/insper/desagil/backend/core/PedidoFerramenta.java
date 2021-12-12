@@ -13,9 +13,9 @@ public class PedidoFerramenta extends FirestoreObject {
 	private String observacoes;
 	private Map<String,Integer> ferramentas;
 	private String nomeFerramenta;
-	private Integer codigoFerramenta;
-	private Integer codigoNCM;
-	private Integer codigoERP;
+	private String codigoFerramenta;
+	private String codigoNCM;
+	private String codigoERP;
 	private String descricao;
 	private List<String> chavesEstoques;
 	
@@ -23,14 +23,6 @@ public class PedidoFerramenta extends FirestoreObject {
 	public PedidoFerramenta () {
 		this.id = Integer.toString(idCount);
 		idCount ++;
-		this.ferramentas = new HashMap<String,Integer>(){{
-			put("andaime",0);
-			put("betoneira",0);
-			put("bomba",0);
-			put("esmerilhadeira",0);
-			put("furadeira",0);
-			put("outros",0);
-		}};
 	}
 	
 	@Override
@@ -100,27 +92,27 @@ public class PedidoFerramenta extends FirestoreObject {
 		this.nomeFerramenta = nomeFerramenta;
 	}
 
-	public Integer getCodigoFerramenta() {
+	public String getCodigoFerramenta() {
 		return codigoFerramenta;
 	}
 
-	public void setCodigoFerramenta(Integer codigoFerramenta) {
+	public void setCodigoFerramenta(String codigoFerramenta) {
 		this.codigoFerramenta = codigoFerramenta;
 	}
 
-	public Integer getCodigoNCM() {
+	public String getCodigoNCM() {
 		return codigoNCM;
 	}
 
-	public void setCodigoNCM(Integer codigoNCM) {
+	public void setCodigoNCM(String codigoNCM) {
 		this.codigoNCM = codigoNCM;
 	}
 
-	public Integer getCodigoERP() {
+	public String getCodigoERP() {
 		return codigoERP;
 	}
 
-	public void setCodigoERP(Integer codigoERP) {
+	public void setCodigoERP(String codigoERP) {
 		this.codigoERP = codigoERP;
 	}
 

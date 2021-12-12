@@ -20,13 +20,13 @@ export default function Ficha(props) {
 
 
     const [nome, setNome] = useState(estoque ? estoque.nome : '');
-    const [nomeError, setNomeError] = useState(typeof nome !== 'string' || nomeInvalid(nome));
+    const [nomeError, setNomeError] = useState(typeof nome !== 'string');
     const [empresa, setEmpresa] = useState(estoque ? estoque.empresa : '');
-    const [empresaError, setEmpresaError] = useState(typeof empresa !== 'string' || empresaInvalid(empresa));
+    const [empresaError, setEmpresaError] = useState(typeof empresa !== 'string');
     const [empreedimento, setEmpreedimento] = useState(estoque ? estoque.empreedimento : '');
-    const [empreedimentoError, setEmpreedimentoError] = useState(typeof empreedimento !== 'string' || empreedimentoInvalid(empreedimento));
+    const [empreedimentoError, setEmpreedimentoError] = useState(typeof empreedimento !== 'string');
     const [localizacao, setLocalizacao] = useState(estoque ? estoque.localizacao : '');
-    const [localizacaoError, setLocalizacaoError] = useState(typeof localizacao !== 'string' || localizacaoInvalid(localizacao));
+    const [localizacaoError, setLocalizacaoError] = useState(typeof localizacao !== 'string');
 
     const [registerError, setRegisterError] = useState(false);
     const [removeError, setRemoveError] = useState(false);
@@ -62,67 +62,77 @@ export default function Ficha(props) {
 
     function onChangeTextNome(text) {
         setNome(text);
-        setNomeError(nomeInvalid(text));
     }
 
     function onChangeTextEmpresa(text) {
         setEmpresa(text);
-        setEmpresaError(empresaInvalid(text));
     }
 
     function onChangeTextEmpreedimento(text) {
-        setEmpreedimento(text);
-        setEmpreedimentoError(empreedimentoInvalid(text));
+        setEmpreedimento(text);   
     }
 
     function onChangeTextLocalizacao(text) {
         setLocalizacao(text);
-        setLocalizacaoError(localizacaoInvalid(text));
     }
 
     function onPressRegister() {
         setRegisterError(true);
-        const body = {
-            nome: nome,
-            empresa: empresa,
-            empreedimento: empreedimento,
-            localizacao: localizacao,
-        };
-        if (estoque) {
-            const alteration = {
-                modificacao: "Alteração do Estoque ",
-                data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
-                tipo:"Estoque",
-                hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
+        if (nomeInvalid(nome)){
+            setNomeError(nomeInvalid(nome));
+        }
+        else if (empresaInvalid(empresa)) {
+            setEmpresaError(empresaInvalid(empresa));
+        }
+        else if ( empreedimentoInvalid(empreedimento)) {
+            setEmpreedimentoError(empreedimentoInvalid(empreedimento));
+        }
+        else if (localizacaoInvalid(localizacao)) {
+            setLocalizacaoError(localizacaoInvalid(localizacao));
+        }
+        else {
+            const body = {
+                nome: nome,
+                empresa: empresa,
+                empreedimento: empreedimento,
+                localizacao: localizacao,
             };
-            const notification = {
-                notificacao: "Estoque "+estoque.nome+" alterado" ,
-                data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
-                tipo:"Estoque",
-                hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
-            };
-            notificacao()
-            post('/modificacoes',alteration)
-            post('/notificacoes',notification)
-            body.key = estoque.key;
-            put('/estoque', body);
-        } else {
-            post('/estoque', body);
-            const newOne = {
-                modificacao: "Cadastro de Estoque",
-                data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
-                tipo:"Estoque",
-                hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
-            };
-            const newNotification = {
-                notificacao: "Novo estoque cadastrado",
-                data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
-                tipo:"Estoque",
-                hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
-            };
-            notificacao()
-            post('/notificacoes',newNotification)
-            post('/modificacoes',newOne)
+            if (estoque) {
+                const alteration = {
+                    modificacao: "Alteração do Estoque ",
+                    data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
+                    tipo:"Estoque",
+                    hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
+                };
+                const notification = {
+                    notificacao: "Estoque "+estoque.nome+" alterado" ,
+                    data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
+                    tipo:"Estoque",
+                    hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
+                };
+                notificacao()
+                post('/modificacoes',alteration)
+                post('/notificacoes',notification)
+                body.key = estoque.key;
+                put('/estoque', body);
+            } else {
+                post('/estoque', body);
+                const newOne = {
+                    modificacao: "Cadastro de Estoque",
+                    data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
+                    tipo:"Estoque",
+                    hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
+                };
+                const newNotification = {
+                    notificacao: "Novo estoque cadastrado",
+                    data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
+                    tipo:"Estoque",
+                    hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
+                };
+                notificacao()
+                post('/notificacoes',newNotification)
+                post('/modificacoes',newOne)
+                }
         }
     }
 
@@ -190,7 +200,7 @@ export default function Ficha(props) {
                     <TextInput style={styles.input} label="Localização" value={localizacao} error={localizacaoError} onChangeText={onChangeTextLocalizacao} />
                     {localizacaoError && (
                         <HelperText style={styles.error} type="error">
-                            O campo empreedimento é obrigatório
+                            O campo localização é obrigatório
                         </HelperText>
                     )}
                     <View style={styles.buttonContainer}>

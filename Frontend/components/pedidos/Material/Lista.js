@@ -37,9 +37,7 @@ function PedidoItem(props) {
                 <Card.Content styles={styles.observacoes}>
                 <Paragraph>Solicitações:</Paragraph>
                 <View style={styles.chipContainer}>
-                
                 </View>
-
                     <View style={styles.chipContainer}>
                         {pedido.materiais.brita != 0 &&
                             (<Chip style={styles.chip} selectedColor="blue" icon="wall">Brita {pedido.materiais.brita}x</Chip>)}
@@ -53,7 +51,6 @@ function PedidoItem(props) {
                             (<Chip style={styles.chip} selectedColor="blue" icon="nut">Areia {pedido.materiais.areia}x</Chip>)}
                         {pedido.materiais.outros != 0 &&
                             (<Chip style={styles.chip} selectedColor="blue" icon="help-circle">Outros {pedido.materiais.outros}x</Chip>)}
-       
                     </View>   
                 </Card.Content>
                 <Card.Actions>
@@ -83,7 +80,6 @@ export default function Lista(props) {
 
     }, [signal]);
 
-
     return (
         <>
             {response.running ? (
@@ -104,7 +100,6 @@ export default function Lista(props) {
                     ) : (
                         <ScrollView>
                             <SafeAreaView style={styles.container}>
-                                
                                 {map(response.body, (pedido) => <PedidoItem navigation={navigation} pedido={pedido} />)}
                             </SafeAreaView>
                         </ScrollView>

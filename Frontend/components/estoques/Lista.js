@@ -4,7 +4,7 @@ import { View, ScrollView } from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { TouchableRipple, Title, Divider, ActivityIndicator, Text, Button, FAB, Snackbar } from 'react-native-paper';
+import { TouchableRipple, Title, Divider, ActivityIndicator, Text, Button, FAB, Snackbar,Avatar } from 'react-native-paper';
 
 import { Rounded, Icon, useSignal, useEmit, useEffect, useRequest, map } from '../../lib';
 
@@ -20,7 +20,7 @@ function EstoqueItem(props) {
                 <View style={styles.item}>
                     <Rounded>
                         <View style={styles.photoContainer}>
-                            <Icon style={styles.icon} name="barn"  />
+                            <Avatar.Icon  icon="barn" size={50}  />
                         </View>
                     </Rounded>
                     <Title style={styles.name}>

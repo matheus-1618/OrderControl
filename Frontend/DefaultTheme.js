@@ -7,7 +7,7 @@ export default {
         primary: '#2385A2',
         accent: '#03dac4',
         background: '#f6f6f6',
-        surface: '#f5f5f5',
+        surface: '#ffffff',
         card: 'rgb(255, 255, 255)',
         error: '#B00020',
         text: '#000000',

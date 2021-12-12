@@ -35,7 +35,6 @@ export default function Ficha(props) {
 
     const [urgencia, setUrgencia] = useState(pedido ? pedido.urgencia : false);
     const [observacoes, setObservacao] = useState(pedido ? pedido.observacoes : '');
-    const [observacoesError, setObservacaoError] = useState(typeof observacoes !== 'string' || !observacoes.trim());
     const [registerError, setRegisterError] = useState(false);
     const [removeError, setRemoveError] = useState(false);
     const [addVisible, setAddVisible] = useState(false);
@@ -51,15 +50,15 @@ export default function Ficha(props) {
     const [getSize, setGetSize] = useGlobal("size");
 
     const [nomeMaterial, setNomeMaterial] = useState(pedido ? pedido.nomeMaterial : '');
-    const [nomeMaterialError, setNomeMaterialError] = useState(typeof nomeMaterial !== 'string' || !nomeMaterial.trim());
-    const [codigoMaterial, setCodigoMaterial] = useState(pedido ? pedido.codigoMaterial : 0);
-    const [codigoMaterialError, setCodigoMaterialError] = useState(typeof codigoMaterial !== 'string' || !codigoMaterial.trim());
-    const [codigoNCM, setCodigoNCM] = useState(pedido ? pedido.codigoNCM : 0);
-    const [codigoNCMError, setCodigoNCMError] = useState(typeof codigoNCM !== 'string' || !codigoNCM.trim());
-    const [codigoERP, setCodigoERP] = useState(pedido ? pedido.codigoERP : 0);
-    const [codigoERPError, setCodigoERPError] = useState(typeof codigoERP !== 'string' || !codigoERP.trim());
+    const [nomeMaterialError, setNomeMaterialError] = useState(typeof nomeMaterial !== 'string');
+    const [codigoMaterial, setCodigoMaterial] = useState(pedido ? pedido.codigoMaterial : '');
+    const [codigoMaterialError, setCodigoMaterialError] = useState(typeof codigoMaterial !== 'string');
+    const [codigoNCM, setCodigoNCM] = useState(pedido ? pedido.codigoNCM : '');
+    const [codigoNCMError, setCodigoNCMError] = useState(typeof codigoNCM !== 'string');
+    const [codigoERP, setCodigoERP] = useState(pedido ? pedido.codigoERP : '');
+    const [codigoERPError, setCodigoERPError] = useState(typeof codigoERP !== 'string');
     const [descricao, setDescricao] = useState(pedido ? pedido.descricao : '');
-    const [descricaoError, setDescricaoError] = useState(typeof descricao !== 'string' || !descricao.trim());
+    const [descricaoError, setDescricaoError] = useState(typeof descricao !== 'string');
 
     const [estoqueKeys, setEstoqueKeys] = useState(pedido && pedido.chavesEstoques instanceof Array ? pedido.chavesEstoques : []);
 
@@ -170,56 +169,114 @@ export default function Ficha(props) {
         setOutros(outros + 1);
     }
 
+    function onChangeTextObs(text) {
+        setObservacao(text);
+    }
+
+    function onChangeTextNome(text) {
+        setNomeMaterial(text);
+        setNomeMaterialError(!nomeMaterial.trim());
+    }
+
+    function onChangeTextCodigo(text) {
+        setCodigoMaterial(text);
+        setCodigoMaterialError(!codigoMaterial.trim());
+    }
+
+    function onChangeTextERP(text) {
+        setCodigoERP(text);
+        setCodigoERPError(!codigoERP.trim());
+    }
+
+    function onChangeTextNCM(text) {
+        setCodigoNCM(text);
+        setCodigoNCMError(!codigoNCM.trim());
+    }
+
+    function onChangeTextDescricao(text) {
+        setDescricao(text);
+        setDescricaoError(!descricao.trim());
+    }
+
     function onPressRegister() {
         setRegisterError(true);
-        const body = {
-            urgencia: urgencia,
-            observacoes: observacoes,
-            materiais:{"cimento":cimento,"areia":areia,
-            "brita":brita,"cal":cal,"argamassa":argamassa,"outros":outros},
-            nomeMaterial:nomeMaterial,
-            codigoMaterial:codigoMaterial,
-            codigoNCM:codigoNCM,
-            codigoERP:codigoERP,
-            descricao:descricao,
-            chavesEstoques: estoqueKeys,
-        };
-        
-        if (pedido) {
-            const alteration = {
-                modificacao: "Alteração do Pedido #" + pedido.id,
-                data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
-                tipo:"Material",
-                hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
+        if (cimento==0 && argamassa ==0 && brita ==0 &&
+            cal==0 && areia==0 && outros==0){
+            alert("Não é possível fazer um pedido sem solicitações");
+        }
+        if (outros>0 && !nomeMaterial.trim() && !codigoMaterial.trim() &&
+        !codigoERP.trim() && !codigoNCM.trim() && !descricao.trim()){
+            setNomeMaterialError(!nomeMaterial.trim());
+            setCodigoMaterialError(!codigoMaterial.trim());
+            setCodigoERPError(!codigoERP.trim());
+            setCodigoNCMError(!codigoNCM.trim());
+            setDescricaoError(!descricao.trim());
+        }
+        else if ( outros>0 && !nomeMaterial.trim()){
+            setNomeMaterialError(!nomeMaterial.trim());
+        }
+        else if ( outros>0 && !codigoMaterial.trim()){
+            setCodigoMaterialError(!codigoMaterial.trim());
+        }
+        else if ( outros>0 && !codigoERP.trim()){
+            setCodigoERPError(!codigoERP.trim());
+        }
+        else if ( outros>0 && !codigoNCM.trim()){
+            setCodigoNCMError(!codigoNCM.trim());
+        }
+        else if ( outros>0 && !descricao.trim()){
+            setDescricaoError(!descricao.trim());
+        }
+        else{
+            const body = {
+                urgencia: urgencia,
+                observacoes: observacoes,
+                materiais:{"cimento":cimento,"areia":areia,
+                "brita":brita,"cal":cal,"argamassa":argamassa,"outros":outros},
+                nomeMaterial:nomeMaterial,
+                codigoMaterial:codigoMaterial,
+                codigoNCM:codigoNCM,
+                codigoERP:codigoERP,
+                descricao:descricao,
+                chavesEstoques: estoqueKeys,
             };
-            const notification = {
-                notificacao: "Pedido #"+ pedido.id +" foi alterado",
-                data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
-                tipo:"Material",
-                hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
-            };
-            notificacao()
-            post('/modificacoes',alteration)
-            post('/notificacoes',notification)
-            body.id = pedido.id;
-            put('/material', body);
-        } else {
-            post('/material', body);
-            const newOne = {
-                modificacao: "Cadastro de Pedido",
-                data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
-                tipo:"Material",
-                hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
-            };
-            const newNotification = {
-                notificacao: "Pedido de material solicitado",
-                data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
-                tipo:"Material",
-                hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
-            };
-            notificacao()
-            post('/modificacoes',newOne)
-            post('/notificacoes',newNotification)
+            
+            if (pedido) {
+                const alteration = {
+                    modificacao: "Alteração do Pedido #" + pedido.id,
+                    data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
+                    tipo:"Material",
+                    hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
+                };
+                const notification = {
+                    notificacao: "Pedido #"+ pedido.id +" foi alterado",
+                    data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
+                    tipo:"Material",
+                    hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
+                };
+                notificacao()
+                post('/modificacoes',alteration)
+                post('/notificacoes',notification)
+                body.id = pedido.id;
+                put('/material', body);
+            } else {
+                post('/material', body);
+                const newOne = {
+                    modificacao: "Cadastro de Pedido",
+                    data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
+                    tipo:"Material",
+                    hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
+                };
+                const newNotification = {
+                    notificacao: "Pedido de material solicitado",
+                    data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
+                    tipo:"Material",
+                    hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
+                };
+                notificacao()
+                post('/modificacoes',newOne)
+                post('/notificacoes',newNotification)
+            }
         }
     }
 
@@ -263,37 +320,7 @@ export default function Ficha(props) {
         getPedidoEstoque();
     }, []);
 
-
-    function onChangeTextObs(text) {
-        setObservacao(text);
-        setObservacaoError(!text.trim());
-    }
-
-    function onChangeTextNome(text) {
-        setNomeMaterial(text);
-        setNomeMaterialError(!text.trim());
-    }
-
-    function onChangeTextCodigo(text) {
-        setCodigoMaterial(text);
-        setCodigoMaterialError(!text.trim());
-    }
-
-    function onChangeTextERP(text) {
-        setCodigoERP(text);
-        setCodigoERPError(!text.trim());
-    }
-
-    function onChangeTextNCM(text) {
-        setCodigoNCM(text);
-        setCodigoNCMError(!text.trim());
-    }
-
-    function onChangeTextDescricao(text) {
-        setDescricao(text);
-        setDescricaoError(text.trim());
-    }
-
+   
     return (
         <>
             <ScrollView style={styles.container}>
@@ -415,7 +442,6 @@ export default function Ficha(props) {
                             )}
                         </List.Accordion>
                         
-                    
                     <View style={styles.switchContainer}>
                         <View style={styles.urgenciaLine}>
                             <Icon name="alarm-light" style={styles.urgenciaIcon} color={urgencia==true ? "red" : "grey"}/>
@@ -423,12 +449,7 @@ export default function Ficha(props) {
                         </View>
                         <Switch style={styles.switch} value={urgencia} onValueChange={onToggleSwitch} color="red"/>
                     </View>
-                    <TextInput style={styles.input} label="Observações" value={observacoes} error={observacoesError} onChangeText={onChangeTextObs} />
-                    {observacoesError && (
-                        <HelperText style={styles.error} type="error">
-                            Adicione uma observação
-                        </HelperText>
-                    )}
+                    <TextInput style={styles.input} label="Observações" value={observacoes} onChangeText={onChangeTextObs} />
 
                     {outros>0 && ( <TextInput style={styles.input} label="Nome do material"  value={nomeMaterial} error={nomeMaterialError} onChangeText={onChangeTextNome}/>)}
                     {nomeMaterialError && outros>0 && (
@@ -436,34 +457,43 @@ export default function Ficha(props) {
                            Necessário o nome do Material
                         </HelperText>
                     )}
-                    {outros>0 && ( <TextInput style={styles.input} label="Código do material"  value={codigoMaterial == 0 ? " " : codigoMaterial} error={codigoMaterialError} onChangeText={onChangeTextCodigo} />)}
+                    {outros>0 && ( <TextInput style={styles.input} label="Código do material"  value={codigoMaterial} error={codigoMaterialError} onChangeText={onChangeTextCodigo} />)}
                     {codigoMaterialError && outros>0 && (
                         <HelperText style={styles.error} type="error">
                             O código do Material é um número inteiro
                         </HelperText>
                     )}
-                    {outros>0 && ( <TextInput style={styles.input} label="Código NCM"  value={codigoNCM == 0 ? " " : codigoNCM} error={codigoNCMError} onChangeText={onChangeTextNCM} />)}
+                    {outros>0 && ( <TextInput style={styles.input} label="Código NCM"  value={codigoNCM} error={codigoNCMError} onChangeText={onChangeTextNCM} />)}
                     {codigoNCMError && outros>0 && (
                         <HelperText style={styles.error} type="error">
                             O código NCM é um número inteiro
                         </HelperText>
                     )}
-                    {outros>0 && ( <TextInput style={styles.input} label="Código ERP"  value={codigoERP == 0 ? " " : codigoERP } error={codigoERPError} onChangeText={onChangeTextERP}/>)}
+                    {outros>0 && ( <TextInput style={styles.input} label="Código ERP"  value={codigoERP} error={codigoERPError} onChangeText={onChangeTextERP}/>)}
                     {codigoERPError && outros>0 && (
                         <HelperText style={styles.error} type="error">
                             O código ERP é um número inteiro
                         </HelperText>
                     )}
                     {outros>0 && ( <TextInput style={styles.input} label="Descrição do material"  value={descricao} error={descricaoError} onChangeText={onChangeTextDescricao}/>)}
-
+                    {descricaoError && outros>0 && (
+                        <HelperText style={styles.error} type="error">
+                            O campo descrição é necessário
+                        </HelperText>
+                    )}
 
                     <View style={styles.buttonContainer}>
                         <Button style={styles.button} mode="contained" color="#72bcd4" disabled={registerResponse.running || removeResponse.running} loading={registerResponse.running} onPress={onPressRegister}>
-                            {pedido ? 'Salvar' : 'Solicitar Pedido'}
+                            {pedido ? 'Modificar' : 'Solicitar Pedido'}
                         </Button>
                         {pedido && (
                             <Button style={styles.button} mode="outlined" disabled={registerResponse.running || removeResponse.running} loading={removeResponse.running} onPress={() => setRemoveVisible(true)}>
-                                Remover
+                                Excluir
+                            </Button>
+                        )}
+                         {!pedido && (
+                            <Button style={styles.button} mode="outlined" color="blue" disabled={registerResponse.running || removeResponse.running} loading={removeResponse.running} onPress={() => {navigation.navigate('Lista')}}>
+                                Cancelar
                             </Button>
                         )}
                     </View>
