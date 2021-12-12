@@ -194,7 +194,7 @@ export default function Ficha(props) {
             const notification = {
                 notificacao: "Pedido #"+ pedido.id +" foi alterado",
                 data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
-                tipo:"Material",
+                tipo:"Ferramenta",
                 hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
             };
             notificacao()
@@ -214,7 +214,7 @@ export default function Ficha(props) {
             const newNotification = {
                 notificacao: "Pedido de ferramenta solicitado",
                 data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
-                tipo:"Material",
+                tipo:"Ferramenta",
                 hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
             };
             notificacao()
@@ -436,19 +436,19 @@ export default function Ficha(props) {
                            Necessário o nome da Ferramenta
                         </HelperText>
                     )}
-                    {outros>0 && ( <TextInput style={styles.input} keyboardType = 'numeric' label="Código da ferramenta" value={codigoFerramenta} error={codigoFerramentaError} onChangeText={onChangeTextCodigo} />)}
+                    {outros>0 && ( <TextInput style={styles.input} label="Código da ferramenta" value={codigoFerramenta == 0 ? " " : codigoFerramenta} error={codigoFerramentaError} onChangeText={onChangeTextCodigo} />)}
                     {codigoFerramentaError && outros>0 && (
                         <HelperText style={styles.error} type="error">
                             O código da Ferramenta é um número inteiro
                         </HelperText>
                     )}
-                    {outros>0 && ( <TextInput style={styles.input} keyboardType = 'numeric' label="Código NCM" value={codigoNCM} error={codigoNCMError} onChangeText={onChangeTextNCM} />)}
+                    {outros>0 && ( <TextInput style={styles.input} label="Código NCM" value={codigoNCM == 0 ? " " : codigoNCM} error={codigoNCMError} onChangeText={onChangeTextNCM} />)}
                     {codigoNCMError && outros>0 && (
                         <HelperText style={styles.error} type="error">
                             O código NCM é um número inteiro
                         </HelperText>
                     )}
-                    {outros>0 && ( <TextInput style={styles.input} keyboardType = 'numeric' label="Código ERP" value={codigoERP} error={codigoERPError} onChangeText={onChangeTextERP}/> )}
+                    {outros>0 && ( <TextInput style={styles.input} label="Código ERP" value={codigoERP == 0 ? " " : codigoERP} error={codigoERPError} onChangeText={onChangeTextERP}/> )}
                     {codigoERPError && outros>0 && (
                         <HelperText style={styles.error} type="error">
                             O código ERP é um número inteiro

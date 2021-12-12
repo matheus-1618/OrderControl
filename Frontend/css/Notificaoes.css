@@ -3,24 +3,25 @@ container {
     margin:5px;
     padding:5px;
     flex-direction: column;
-    justify-content: center;
-  
+    justify-content: center;  
 }
 
 center {
-    flex-grow: 1;
-    justify-content: center;
-    align-items: center;
-    top:120px;
+    top:200px;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center; 
+    
 }
 
-cardheader {
-    flex-direction: row;
+noNotification {
+    flex-direction:column;
+    align-items:center;
+    justify-content:center; 
 }
 
-icon{
-    height: 40px;
-    width: 40px;
+text {
+    font-size:24px;
 }
 
 itemContainer {
@@ -29,28 +30,23 @@ itemContainer {
     border-radius: 10px;
 }
 
-item {
-    flex-direction: row;
-    align-items: center;
+title{
+    font-size:17.7px;
+    flex-direction:row;
+    flex-wrap:wrap;
 }
 
-paragraph {
-    left: 500px;
-}
-title {
-    font-size: 19px;
-}
-cardTitle {
-    flex-direction: row;
-    justify-content:flex-start;
-    align-items:flex-start;
+None {
+    width:80px;
+    height:80px;
+    margin-left:100px;
 }
 
 chipContainer {
     flex-grow: 1;
     flex-direction: row;
+    justify-content: flex-start;   
     flex-wrap: wrap;
-    justify-content: flex-start;    
 }
 
 chip {
@@ -63,7 +59,3 @@ observacoes {
     justify-content: space-around;
 }
 
-detalhes {
-    bottom: 3.3rem;
-    left: 3rem;
-}

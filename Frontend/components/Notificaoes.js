@@ -16,18 +16,14 @@ function NotificacaoItem(props) {
   const { notificacoes } = props;
   return (
       <>
-          <Card style={styles.itemContainer}>
-             
-              <View style={styles.cardTitle}> 
+          <Card style={styles.itemContainer}>  
               {notificacoes.tipo == "Material" ? (
                   <Card.Title title={notificacoes.notificacao} titleStyle={styles.title} left={(props) => <Avatar.Icon {...props} icon="wall" />}  />
-                   
                   ) :  ( notificacoes.tipo == "Ferramenta" ?
-                  (<Card.Title title={notificacoes.notificacao} titleStyle={styles.title} left={(props) => <Avatar.Icon {...props} icon="hammer" />}  />) : 
+                  (<Card.Title title={notificacoes.notificacao} titleStyle={styles.title} left={(props) => <Avatar.Icon {...props} icon="hammer" />}  />)
+                   : 
                   (<Card.Title title={notificacoes.notificacao} titleStyle={styles.title} left={(props) => <Avatar.Icon {...props} icon="barn" />}  />))
                   }
-              </View>
-            
               <Card.Content styles={styles.observacoes}>
               <View style={styles.chipContainer}>
               <Paragraph>Data: {notificacoes.data} {notificacoes.hora}  </Paragraph>
@@ -74,7 +70,7 @@ export default function Lista(props) {
   useEffect(() => {
     if ((removeResponse.success && removeResponse.body !== null)) {
         emit();
-        navigation.navigate('Pedidos');
+        navigation.navigate('Notificacao');
     } 
 }, [removeResponse]);
 
@@ -92,11 +88,12 @@ export default function Lista(props) {
                 response.success ? (
                     response.body === null || response.body.length === 0 ? (
                         <View style={styles.center}>
-                            <Text>
-                                Nenhuma nova notificação
-                            </Text>
-                            
-                           
+                            <View style={styles.noNotification}>
+                                <Icon style={styles.None} name="alarm-snooze"/>
+                                <Text style={styles.text}>
+                                    Nenhuma nova notificação
+                                </Text>
+                            </View>
                         </View>
                     ) : (
                         <View>

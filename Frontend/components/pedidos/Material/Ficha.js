@@ -436,19 +436,19 @@ export default function Ficha(props) {
                            Necessário o nome do Material
                         </HelperText>
                     )}
-                    {outros>0 && ( <TextInput style={styles.input} label="Código do produto"  value={codigoMaterial} error={codigoMaterialError} onChangeText={onChangeTextCodigo} />)}
+                    {outros>0 && ( <TextInput style={styles.input} label="Código do material"  value={codigoMaterial == 0 ? " " : codigoMaterial} error={codigoMaterialError} onChangeText={onChangeTextCodigo} />)}
                     {codigoMaterialError && outros>0 && (
                         <HelperText style={styles.error} type="error">
                             O código do Material é um número inteiro
                         </HelperText>
                     )}
-                    {outros>0 && ( <TextInput style={styles.input} label="Código NCM"  value={codigoNCM} error={codigoNCMError} onChangeText={onChangeTextNCM} />)}
+                    {outros>0 && ( <TextInput style={styles.input} label="Código NCM"  value={codigoNCM == 0 ? " " : codigoNCM} error={codigoNCMError} onChangeText={onChangeTextNCM} />)}
                     {codigoNCMError && outros>0 && (
                         <HelperText style={styles.error} type="error">
                             O código NCM é um número inteiro
                         </HelperText>
                     )}
-                    {outros>0 && ( <TextInput style={styles.input} label="Código ERP"  value={codigoERP} error={codigoERPError} onChangeText={onChangeTextERP}/>)}
+                    {outros>0 && ( <TextInput style={styles.input} label="Código ERP"  value={codigoERP == 0 ? " " : codigoERP } error={codigoERPError} onChangeText={onChangeTextERP}/>)}
                     {codigoERPError && outros>0 && (
                         <HelperText style={styles.error} type="error">
                             O código ERP é um número inteiro
