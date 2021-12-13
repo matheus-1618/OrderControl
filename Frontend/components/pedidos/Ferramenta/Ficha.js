@@ -170,12 +170,11 @@ export default function Ficha(props) {
     }
 
     function onPressRegister() {
-        setRegisterError(true);
         if (andaime==0 && betoneira ==0 && bomba ==0 &&
             esmerilhadeira==0 && furadeira==0 && outros==0){
             alert("Não é possível fazer um pedido sem solicitações");
         }
-        if (outros>0 && !nomeFerramenta.trim() && !codigoFerramenta.trim() &&
+        else if (outros>0 && !nomeFerramenta.trim() && !codigoFerramenta.trim() &&
             !codigoERP.trim() && !codigoNCM.trim() && !descricao.trim()){
             setNomeFerramentaError(!nomeFerramenta.trim());
             setCodigoFerramentaError(!codigoFerramenta.trim());
@@ -199,6 +198,7 @@ export default function Ficha(props) {
             setDescricaoError(!descricao.trim());
         }
         else{
+            setRegisterError(true);
             const body = {
                 urgencia: urgencia,
                 observacoes: observacoes,

@@ -105,9 +105,15 @@ export default function Lista(props) {
                     )
                 ) : (
                     <View style={styles.center}>
-                        <Button mode="outlined" onPress={emit}>
-                            Tentar novamente
-                        </Button>
+                       <View style={styles.noNotification}>
+                            <Icon style={styles.None} name="close-box-multiple"/>
+                            <Text style={styles.text}>
+                                Ocorreu um erro inesperado
+                            </Text>
+                            <Button style = {styles.button} icon={"backup-restore"} mode="contained" onPress={emit}>
+                                Tentar novamente
+                            </Button>
+                            </View>
                     </View>
                 )
                 

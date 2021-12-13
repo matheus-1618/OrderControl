@@ -199,12 +199,11 @@ export default function Ficha(props) {
     }
 
     function onPressRegister() {
-        setRegisterError(true);
         if (cimento==0 && argamassa ==0 && brita ==0 &&
             cal==0 && areia==0 && outros==0){
             alert("Não é possível fazer um pedido sem solicitações");
         }
-        if (outros>0 && !nomeMaterial.trim() && !codigoMaterial.trim() &&
+        else if (outros>0 && !nomeMaterial.trim() && !codigoMaterial.trim() &&
         !codigoERP.trim() && !codigoNCM.trim() && !descricao.trim()){
             setNomeMaterialError(!nomeMaterial.trim());
             setCodigoMaterialError(!codigoMaterial.trim());
@@ -228,6 +227,7 @@ export default function Ficha(props) {
             setDescricaoError(!descricao.trim());
         }
         else{
+            setRegisterError(true);
             const body = {
                 urgencia: urgencia,
                 observacoes: observacoes,

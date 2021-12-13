@@ -62,35 +62,46 @@ export default function Ficha(props) {
 
     function onChangeTextNome(text) {
         setNome(text);
+        setNomeError(nomeInvalid(text));
     }
 
     function onChangeTextEmpresa(text) {
         setEmpresa(text);
+        setEmpresaError(empresaInvalid(text));
     }
 
     function onChangeTextEmpreedimento(text) {
         setEmpreedimento(text);   
+        setEmpreedimentoError(empreedimentoInvalid(text));
     }
 
     function onChangeTextLocalizacao(text) {
         setLocalizacao(text);
+        setLocalizacaoError(localizacaoInvalid(text));
     }
 
     function onPressRegister() {
-        setRegisterError(true);
-        if (nomeInvalid(nome)){
+        if (nomeInvalid(nome) && empresaInvalid(empresa) &&
+        empreedimentoInvalid(empreedimento) && localizacaoInvalid(localizacao)){
+            setNomeError(nomeInvalid(nome));
+            setEmpresaError(empresaInvalid(empresa));
+            setEmpreedimentoError(empreedimentoInvalid(empreedimento));
+            setLocalizacaoError(localizacaoInvalid(localizacao));
+        }
+        else if (nomeInvalid(nome)){
             setNomeError(nomeInvalid(nome));
         }
         else if (empresaInvalid(empresa)) {
             setEmpresaError(empresaInvalid(empresa));
         }
-        else if ( empreedimentoInvalid(empreedimento)) {
+        else if (empreedimentoInvalid(empreedimento)) {
             setEmpreedimentoError(empreedimentoInvalid(empreedimento));
         }
         else if (localizacaoInvalid(localizacao)) {
             setLocalizacaoError(localizacaoInvalid(localizacao));
         }
         else {
+            setRegisterError(true);
             const body = {
                 nome: nome,
                 empresa: empresa,

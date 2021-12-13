@@ -6,7 +6,7 @@ import { useTheme } from 'react-native-paper';
 
 import styles from '../../styles/log/Main.json';
 
-import Tabela from './Log';
+import Log from './Log';
 
 const Stack = createStackNavigator();
 
@@ -15,7 +15,7 @@ export default function Main(props) {
 
     return (
         <Stack.Navigator initialRouteName="Tabela" screenOptions={theme.screenOptions}>
-            <Stack.Screen name="Tabela" component={Tabela} options={{headerShown: false}}/>
+            <Stack.Screen name="Tabela" component={Log} options={{headerShown: false}}/>
         </Stack.Navigator>
     );
 }

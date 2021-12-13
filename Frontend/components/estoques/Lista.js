@@ -61,9 +61,15 @@ export default function Lista(props) {
                 response.success ? (
                     response.body === null || response.body.length === 0 ? (
                         <View style={styles.center}>
-                            <Text>
-                                Nenhum estoque salvo
-                            </Text>
+                             <View style={styles.noNotification}>
+                                <Icon style={styles.None} name="truck-fast"/>
+                                <Text style={styles.text}>
+                                    Nenhum estoque cadastrado
+                                </Text>
+                            <Button style = {styles.button} icon={"plus-circle-outline"} mode="contained" onPress={() => navigation.navigate('Adicionar Estoque', null)}>
+                                Cadastrar novo estoque
+                            </Button>
+                            </View>
                         </View>
                     ) : (
                         <ScrollView>
@@ -74,9 +80,15 @@ export default function Lista(props) {
                     )
                 ) : (
                     <View style={styles.center}>
-                        <Button mode="contained" onPress={emit}>
-                            Tentar novamente
-                        </Button>
+                        <View style={styles.noNotification}>
+                                <Icon style={styles.None} name="close-box-multiple"/>
+                                <Text style={styles.text}>
+                                    Ocorreu um erro inesperado
+                                </Text>
+                            <Button style = {styles.button} icon={"backup-restore"} mode="contained" onPress={emit}>
+                                Tentar novamente
+                            </Button>
+                            </View>
                     </View>
                 )
             )}

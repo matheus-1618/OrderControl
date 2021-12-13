@@ -48,7 +48,7 @@ function PedidoItem(props) {
                         {pedido.ferramentas.betoneira != 0 &&
                             (<Chip style={styles.chip} selectedColor="green" icon="wrench">Betoneira {pedido.ferramentas.betoneira}x</Chip>)}
                         {pedido.ferramentas.bomba != 0 &&
-                            (<Chip style={styles.chip} selectedColor="green" icon="guitar-pick">Bomba {pedido.ferramentas.bomba}x</Chip>)}
+                            (<Chip style={styles.chip} selectedColor="green" icon="nut">Bomba {pedido.ferramentas.bomba}x</Chip>)}
                         {pedido.ferramentas.esmerilhadeira != 0 &&
                             (<Chip style={styles.chip} selectedColor="green" icon="circular-saw">Lixadeira {pedido.ferramentas.esmerilhadeira}x</Chip>)}
                         {pedido.ferramentas.furadeira != 0 &&
@@ -95,12 +95,15 @@ export default function Lista(props) {
                 response.success ? (
                     response.body === null || response.body.length === 0 ? (
                         <View style={styles.center}>
-                            <Text>
-                                Nenhum pedido registrado
-                            </Text>
-                            <Button mode="outlined" onPress={() => navigation.navigate('Ficha', null)}>
-                                Solicitar novo pedido
+                            <View style={styles.noNotification}>
+                                <Icon style={styles.None} name="package-variant-closed"/>
+                                <Text style={styles.text}>
+                                    Nenhum pedido registrado
+                                </Text>
+                            <Button style = {styles.button} icon={"plus-circle-outline"} mode="contained" onPress={() => navigation.navigate('Ficha', null)}>
+                                Solicitar Ferramenta
                             </Button>
+                            </View>
                         </View>
                     ) : (
                         <ScrollView>
@@ -111,9 +114,15 @@ export default function Lista(props) {
                     )
                 ) : (
                     <View style={styles.center}>
-                        <Button mode="outlined" onPress={emit}>
-                            Tentar novamente
-                        </Button>
+                        <View style={styles.noNotification}>
+                                <Icon style={styles.None} name="close-box-multiple"/>
+                                <Text style={styles.text}>
+                                    Ocorreu um erro inesperado
+                                </Text>
+                            <Button style = {styles.button} icon={"backup-restore"} mode="contained" onPress={emit}>
+                                Tentar novamente
+                            </Button>
+                            </View>
                     </View>
                 )
             )}

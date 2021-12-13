@@ -46,10 +46,8 @@ export function DrawerContent(props) {
             <View style={styles.drawerContent}>
                 <View style={styles.userInfoSection}>
                     <View style={{flexDirection:'row',marginTop: 15}}>
-                        <Avatar.Image 
-                            source={{
-                                uri: 'https://gust-production.s3.amazonaws.com/uploads/startup/panoramic_image/887508/connectdata_marca_1_3.jpg'
-                            }}
+                        <Avatar.Icon 
+                            icon="hard-hat"
                             size={50}
                         />
                         <View style={{marginLeft:15, flexDirection:'column'}}>

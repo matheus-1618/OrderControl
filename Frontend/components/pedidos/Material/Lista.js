@@ -48,7 +48,7 @@ function PedidoItem(props) {
                         {pedido.materiais.cimento != 0 &&
                             (<Chip style={styles.chip} selectedColor="blue" icon="texture">Cimento {pedido.materiais.cimento}x</Chip>)}
                         {pedido.materiais.areia != 0 &&
-                            (<Chip style={styles.chip} selectedColor="blue" icon="nut">Areia {pedido.materiais.areia}x</Chip>)}
+                            (<Chip style={styles.chip} selectedColor="blue" icon="sack">Areia {pedido.materiais.areia}x</Chip>)}
                         {pedido.materiais.outros != 0 &&
                             (<Chip style={styles.chip} selectedColor="blue" icon="help-circle">Outros {pedido.materiais.outros}x</Chip>)}
                     </View>   
@@ -90,12 +90,15 @@ export default function Lista(props) {
                 response.success ? (
                     response.body === null || response.body.length === 0 ? (
                         <View style={styles.center}>
-                            <Text>
-                                Nenhum pedido registrado
-                            </Text>
-                            <Button mode="outlined" onPress={() => navigation.navigate('Ficha', null)}>
-                                Solicitar novo pedido
+                           <View style={styles.noNotification}>
+                                <Icon style={styles.None} name="package-variant"/>
+                                <Text style={styles.text}>
+                                    Nenhum pedido registrado
+                                </Text>
+                            <Button style = {styles.button} icon={"plus-circle-outline"} mode="contained" onPress={() => navigation.navigate('Ficha', null)}>
+                                Solicitar Material
                             </Button>
+                            </View>
                         </View>
                     ) : (
                         <ScrollView>
@@ -106,9 +109,15 @@ export default function Lista(props) {
                     )
                 ) : (
                     <View style={styles.center}>
-                        <Button mode="outlined" onPress={emit}>
-                            Tentar novamente
-                        </Button>
+                        <View style={styles.noNotification}>
+                                <Icon style={styles.None} name="close-box-multiple"/>
+                                <Text style={styles.text}>
+                                    Ocorreu um erro inesperado
+                                </Text>
+                            <Button style = {styles.button} icon={"backup-restore"} mode="contained" onPress={emit}>
+                                Tentar novamente
+                            </Button>
+                        </View>
                     </View>
                 )
             )}

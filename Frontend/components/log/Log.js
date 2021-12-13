@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 
 import { View, ScrollView } from 'react-native';
 
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import {Title, Divider, ActivityIndicator, Text, Button, DataTable, Snackbar } from 'react-native-paper';
 
-import { useGlobal, useSignal, useEmit, useEffect, useRequest, map } from '../../lib';
+import { Icon,useGlobal, useSignal, useEmit, useEffect, useRequest, map } from '../../lib';
 
 import settings from '../../settings.json';
 
@@ -87,9 +86,12 @@ export default function Lista(props) {
               response.success ? (
                   response.body === null || response.body.length === 0 ? (
                       <View style={styles.center}>
-                          <Text>
-                              Nenhuma modificação notificada 
-                          </Text>
+                         <View style={styles.noNotification}>
+                                <Icon style={styles.None} name="table-remove"/>
+                                <Text style={styles.text1}>
+                                Nenhuma modificação notificada
+                                </Text>
+                          </View>
                       </View>
                   ) : (
                       
@@ -103,8 +105,7 @@ export default function Lista(props) {
                               <DataTable.Title style={styles.text}>Modificação</DataTable.Title>
                               <DataTable.Title  style={styles.tipo}>Tipo</DataTable.Title>
                             </DataTable.Header>
-                              {map(response.body, (modificacoes) => <ModificacaoItem navigation={navigation} modificacoes={modificacoes} />)}
-                         
+                              {map(response.body, (modificacoes) => <ModificacaoItem navigation={navigation} modificacoes={modificacoes} />)}    
                       </DataTable>
                     
                   )

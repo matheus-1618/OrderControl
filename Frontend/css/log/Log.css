@@ -25,6 +25,27 @@ modificacao {
     padding: 5px;
 }
 
+button {
+    margin:15px;
+}
+
+noNotification {
+    top:170px;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center; 
+}
+
+None {
+    width:80px;
+    height:80px;
+    margin-left:115px;
+}
+
+text1 {
+    font-size:22px;
+}
+
 item {
     flex-direction: row;
     align-items: center;
