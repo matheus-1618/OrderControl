@@ -103,11 +103,10 @@ export default function Lista(props) {
                               <DataTable.Title sortDirection="ascending" style={styles.data}>Data</DataTable.Title>
                               <DataTable.Title style={styles.hora}>Hora</DataTable.Title>
                               <DataTable.Title style={styles.text}>Modificação</DataTable.Title>
-                              <DataTable.Title  style={styles.tipo}>Tipo</DataTable.Title>
+                              <DataTable.Title  sortDirection="ascending"style={styles.tipo}>Tipo</DataTable.Title>
                             </DataTable.Header>
                               {map(response.body, (modificacoes) => <ModificacaoItem navigation={navigation} modificacoes={modificacoes} />)}    
                       </DataTable>
-                    
                   )
               ) : (
                   <View style={styles.center}>
