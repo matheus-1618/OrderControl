@@ -25,15 +25,7 @@ public class NotificacoesEndpoint extends Endpoint<Notificacoes> {
 
 	@Override
 	public List<Notificacoes> getList(Args args) {
-		if (args.containsKey("keys")) {
-			List<String> keys = args.getList("keys", ",");
-			if (args.containsKey("other") && args.getBoolean("other")) {
-				return dao.retrieveExcept(keys);
-			} else {
-				return dao.retrieve(keys);
-			}
-		}
-		return dao.retrieveAll();
+		return dao.retrieveAll("hora");
 	}
 
 	@Override

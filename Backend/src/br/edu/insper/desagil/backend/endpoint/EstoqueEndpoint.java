@@ -32,7 +32,7 @@ public class EstoqueEndpoint extends Endpoint<Estoque> {
 				return dao.retrieve(keys);
 			}
 		}
-		return dao.retrieveAll();
+		return dao.retrieveAll("nome");
 	}
 
 	@Override
