@@ -1,12 +1,10 @@
-import React,{ useState } from 'react';
+import React from 'react';
 
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import { View } from 'react-native';
 
 import { useTheme,IconButton,Avatar,Badge } from 'react-native-paper';
-
-import Pedidos from './pedidos/Main'
 
 import styles from '../styles/Main.json';
 
@@ -19,9 +17,8 @@ import Estoque from './estoques/Main';
 import Notificacoes from './Notificaoes';
 import Logs from './log/Main';
 
-import settings from '../settings.json';
 
-import { DrawerContent } from './DrawerContent';
+import { BarraLateral } from './BarraLateral';
 
 const Drawer = createDrawerNavigator();
 
@@ -58,7 +55,7 @@ export default function Main(props) {
     },
   };
     return (
-         <Drawer.Navigator drawerContent={props => <DrawerContent {...props} /> } initialRouteName="Pedidos" screenOptions={screenOptions}>  
+         <Drawer.Navigator drawerContent={props => <BarraLateral {...props} /> } initialRouteName="Pedidos" screenOptions={screenOptions}>  
             <Drawer.Screen name="Pedidos" component={Pedido}/>
             <Drawer.Screen name="Estoque" component={Estoque}/>
             <Drawer.Screen name="Notificacao" component={Notificacoes}/>

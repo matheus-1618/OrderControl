@@ -1,14 +1,12 @@
 import React,{ useState } from 'react';
 
-import { createDrawerNavigator } from '@react-navigation/drawer';
-
-import { View, Image, ScrollView } from 'react-native';
+import { View, ScrollView } from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { Colors, Chip, Card, Paragraph , Title,Divider, ActivityIndicator, Text, Button, FAB, Snackbar } from 'react-native-paper';
+import { Chip, Card, Paragraph , Title,Divider, ActivityIndicator, Text, Button, FAB, Snackbar } from 'react-native-paper';
 
-import { Rounded, Icon,AspectView, useSignal, useEmit, useEffect, useRequest, map } from '../../../lib';
+import { Icon, useSignal, useEmit, useEffect, useRequest, map } from '../../../lib';
 
 import styles from '../../../styles/pedidos/Material/Lista.json';
 
@@ -35,24 +33,22 @@ function PedidoItem(props) {
                     </View>
                 </View>
                 <Card.Content styles={styles.observacoes}>
-                <Paragraph>Solicitações:</Paragraph>
-                <View style={styles.chipContainer}>
-                </View>
-                    <View style={styles.chipContainer}>
-                        {pedido.materiais.brita != 0 &&
-                            (<Chip style={styles.chip} selectedColor="blue" icon="wall">Brita {pedido.materiais.brita}x</Chip>)}
-                        {pedido.materiais.argamassa != 0 &&
-                            (<Chip style={styles.chip} selectedColor="blue" icon="pillar">Argamassa {pedido.materiais.argamassa}x</Chip>)}
-                        {pedido.materiais.cal != 0 &&
-                            (<Chip style={styles.chip} selectedColor="blue" icon="hard-hat">Cal {pedido.materiais.cal}x</Chip>)}
-                        {pedido.materiais.cimento != 0 &&
-                            (<Chip style={styles.chip} selectedColor="blue" icon="texture">Cimento {pedido.materiais.cimento}x</Chip>)}
-                        {pedido.materiais.areia != 0 &&
-                            (<Chip style={styles.chip} selectedColor="blue" icon="sack">Areia {pedido.materiais.areia}x</Chip>)}
-                        {pedido.materiais.outros != 0 &&
-                            (<Chip style={styles.chip} selectedColor="blue" icon="help-circle">Outros {pedido.materiais.outros}x</Chip>)}
-                    </View>   
-                </Card.Content>
+                    <Paragraph>Solicitações:</Paragraph>
+                        <View style={styles.chipContainer}>
+                            {pedido.materiais.brita != 0 &&
+                                (<Chip style={styles.chip} selectedColor="blue" icon="wall">Brita {pedido.materiais.brita}x</Chip>)}
+                            {pedido.materiais.argamassa != 0 &&
+                                (<Chip style={styles.chip} selectedColor="blue" icon="pillar">Argamassa {pedido.materiais.argamassa}x</Chip>)}
+                            {pedido.materiais.cal != 0 &&
+                                (<Chip style={styles.chip} selectedColor="blue" icon="hard-hat">Cal {pedido.materiais.cal}x</Chip>)}
+                            {pedido.materiais.cimento != 0 &&
+                                (<Chip style={styles.chip} selectedColor="blue" icon="texture">Cimento {pedido.materiais.cimento}x</Chip>)}
+                            {pedido.materiais.areia != 0 &&
+                                (<Chip style={styles.chip} selectedColor="blue" icon="sack">Areia {pedido.materiais.areia}x</Chip>)}
+                            {pedido.materiais.outros != 0 &&
+                                (<Chip style={styles.chip} selectedColor="blue" icon="help-circle">Outros {pedido.materiais.outros}x</Chip>)}
+                        </View>   
+                    </Card.Content>
                 <Card.Actions>
                     <Paragraph>Observações: {pedido.observacoes}</Paragraph>
                 </Card.Actions>
@@ -62,22 +58,16 @@ function PedidoItem(props) {
     );
 }
 
-
 export default function Lista(props) {
     const { navigation } = props;
-
     const [getError, setGetError] = useState(false);
-
     const signal = useSignal('updated-materiais');
     const emit = useEmit('updated-materiais');
-
-
     const { get, response } = useRequest(settings.url);
 
     useEffect(() => {
         setGetError(true);
         get('/material/list');
-
     }, [signal]);
 
     return (

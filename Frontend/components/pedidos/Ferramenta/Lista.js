@@ -1,17 +1,14 @@
 import React,{ useState } from 'react';
 
-import { createDrawerNavigator } from '@react-navigation/drawer';
-
 import { View, Image, ScrollView } from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { Colors, Chip, Card, Paragraph , Title,Divider, ActivityIndicator, Text, Button, FAB, Snackbar } from 'react-native-paper';
+import { Chip, Card, Paragraph ,Divider, ActivityIndicator, Text, Button, FAB, Snackbar } from 'react-native-paper';
 
-import { Rounded, Icon,AspectView, useSignal, useEmit, useEffect, useRequest, map } from '../../../lib';
+import { Icon, useSignal, useEmit, useEffect, useRequest, map } from '../../../lib';
 
 import settings from '../../../settings.json';
-
 
 import styles from '../../../styles/pedidos/Ferramenta/Lista.json';
 
@@ -81,9 +78,6 @@ export default function Lista(props) {
         setGetError(true);
         get('/ferramenta/list');
     }, [signal]);
-
-    
-
 
     return (
         <>

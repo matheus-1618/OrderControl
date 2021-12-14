@@ -1,7 +1,5 @@
 import React,{ useState } from 'react';
 
-import { View } from 'react-native';
-
 import { View, StyleSheet } from 'react-native';
 
 import {useTheme,Avatar,Title,Caption,Paragraph,Drawer,Text,TouchableRipple,Switch} from 'react-native-paper';
@@ -12,9 +10,6 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { useGlobal } from '../lib';
 
-import settings from '../settings.json';
-
-//import styles from '../styles/BarraLateral.json';
 
 export function BarraLateral(props) {
 
@@ -31,10 +26,7 @@ export function BarraLateral(props) {
             <View style={styles.drawerContent}>
                 <View style={styles.userInfoSection}>
                     <View style={{flexDirection:'row',marginTop: 15}}>
-                        <Avatar.Icon 
-                            icon="hard-hat"
-                            size={50}
-                        />
+                        <Avatar.Icon icon="hard-hat" size={50}/>
                         <View style={{marginLeft:15, flexDirection:'column'}}>
                             <Title style={styles.title}>Funcionário</Title>
                             <Caption style={styles.caption}>hospitalemp@connect.com</Caption>
@@ -42,42 +34,9 @@ export function BarraLateral(props) {
                     </View>
                 </View>
                     
-
-                <DrawerItem 
-                        icon={({color, size}) => (
-                            <Icon 
-                            name="playlist-edit" 
-                            color={color}
-                            size={size}
-                            />
-                        )}
-                        label="Pedidos"
-                        onPress={() => {props.navigation.navigate('Pedidos')}}
-                    />
-
-                     <DrawerItem 
-                        icon={({color, size}) => (
-                            <Icon 
-                            name="barn" 
-                            color={color}
-                            size={size}
-                            />
-                        )}
-                        label="Estoques"
-                        onPress={() => {props.navigation.navigate('Estoque')}}
-                    />
-
-                        <DrawerItem 
-                        icon={({color, size}) => (
-                            <Icon 
-                            name="table" 
-                            color={color}
-                            size={size}
-                            />
-                        )}
-                        label="Log de Modificações"
-                        onPress={() => {props.navigation.navigate('Logs')}}
-                        />
+                <DrawerItem icon={({color, size}) => (<Icon name="playlist-edit"  color={color} size={size}/>)} label="Pedidos" onPress={() => {props.navigation.navigate('Pedidos')}}/>
+                <DrawerItem  icon={({color, size}) => (<Icon name="barn" color={color} size={size}/>)} label="Estoques" onPress={() => {props.navigation.navigate('Estoque')}}/>
+                <DrawerItem icon={({color, size}) => (<Icon name="table" color={color} size={size}/>)} label="Log de Modificações" onPress={() => {props.navigation.navigate('Logs')}}/>
 
                 <Drawer.Section title="Preferências">
                     <TouchableRipple onPress={onToggleSwitch} >
@@ -92,17 +51,7 @@ export function BarraLateral(props) {
             </View>
         </DrawerContentScrollView>
         <Drawer.Section style={styles.bottomDrawerSection}>
-            <DrawerItem 
-                icon={({color, size}) => (
-                    <Icon 
-                    name="exit-to-app" 
-                    color={color}
-                    size={size}
-                    />
-                )}
-                label="Sair"
-               
-            />
+            <DrawerItem  icon={({color, size}) => (<Icon name="exit-to-app" color={color} size={size}/>)} label="Sair"/>
         </Drawer.Section>
     </View>
 );

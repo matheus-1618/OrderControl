@@ -12,12 +12,10 @@ import settings from '../../settings.json';
 
 import styles from '../../styles/estoques/Ficha.json';
 
-
 export default function Ficha(props) {
     const { navigation, route } = props;
 
     const estoque = route.params;
-
 
     const [nome, setNome] = useState(estoque ? estoque.nome : '');
     const [nomeError, setNomeError] = useState(typeof nome !== 'string');
@@ -146,7 +144,6 @@ export default function Ficha(props) {
                 }
         }
     }
-
     function onDismissRemove() {
         setRemoveVisible(false);
     }
@@ -180,8 +177,6 @@ export default function Ficha(props) {
             navigation.setOptions({ title: estoque ? estoque.nome : 'Novo estoque' });
         }
     }, [registerResponse, removeResponse]);
-
-
 
     return (
         <>
@@ -224,7 +219,6 @@ export default function Ficha(props) {
                                 Cancelar
                             </Button>
                         )}
-
                         {estoque && (
                             <Button style={styles.button} mode="outlined" disabled={registerResponse.running || removeResponse.running} loading={removeResponse.running} onPress={() => setRemoveVisible(true)}>
                                 Excluir
@@ -265,7 +259,6 @@ export default function Ficha(props) {
                         </View>
                     </Dialog>
                 </Portal>
-                
             )}
             </ScrollView>
         </>

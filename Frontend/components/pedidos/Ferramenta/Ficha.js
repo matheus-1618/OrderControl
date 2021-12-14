@@ -1,16 +1,12 @@
-
-import { View } from 'react-native';
-
 import React, { useState } from 'react';
 
-import { ScrollView } from 'react-native';
+import { ScrollView , View} from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import {  Switch,TouchableRipple, Divider, List, Text, Card, IconButton, ActivityIndicator, Title,Colors, TextInput, HelperText, Button, Snackbar, Portal, Dialog, Paragraph } from 'react-native-paper';
+import {  Switch,TouchableRipple, Divider, List, Text, Card, IconButton, ActivityIndicator,Colors, TextInput, HelperText, Button, Snackbar, Portal, Dialog, Paragraph } from 'react-native-paper';
 
-import {  Icon, DropDown, useGlobal, useEmit, useEffect, map, useRequest } from '../../../lib';
-
+import {  Icon, useGlobal, useEmit, useEffect, map, useRequest } from '../../../lib';
 
 import settings from '../../../settings.json';
 

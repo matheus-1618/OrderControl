@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 
 import { View, ScrollView } from 'react-native';
 
-import {Title, Divider, ActivityIndicator, Text, Button, DataTable, Snackbar } from 'react-native-paper';
+import {Title, Divider, ActivityIndicator, Text, Button, DataTable } from 'react-native-paper';
 
-import { Icon,useGlobal, useSignal, useEmit, useEffect, useRequest, map } from '../../lib';
+import { Icon, useSignal, useEmit, useEffect, useRequest, map } from '../../lib';
 
 import settings from '../../settings.json';
 
