@@ -52,7 +52,7 @@ public class PedidoFerramenta extends FirestoreObject {
 	}
 	
 	
-	public Map getFerramentas() {
+	public Map<String, Integer> getFerramentas() {
 		return this.ferramentas;
 	}
 	
