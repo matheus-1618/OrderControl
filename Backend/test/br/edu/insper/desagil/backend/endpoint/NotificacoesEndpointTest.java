@@ -2,54 +2,38 @@ package br.edu.insper.desagil.backend.endpoint;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import br.edu.insper.desagil.backend.BackendTest;
-import br.edu.insper.desagil.backend.core.Pedido;
-import br.edu.insper.desagil.backend.core.Urgencia;
+import br.edu.insper.desagil.backend.core.Notificacoes;
 import br.edu.insper.desagil.backend.httpserver.EndpointTest;
 import br.edu.insper.desagil.backend.httpserver.Result;
 
-class NotificacoesEndpointTest extends EndpointTest<Pedido> {
+class NotificacoesEndpointTest extends EndpointTest<Notificacoes> {
 	@BeforeEach
 	public void setUp() {
-		start(BackendTest.URL, "/pedido");
+		start(BackendTest.URL, "/notificacoes");
 		deleteList();
 	}
 
 	@Test
 	public void test() {
-		Pedido pedido;
-		Urgencia urgencia;
-		pedido = new Pedido();
-		urgencia = Urgencia.BAIXA;
-		pedido.setUrgencia(urgencia);
-		post(pedido);
-		pedido = get("id=" + pedido.getId());
-		assertEquals(Urgencia.BAIXA, pedido.getUrgencia());
-	}
-
-	@Test
-	public void testString() {
-		Pedido pedido;
-		String string = new String("Trazer cimento em caminhão Volvo");
-		pedido = new Pedido();
-		pedido.setObservacoes(string);
-		post(pedido);
-		pedido = get("id=" + pedido.getId());
-		assertEquals("Trazer cimento em caminhão Volvo", pedido.getObservacoes());
-	}
-	
-	@Test
-	public void testFerramenta() {
-		Pedido pedido;
-		pedido = new Pedido();
-		pedido.changeQuantidadeFerramenta("betoneira",5);
-		post(pedido);
-		pedido = get("id=" + pedido.getId());
-		assertEquals(5, pedido.getQuantidadeFerramenta("betoneira"));
+		Notificacoes notificacoes;
+		notificacoes = new Notificacoes();
+		notificacoes.setData("15/12/2021");
+		notificacoes.setHora("15:37");
+		notificacoes.setNotificacao("Pedido #38 foi excluído!");
+		notificacoes.setTipo("Ferramenta");
+		Result result = post(notificacoes);
+		String key = (String) result.get("key");
+		notificacoes = get("key=" + key);
+		assertEquals("15/12/2021",notificacoes.getData());
+		assertEquals("15:37",notificacoes.getHora());
+		assertEquals("Pedido #38 foi excluído!",notificacoes.getNotificacao());
+		assertEquals("Ferramenta",notificacoes.getTipo());
 	}
 	
 	@AfterEach

@@ -2,54 +2,38 @@ package br.edu.insper.desagil.backend.endpoint;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import br.edu.insper.desagil.backend.BackendTest;
-import br.edu.insper.desagil.backend.core.Pedido;
-import br.edu.insper.desagil.backend.core.Urgencia;
+import br.edu.insper.desagil.backend.core.Estoque;
 import br.edu.insper.desagil.backend.httpserver.EndpointTest;
 import br.edu.insper.desagil.backend.httpserver.Result;
 
-class EstoqueEndpointTest extends EndpointTest<Pedido> {
+class EstoqueEndpointTest extends EndpointTest<Estoque> {
 	@BeforeEach
 	public void setUp() {
-		start(BackendTest.URL, "/pedido");
+		start(BackendTest.URL, "/estoque");
 		deleteList();
 	}
 
 	@Test
 	public void test() {
-		Pedido pedido;
-		Urgencia urgencia;
-		pedido = new Pedido();
-		urgencia = Urgencia.BAIXA;
-		pedido.setUrgencia(urgencia);
-		post(pedido);
-		pedido = get("id=" + pedido.getId());
-		assertEquals(Urgencia.BAIXA, pedido.getUrgencia());
-	}
-
-	@Test
-	public void testString() {
-		Pedido pedido;
-		String string = new String("Trazer cimento em caminhão Volvo");
-		pedido = new Pedido();
-		pedido.setObservacoes(string);
-		post(pedido);
-		pedido = get("id=" + pedido.getId());
-		assertEquals("Trazer cimento em caminhão Volvo", pedido.getObservacoes());
-	}
-	
-	@Test
-	public void testFerramenta() {
-		Pedido pedido;
-		pedido = new Pedido();
-		pedido.changeQuantidadeFerramenta("betoneira",5);
-		post(pedido);
-		pedido = get("id=" + pedido.getId());
-		assertEquals(5, pedido.getQuantidadeFerramenta("betoneira"));
+		Estoque estoque;
+		estoque = new Estoque();
+		estoque.setNome("Ponta Porã");
+		estoque.setEmpresa("Czech");
+		estoque.setEmpreedimento("Construção Civil");
+		estoque.setLocalizacao("Ponta Porã, Paraná");
+		Result result = post(estoque);
+		String key = (String) result.get("key");
+		estoque = get("key=" + key);
+		assertEquals("Ponta Porã",estoque.getNome());
+		assertEquals("Czech",estoque.getEmpresa());
+		assertEquals("Construção Civil",estoque.getEmpreedimento());
+		assertEquals("Ponta Porã, Paraná",estoque.getLocalizacao());
 	}
 	
 	@AfterEach

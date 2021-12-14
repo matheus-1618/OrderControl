@@ -1,55 +1,63 @@
 package br.edu.insper.desagil.backend.endpoint;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import br.edu.insper.desagil.backend.BackendTest;
-import br.edu.insper.desagil.backend.core.Pedido;
-import br.edu.insper.desagil.backend.core.Urgencia;
+import br.edu.insper.desagil.backend.core.PedidoMaterial;
 import br.edu.insper.desagil.backend.httpserver.EndpointTest;
-import br.edu.insper.desagil.backend.httpserver.Result;
 
-class PedidoMaterialEndpointTest extends EndpointTest<Pedido> {
+class PedidoMaterialEndpointTest extends EndpointTest<PedidoMaterial> {
 	@BeforeEach
 	public void setUp() {
-		start(BackendTest.URL, "/pedido");
+		start(BackendTest.URL, "/material");
 		deleteList();
 	}
 
 	@Test
 	public void test() {
-		Pedido pedido;
-		Urgencia urgencia;
-		pedido = new Pedido();
-		urgencia = Urgencia.BAIXA;
-		pedido.setUrgencia(urgencia);
+		PedidoMaterial pedido;
+		Map<String,Integer> materiais;
+		List<String> estoques;
+		pedido = new PedidoMaterial();
+		materiais = new HashMap<String,Integer>();
+		estoques = new ArrayList<String>();
+		materiais.put("Cimento", 1);
+		materiais.put("Argamassa", 2);
+		materiais.put("Outros", 2);
+		
+		estoques.add("hxYsajk131as");
+		
+		pedido.setMateriais(materiais);
+		pedido.setUrgencia(false);
+		pedido.setObservacoes("Trazer pedido por trás da entrada");
+		pedido.setNomeMaterial("Madeira");
+		pedido.setCodigoMaterial("32456");
+		pedido.setCodigoERP("123456");
+		pedido.setCodigoNCM("hxay241A");
+		
+		pedido.setChavesEstoques(estoques);
 		post(pedido);
 		pedido = get("id=" + pedido.getId());
-		assertEquals(Urgencia.BAIXA, pedido.getUrgencia());
-	}
-
-	@Test
-	public void testString() {
-		Pedido pedido;
-		String string = new String("Trazer cimento em caminhão Volvo");
-		pedido = new Pedido();
-		pedido.setObservacoes(string);
-		post(pedido);
-		pedido = get("id=" + pedido.getId());
-		assertEquals("Trazer cimento em caminhão Volvo", pedido.getObservacoes());
-	}
-	
-	@Test
-	public void testFerramenta() {
-		Pedido pedido;
-		pedido = new Pedido();
-		pedido.changeQuantidadeFerramenta("betoneira",5);
-		post(pedido);
-		pedido = get("id=" + pedido.getId());
-		assertEquals(5, pedido.getQuantidadeFerramenta("betoneira"));
+		assertEquals(1,pedido.getMateriais().get("Cimento"));
+		assertEquals(2,pedido.getMateriais().get("Argamassa"));
+		assertEquals(2,pedido.getMateriais().get("Outros"));
+		assertFalse(pedido.getUrgencia());
+		assertEquals("Trazer pedido por trás da entrada",pedido.getObservacoes());
+		assertEquals("Madeira",pedido.getNomeMaterial());
+		assertEquals("32456",pedido.getCodigoMaterial());
+		assertEquals("123456",pedido.getCodigoERP());
+		assertEquals("hxay241A",pedido.getCodigoNCM());
+		assertEquals("hxYsajk131as",pedido.getChavesEstoques().get(0));
 	}
 	
 	@AfterEach
