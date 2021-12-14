@@ -6,38 +6,40 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Title, Portal, TextInput, HelperText, Dialog, Paragraph, Button, Snackbar } from 'react-native-paper';
 
-import { useEmit, useEffect, useRequest } from '../../lib';
+import { useEmit, useEffect, useRequest,useGlobal } from '../../lib';
 
 import settings from '../../settings.json';
 
 import styles from '../../styles/estoques/Ficha.json';
-
 
 export default function Ficha(props) {
     const { navigation, route } = props;
 
     const estoque = route.params;
 
-
     const [nome, setNome] = useState(estoque ? estoque.nome : '');
-    const [nomeError, setNomeError] = useState(typeof nome !== 'string' || nomeInvalid(nome));
+    const [nomeError, setNomeError] = useState(typeof nome !== 'string');
     const [empresa, setEmpresa] = useState(estoque ? estoque.empresa : '');
-    const [empresaError, setEmpresaError] = useState(typeof empresa !== 'string' || empresaInvalid(empresa));
+    const [empresaError, setEmpresaError] = useState(typeof empresa !== 'string');
     const [empreedimento, setEmpreedimento] = useState(estoque ? estoque.empreedimento : '');
-    const [empreedimentoError, setEmpreedimentoError] = useState(typeof empreedimento !== 'string' || empreedimentoInvalid(empreedimento));
+    const [empreedimentoError, setEmpreedimentoError] = useState(typeof empreedimento !== 'string');
     const [localizacao, setLocalizacao] = useState(estoque ? estoque.localizacao : '');
-    const [localizacaoError, setLocalizacaoError] = useState(typeof localizacao !== 'string' || localizacaoInvalid(localizacao));
+    const [localizacaoError, setLocalizacaoError] = useState(typeof localizacao !== 'string');
 
     const [registerError, setRegisterError] = useState(false);
     const [removeError, setRemoveError] = useState(false);
     const [removeVisible, setRemoveVisible] = useState(false);
 
-    const emit = useEmit('updated-estoques');
+    const [getSize, setGetSize] = useGlobal("size");
 
+    const emit = useEmit('updated-estoques');
 
     const { post, put, response: registerResponse } = useRequest(settings.url);
     const { del, response: removeResponse } = useRequest(settings.url);
 
+    function notificacao() {
+        setGetSize(getSize + 1);
+    }
 
     function nomeInvalid(nome) {
         return !nome.trim();
@@ -67,7 +69,7 @@ export default function Ficha(props) {
     }
 
     function onChangeTextEmpreedimento(text) {
-        setEmpreedimento(text);
+        setEmpreedimento(text);   
         setEmpreedimentoError(empreedimentoInvalid(text));
     }
 
@@ -77,35 +79,71 @@ export default function Ficha(props) {
     }
 
     function onPressRegister() {
-        setRegisterError(true);
-        const body = {
-            nome: nome,
-            empresa: empresa,
-            empreedimento: empreedimento,
-            localizacao: localizacao,
-        };
-        if (estoque) {
-            const alteration = {
-                modificacao: "Alteração do Estoque " + estoque.nome,
-                data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
-                tipo:"Estoque",
-                hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
+        if (nomeInvalid(nome) && empresaInvalid(empresa) &&
+        empreedimentoInvalid(empreedimento) && localizacaoInvalid(localizacao)){
+            setNomeError(nomeInvalid(nome));
+            setEmpresaError(empresaInvalid(empresa));
+            setEmpreedimentoError(empreedimentoInvalid(empreedimento));
+            setLocalizacaoError(localizacaoInvalid(localizacao));
+        }
+        else if (nomeInvalid(nome)){
+            setNomeError(nomeInvalid(nome));
+        }
+        else if (empresaInvalid(empresa)) {
+            setEmpresaError(empresaInvalid(empresa));
+        }
+        else if (empreedimentoInvalid(empreedimento)) {
+            setEmpreedimentoError(empreedimentoInvalid(empreedimento));
+        }
+        else if (localizacaoInvalid(localizacao)) {
+            setLocalizacaoError(localizacaoInvalid(localizacao));
+        }
+        else {
+            setRegisterError(true);
+            const body = {
+                nome: nome,
+                empresa: empresa,
+                empreedimento: empreedimento,
+                localizacao: localizacao,
             };
-            post('/modificacoes',alteration)
-            body.key = estoque.key;
-            put('/estoque', body);
-        } else {
-            post('/estoque', body);
-            const newOne = {
-                modificacao: "Cadastro de Estoque",
-                data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
-                tipo:"Estoque",
-                hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
-            };
-            post('/modificacoes',newOne)
+            if (estoque) {
+                const alteration = {
+                    modificacao: "Alteração do Estoque ",
+                    data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
+                    tipo:"Estoque",
+                    hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
+                };
+                const notification = {
+                    notificacao: "Estoque "+estoque.nome+" alterado" ,
+                    data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
+                    tipo:"Estoque",
+                    hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
+                };
+                notificacao()
+                post('/modificacoes',alteration)
+                post('/notificacoes',notification)
+                body.key = estoque.key;
+                put('/estoque', body);
+            } else {
+                post('/estoque', body);
+                const newOne = {
+                    modificacao: "Cadastro de Estoque",
+                    data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
+                    tipo:"Estoque",
+                    hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
+                };
+                const newNotification = {
+                    notificacao: "Novo estoque cadastrado",
+                    data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
+                    tipo:"Estoque",
+                    hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
+                };
+                notificacao()
+                post('/notificacoes',newNotification)
+                post('/modificacoes',newOne)
+                }
         }
     }
-
     function onDismissRemove() {
         setRemoveVisible(false);
     }
@@ -119,8 +157,15 @@ export default function Ficha(props) {
             tipo:"Estoque",
             hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
         };
+        const newNotification = {
+            notificacao: "Estoque " + estoque.nome +" removido",
+            data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
+            tipo:"Estoque",
+            hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
+        };
+        notificacao()
         post('/modificacoes',newOne)
-        
+        post('/notificacoes',newNotification)
         del(`/estoque?key=${estoque.key}`);
     }
 
@@ -132,8 +177,6 @@ export default function Ficha(props) {
             navigation.setOptions({ title: estoque ? estoque.nome : 'Novo estoque' });
         }
     }, [registerResponse, removeResponse]);
-
-
 
     return (
         <>
@@ -163,7 +206,7 @@ export default function Ficha(props) {
                     <TextInput style={styles.input} label="Localização" value={localizacao} error={localizacaoError} onChangeText={onChangeTextLocalizacao} />
                     {localizacaoError && (
                         <HelperText style={styles.error} type="error">
-                            O campo empreedimento é obrigatório
+                            O campo localização é obrigatório
                         </HelperText>
                     )}
                     <View style={styles.buttonContainer}>
@@ -176,7 +219,6 @@ export default function Ficha(props) {
                                 Cancelar
                             </Button>
                         )}
-
                         {estoque && (
                             <Button style={styles.button} mode="outlined" disabled={registerResponse.running || removeResponse.running} loading={removeResponse.running} onPress={() => setRemoveVisible(true)}>
                                 Excluir
@@ -217,7 +259,6 @@ export default function Ficha(props) {
                         </View>
                     </Dialog>
                 </Portal>
-                
             )}
             </ScrollView>
         </>

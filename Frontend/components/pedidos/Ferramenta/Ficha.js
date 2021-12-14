@@ -1,16 +1,12 @@
-
-import { View } from 'react-native';
-
 import React, { useState } from 'react';
 
-import { ScrollView } from 'react-native';
+import { ScrollView , View} from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import {  Switch,TouchableRipple, Divider, List, Text, Card, IconButton, ActivityIndicator, Title,Colors, TextInput, HelperText, Button, Snackbar, Portal, Dialog, Paragraph } from 'react-native-paper';
+import {  Switch,TouchableRipple, Divider, List, Text, Card, IconButton, ActivityIndicator,Colors, TextInput, HelperText, Button, Snackbar, Portal, Dialog, Paragraph } from 'react-native-paper';
 
-import {  Icon, DropDown, DateTimePicker, useEmit, useEffect, map, useRequest } from '../../../lib';
-
+import {  Icon, useGlobal, useEmit, useEffect, map, useRequest } from '../../../lib';
 
 import settings from '../../../settings.json';
 
@@ -35,7 +31,6 @@ export default function Ficha(props) {
 
     const [urgencia, setUrgencia] = useState(pedido ? pedido.urgencia : false);
     const [observacoes, setObservacao] = useState(pedido ? pedido.observacoes : '');
-    const [observacoesError, setObservacaoError] = useState(typeof observacoes !== 'string' || !observacoes.trim());
     const [registerError, setRegisterError] = useState(false);
     const [removeError, setRemoveError] = useState(false);
     const [addVisible, setAddVisible] = useState(false);
@@ -48,10 +43,27 @@ export default function Ficha(props) {
     const [furadeira, setFuradeira] = useState(pedido ? pedido.ferramentas.furadeira : 0);
     const [outros, setOutros] = useState(pedido ? pedido.ferramentas.outros : 0);
 
+    const [getSize, setGetSize] = useGlobal("size");
+
+    const [nomeFerramenta, setNomeFerramenta] = useState(pedido ? pedido.nomeFerramenta : '');
+    const [nomeFerramentaError, setNomeFerramentaError] = useState(typeof nomeFerramenta !== 'string');
+    const [codigoFerramenta, setCodigoFerramenta] = useState(pedido ? pedido.codigoFerramenta : "");
+    const [codigoFerramentaError, setCodigoFerramentaError] = useState(typeof codigoFerramenta !== 'string');
+    const [codigoNCM, setCodigoNCM] = useState(pedido ? pedido.codigoNCM : "");
+    const [codigoNCMError, setCodigoNCMError] = useState(typeof codigoNCM !== 'string');
+    const [codigoERP, setCodigoERP] = useState(pedido ? pedido.codigoERP : "");
+    const [codigoERPError, setCodigoERPError] = useState(typeof codigoERP !== 'string');
+    const [descricao, setDescricao] = useState(pedido ? pedido.descricao : '');
+    const [descricaoError, setDescricaoError] = useState(typeof descricao !== 'string');
+
     const [estoqueKeys, setEstoqueKeys] = useState(pedido && pedido.chavesEstoques instanceof Array ? pedido.chavesEstoques : []);
 
     const { get: pedidoEstoqueGet, skip: pedidoEstoqueSkip, response: pedidoEstoqueResponse } = useRequest(settings.url);
     const { get: outroEstoqueGet, response: outroEstoqueResponse } = useRequest(settings.url);
+
+    function notificacao() {
+        setGetSize(getSize + 1);
+    }
 
     function getPedidoEstoque() {
         if (estoqueKeys.length === 0) {
@@ -154,33 +166,84 @@ export default function Ficha(props) {
     }
 
     function onPressRegister() {
-        setRegisterError(true);
-        const body = {
-            urgencia: urgencia,
-            observacoes: observacoes,
-            ferramentas:{"andaime":andaime,"betoneira":betoneira,
-            "bomba":bomba,"esmerilhadeira":esmerilhadeira,"furadeira":furadeira,"outros":outros},
-            chavesEstoques: estoqueKeys,
-        };
-        if (pedido) {
-            const alteration = {
-                modificacao: "Alteração do Pedido #" + pedido.id,
-                data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
-                tipo:"Ferramenta",
-                hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
+        if (andaime==0 && betoneira ==0 && bomba ==0 &&
+            esmerilhadeira==0 && furadeira==0 && outros==0){
+            alert("Não é possível fazer um pedido sem solicitações");
+        }
+        else if (outros>0 && !nomeFerramenta.trim() && !codigoFerramenta.trim() &&
+            !codigoERP.trim() && !codigoNCM.trim() && !descricao.trim()){
+            setNomeFerramentaError(!nomeFerramenta.trim());
+            setCodigoFerramentaError(!codigoFerramenta.trim());
+            setCodigoERPError(!codigoERP.trim());
+            setCodigoNCMError(!codigoNCM.trim());
+            setDescricaoError(!descricao.trim());
+        }
+        else if ( outros>0 && !nomeFerramenta.trim()){
+            setNomeFerramentaError(!nomeFerramenta.trim());
+        }
+        else if ( outros>0 && !codigoFerramenta.trim()){
+            setCodigoFerramentaError(!codigoFerramenta.trim());
+        }
+        else if ( outros>0 && !codigoERP.trim()){
+            setCodigoERPError(!codigoERP.trim());
+        }
+        else if ( outros>0 && !codigoNCM.trim()){
+            setCodigoNCMError(!codigoNCM.trim());
+        }
+        else if ( outros>0 && !descricao.trim()){
+            setDescricaoError(!descricao.trim());
+        }
+        else{
+            setRegisterError(true);
+            const body = {
+                urgencia: urgencia,
+                observacoes: observacoes,
+                ferramentas:{"andaime":andaime,"betoneira":betoneira,
+                "bomba":bomba,"esmerilhadeira":esmerilhadeira,"furadeira":furadeira,"outros":outros},
+                nomeFerramenta:nomeFerramenta,
+                codigoFerramenta:codigoFerramenta,
+                codigoNCM:codigoNCM,
+                codigoERP:codigoERP,
+                descricao:descricao,
+                chavesEstoques: estoqueKeys,
             };
-            post('/modificacoes',alteration)
-            body.id = pedido.id;
-            put('/ferramenta', body);
-        } else {
-            post('/ferramenta', body);
-            const newOne = {
-                modificacao: "Cadastro de Pedido",
-                data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
-                tipo:"Ferramenta",
-                hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
-            };
-            post('/modificacoes',newOne)
+            if (pedido) {
+                const alteration = {
+                    modificacao: "Alteração do Pedido #" + pedido.id,
+                    data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
+                    tipo:"Ferramenta",
+                    hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
+                };
+                const notification = {
+                    notificacao: "Pedido #"+ pedido.id +" foi alterado",
+                    data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
+                    tipo:"Ferramenta",
+                    hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
+                };
+                notificacao()
+                post('/modificacoes',alteration)
+                post('/notificacoes',notification)
+                body.id = pedido.id;
+                put('/ferramenta', body);
+            } 
+            else {
+                post('/ferramenta', body);
+                const newOne = {
+                    modificacao: "Cadastro de Pedido",
+                    data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
+                    tipo:"Ferramenta",
+                    hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
+                };
+                const newNotification = {
+                    notificacao: "Pedido de ferramenta solicitado",
+                    data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
+                    tipo:"Ferramenta",
+                    hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
+                };
+                notificacao()
+                post('/modificacoes',newOne)
+                post('/notificacoes',newNotification)
+            }
         }
     }
 
@@ -197,7 +260,15 @@ export default function Ficha(props) {
             tipo:"Ferramenta",
             hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
         };
+        const newNotification = {
+            notificacao: "Pedido #" + pedido.id +" excluído",
+            data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear(),
+            tipo:"Ferramenta",
+            hora: (String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
+        };
+        notificacao()
         post('/modificacoes',newOne)
+        post('/notificacoes',newNotification)
         del(`/ferramenta?id=${pedido.id}`);
     }
 
@@ -219,8 +290,34 @@ export default function Ficha(props) {
 
     function onChangeTextObs(text) {
         setObservacao(text);
-        setObservacaoError(!text.trim());
+ 
     }
+
+    function onChangeTextNome(text) {
+        setNomeFerramenta(text);
+        setNomeFerramentaError(!text.trim());
+    }
+
+    function onChangeTextCodigo(text) {
+        setCodigoFerramenta(text);
+        setCodigoFerramentaError(!text.trim());
+    }
+
+    function onChangeTextERP(text) {
+        setCodigoERP(text);
+        setCodigoERPError(!text.trim());
+    }
+
+    function onChangeTextNCM(text) {
+        setCodigoNCM(text);
+        setCodigoNCMError(!text.trim());
+    }
+
+    function onChangeTextDescricao(text) {
+        setDescricao(text);
+        setDescricaoError(text.trim());
+    }
+
 
     return (
         <>
@@ -350,26 +447,47 @@ export default function Ficha(props) {
                         </View>
                         <Switch style={styles.switch} value={urgencia} onValueChange={onToggleSwitch} color="red"/>
                     </View>
-                    <TextInput style={styles.input} label="Observações" value={observacoes} error={observacoesError} onChangeText={onChangeTextObs} />
-                    {observacoesError && (
+                    <TextInput style={styles.input} label="Observações" value={observacoes} onChangeText={onChangeTextObs} />
+                   
+
+                    {outros>0 && ( <TextInput style={styles.input} label="Nome da Ferramenta" value={nomeFerramenta} error={nomeFerramentaError} onChangeText={onChangeTextNome} />)}
+                    {nomeFerramentaError && outros>0 && (
                         <HelperText style={styles.error} type="error">
-                            Adicione uma observação
+                           Necessário o nome da Ferramenta
                         </HelperText>
                     )}
-
-                    {outros>0 && ( <TextInput style={styles.input} label="Nome da Ferramenta" />)}
-                    {outros>0 && ( <TextInput style={styles.input} label="Código da ferramenta" />)}
-                    {outros>0 && ( <TextInput style={styles.input} label="Código NCM" />)}
-                    {outros>0 && ( <TextInput style={styles.input} label="Código ERP" />)}
-                    {outros>0 && ( <TextInput style={styles.input} label="Descrição da ferramenta" />)}
+                    {outros>0 && ( <TextInput style={styles.input} label="Código da ferramenta" value={codigoFerramenta} error={codigoFerramentaError} onChangeText={onChangeTextCodigo} />)}
+                    {codigoFerramentaError && outros>0 && (
+                        <HelperText style={styles.error} type="error">
+                            O código da Ferramenta é um número inteiro
+                        </HelperText>
+                    )}
+                    {outros>0 && ( <TextInput style={styles.input} label="Código NCM" value={codigoNCM} error={codigoNCMError} onChangeText={onChangeTextNCM} />)}
+                    {codigoNCMError && outros>0 && (
+                        <HelperText style={styles.error} type="error">
+                            O código NCM é um número inteiro
+                        </HelperText>
+                    )}
+                    {outros>0 && ( <TextInput style={styles.input} label="Código ERP" value={codigoERP} error={codigoERPError} onChangeText={onChangeTextERP}/> )}
+                    {codigoERPError && outros>0 && (
+                        <HelperText style={styles.error} type="error">
+                            O código ERP é um número inteiro
+                        </HelperText>
+                    )}
+                    {outros>0 && ( <TextInput style={styles.input} label="Descrição da ferramenta" value={descricao} error={descricaoError} onChangeText={onChangeTextDescricao} />)}
 
                     <View style={styles.buttonContainer}>
-                        <Button style={styles.button} mode="outlined" disabled={registerResponse.running || removeResponse.running} loading={registerResponse.running} onPress={onPressRegister}>
+                        <Button style={styles.button} mode="contained" color="#72bcd4" disabled={registerResponse.running || removeResponse.running} loading={registerResponse.running} onPress={onPressRegister}>
                             {pedido ? 'Salvar' : 'Solicitar Pedido'}
                         </Button>
+                        {!pedido && (
+                            <Button style={styles.button} mode="outlined" color="blue" disabled={registerResponse.running || removeResponse.running} loading={removeResponse.running} onPress={() => {navigation.navigate('Lista')}}>
+                                Cancelar
+                            </Button>
+                        )}
                         {pedido && (
-                            <Button style={styles.button} mode="outlined" disabled={registerResponse.running || removeResponse.running} loading={removeResponse.running} onPress={() => setRemoveVisible(true)}>
-                                Remover
+                            <Button style={styles.button} mode="outlined" color="blue" disabled={registerResponse.running || removeResponse.running} loading={removeResponse.running} onPress={() => setRemoveVisible(true)}>
+                                Excluir
                             </Button>
                         )}
                     </View>

@@ -24,7 +24,7 @@ public class PedidoMaterialEndpoint extends Endpoint<PedidoMaterial> {
 
 	@Override
 	public List<PedidoMaterial> getList(Args args) {
-		return dao.retrieveAll();
+		return dao.retrieveAll("urgencia");
 	}
 
 	@Override

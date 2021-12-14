@@ -19,6 +19,33 @@ title {
     padding: 5px;
 }
 
+
+modificacao {
+    align-items: center;
+    padding: 5px;
+}
+
+button {
+    margin:15px;
+}
+
+noNotification {
+    top:170px;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center; 
+}
+
+None {
+    width:80px;
+    height:80px;
+    margin-left:115px;
+}
+
+text1 {
+    font-size:22px;
+}
+
 item {
     flex-direction: row;
     align-items: center;
@@ -29,15 +56,15 @@ fonte {
 }
 
 text {
-    flex:3.5;
+    flex:2.3;
 }
 
 tipo {
-    flex:1.2;
+    flex:1.0;
 }
 
 data {
-    flex:1.4;
+    flex:1.1;
 }
 
 hora {

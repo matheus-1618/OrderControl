@@ -1,103 +1,129 @@
 import styles from '../styles/Notificaoes.json';
 
-import Constants from 'expo-constants';
-import * as Notifications from 'expo-notifications';
-import React, { useState, useEffect, useRef } from 'react';
-import { Text, View, Button, Platform } from 'react-native';
+import React, { useState } from 'react';
 
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: true,
-    shouldSetBadge: true,
-  }),
-});
+import { View, ScrollView } from 'react-native';
 
-export default function App(props) {
-  const [expoPushToken, setExpoPushToken] = useState('');
-  const [notification, setNotification] = useState(false);
-  const notificationListener = useRef();
-  const responseListener = useRef();
-  const onToggleSwitch = () => setExpoPushToken(token);
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-  useEffect(() => {
-    registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
+import { Card, Divider, ActivityIndicator, Text, Button, Paragraph,Snackbar,Avatar } from 'react-native-paper';
 
-    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-      setNotification(notification);
-    });
+import { Icon, useSignal, useEmit, useEffect, useRequest, map } from '../lib';
 
-    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-      console.log(response);
-    });
+import settings from '../settings.json';
 
-    return () => {
-      Notifications.removeNotificationSubscription(notificationListener.current);
-      Notifications.removeNotificationSubscription(responseListener.current);
-    };
-  }, []);
-
+function NotificacaoItem(props) {
+  const { notificacoes } = props;
   return (
-    <View
-      style={{
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'space-around',
-      }}>
-      <Text>Your expo push token: {expoPushToken}</Text>
-      <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Title: {notification && notification.request.content.title} </Text>
-        <Text>Body: {notification && notification.request.content.body}</Text>
-        <Text>Data: {notification && JSON.stringify(notification.request.content.data)}</Text>
-      </View>
-      <Button
-        title="Press to schedule a notification"
-        onPress={async () => {
-          await schedulePushNotification();
-        }}
-      />
-    </View>
+      <>
+          <Card style={styles.itemContainer}>  
+              {notificacoes.tipo == "Material" ? (
+                  <Card.Title title={notificacoes.notificacao} titleStyle={styles.title} left={(props) => <Avatar.Icon {...props} icon="wall" />}  />
+                  ) :  ( notificacoes.tipo == "Ferramenta" ?
+                  (<Card.Title title={notificacoes.notificacao} titleStyle={styles.title} left={(props) => <Avatar.Icon {...props} icon="hammer" />}  />)
+                   : 
+                  (<Card.Title title={notificacoes.notificacao} titleStyle={styles.title} left={(props) => <Avatar.Icon {...props} icon="barn" />}  />))
+                  }
+              <Card.Content styles={styles.observacoes}>
+              <View style={styles.chipContainer}>
+              <Paragraph>Data: {notificacoes.data} {notificacoes.hora}  </Paragraph>
+              </View>
+              </Card.Content>
+          </Card>
+          <Divider />
+      </>
   );
 }
 
-async function schedulePushNotification() {
-  await Notifications.scheduleNotificationAsync({
-    content: {
-      title: "Mudança na base de dados📬",
-      body: 'Pedido #56 cadastrado',
-      data: { data: 'goes here' },
-    },
-    trigger: { seconds: 2 },
-  });
+export default function Lista(props) {
+  
+  const { navigation } = props;
+
+  const [getError, setGetError] = useState(false);
+  const [removeVisible, setRemoveVisible] = useState(false);
+  const [removeError, setRemoveError] = useState(false);
+
+  const signal = useSignal('updated-estoques');
+  const signal1 = useSignal('updated-materiais');
+  const signal2 = useSignal('updated-ferramentas');
+
+  const emit = useEmit('updated-ferramentas');
+
+  const { get, response } = useRequest(settings.url);
+  const { del, response: removeResponse } = useRequest(settings.url);
+
+  function onDismissRemove() {
+    setRemoveVisible(false);
 }
 
-async function registerForPushNotificationsAsync() {
-  let token;
-  if (Constants.isDevice) {
-    const { status: existingStatus } = await Notifications.getPermissionsAsync();
-    let finalStatus = existingStatus;
-    if (existingStatus !== 'granted') {
-      const { status } = await Notifications.requestPermissionsAsync();
-      finalStatus = status;
-    }
-    if (finalStatus !== 'granted') {
-      alert('Failed to get push token for push notification!');
-      return;
-    }
-    token = (await Notifications.getExpoPushTokenAsync()).data;
-    console.log(token);
-  } else {
-    alert('Must use physical device for Push Notifications');
-  }
+  function onConfirmRemove() {
+    onDismissRemove();
+    setRemoveError(true);
+    del(`/notificacoes/list`);
+}
 
-  if (Platform.OS === 'android') {
-    Notifications.setNotificationChannelAsync('default', {
-      name: 'default',
-      importance: Notifications.AndroidImportance.MAX,
-      vibrationPattern: [0, 250, 250, 250],
-      lightColor: '#FF231F7C',
-    });
-  }
+  useEffect(() => {
+      setGetError(true);
+      get('/notificacoes/list');
+  }, [signal,signal1,signal2]);
 
-  return token;
+  useEffect(() => {
+    if ((removeResponse.success && removeResponse.body !== null)) {
+        emit();
+        navigation.navigate('Notificacao');
+    } 
+}, [removeResponse]);
+
+    return (
+        <>
+        <Button mode="contained" disabled={removeResponse.running} loading={removeResponse.running} onPress={onConfirmRemove}>
+        Limpar notificações
+        </Button>
+        <ScrollView>
+            {response.running ? (
+                <View style={styles.center}>
+                    <ActivityIndicator size="large" />
+                </View>
+            ) : (
+                response.success ? (
+                    response.body === null || response.body.length === 0 ? (
+                        <View style={styles.center}>
+                            <View style={styles.noNotification}>
+                                <Icon style={styles.None} name="alarm-snooze"/>
+                                <Text style={styles.text}>
+                                    Nenhuma nova notificação
+                                </Text>
+                            </View>
+                        </View>
+                    ) : (
+                        <View>
+                            <SafeAreaView style={styles.container}>
+                            {map(response.body.reverse(), (notificacoes) => <NotificacaoItem navigation={navigation} notificacoes={notificacoes} />)}
+                            </SafeAreaView>
+    
+                        </View>
+                    )
+                ) : (
+                    <View style={styles.center}>
+                       <View style={styles.noNotification}>
+                            <Icon style={styles.None} name="close-box-multiple"/>
+                            <Text style={styles.text}>
+                                Ocorreu um erro inesperado
+                            </Text>
+                            <Button style = {styles.button} icon={"backup-restore"} mode="contained" onPress={emit}>
+                                Tentar novamente
+                            </Button>
+                            </View>
+                    </View>
+                )
+                
+            )}
+            {!response.running && !response.success && (
+                <Snackbar visible={getError} action={{ label: 'Ok', onPress: () => setGetError(false) }} onDismiss={() => { }}>
+                    {response.body.status === 0 ? 'Não foi possível conectar ao servidor' : `ERROR ${response.body.status}: ${response.body.message}`}
+                </Snackbar>
+                )}
+                </ScrollView>
+        </>
+    );
 }

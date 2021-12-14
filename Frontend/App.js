@@ -39,6 +39,7 @@ for (const module of GoogleFonts) {
     entries.push([module.useFonts, fonts]);
 }
 
+
 let theme;
 if (settings.dark) {
     theme = merge.all([NavigationDarkTheme, PaperDarkTheme, CustomDarkTheme]);

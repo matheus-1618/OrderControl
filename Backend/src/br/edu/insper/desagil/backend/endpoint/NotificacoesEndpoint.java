@@ -2,42 +2,43 @@ package br.edu.insper.desagil.backend.endpoint;
 
 import java.util.List;
 
-import br.edu.insper.desagil.backend.core.Modificacoes;
-import br.edu.insper.desagil.backend.dao.ModificacoesDAO;
+
+import br.edu.insper.desagil.backend.core.Notificacoes;
+import br.edu.insper.desagil.backend.dao.NotificacoesDAO;
 import br.edu.insper.desagil.backend.httpserver.Args;
 import br.edu.insper.desagil.backend.httpserver.Endpoint;
 import br.edu.insper.desagil.backend.httpserver.Result;
 
-public class ModificacoesEndpoint extends Endpoint<Modificacoes> {
-	private ModificacoesDAO dao;
+public class NotificacoesEndpoint extends Endpoint<Notificacoes> {
+	private NotificacoesDAO dao;
 
-	public ModificacoesEndpoint() {
-		super("/modificacoes");
-		dao = new ModificacoesDAO();
+	public NotificacoesEndpoint() {
+		super("/notificacoes");
+		dao = new NotificacoesDAO();
 	}
 
 	@Override
-	public Modificacoes get(Args args) {
+	public Notificacoes get(Args args) {
 		String key = args.get("key");
 		return dao.retrieve(key);
 	}
 
 	@Override
-	public List<Modificacoes> getList(Args args) {
+	public List<Notificacoes> getList(Args args) {
 		return dao.retrieveAll("hora");
 	}
 
 	@Override
-	public Result post(Args args, Modificacoes modificacoes) {
-		dao.create(modificacoes);
+	public Result post(Args args, Notificacoes notificacoes) {
+		dao.create(notificacoes);
 		Result result = new Result();
-		result.put("key", modificacoes.getKey());
+		result.put("key", notificacoes.getKey());
 		return result;
 	}
 
 	@Override
-	public Result put(Args args, Modificacoes modificacoes) {
-		dao.update(modificacoes);
+	public Result put(Args args, Notificacoes notificacoes) {
+		dao.update(notificacoes);
 		return new Result();
 	}
 

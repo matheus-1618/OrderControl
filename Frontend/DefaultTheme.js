@@ -4,7 +4,7 @@ export default {
     dark: false,
     roundness: 4,
     colors: {
-        primary: '#6200ee',
+        primary: '#2385A2',
         accent: '#03dac4',
         background: '#f6f6f6',
         surface: '#ffffff',

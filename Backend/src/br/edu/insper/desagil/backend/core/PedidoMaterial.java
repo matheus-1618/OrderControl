@@ -1,6 +1,5 @@
 package br.edu.insper.desagil.backend.core;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,9 +12,9 @@ public class PedidoMaterial extends FirestoreObject {
 	private String observacoes;
 	private Map<String,Integer> materiais;
 	private String nomeMaterial;
-	private Integer codigoMaterial;
-	private Integer codigoNCM;
-	private Integer codigoERP;
+	private String codigoMaterial;
+	private String codigoNCM;
+	private String codigoERP;
 	private String descricao;
 	private List<String> chavesEstoques;
 
@@ -24,14 +23,6 @@ public class PedidoMaterial extends FirestoreObject {
 	public PedidoMaterial () {
 		this.id = Integer.toString(idCount);
 		idCount ++;
-		this.materiais = new HashMap<String,Integer>() {{
-			put("areia",0);
-			put("brita",0);
-			put("cal",0);
-			put("argamassa",0);
-			put("cimento",0);
-			put("outros",0);
-		}};
 	}
 	
 	@Override
@@ -110,27 +101,27 @@ public class PedidoMaterial extends FirestoreObject {
 		this.nomeMaterial = nomeMaterial;
 	}
 
-	public Integer getCodigoMaterial() {
+	public String getCodigoMaterial() {
 		return codigoMaterial;
 	}
 
-	public void setCodigoMaterial(Integer codigoMaterial) {
+	public void setCodigoMaterial(String codigoMaterial) {
 		this.codigoMaterial = codigoMaterial;
 	}
 
-	public Integer getCodigoNCM() {
+	public String getCodigoNCM() {
 		return codigoNCM;
 	}
 
-	public void setCodigoNCM(Integer codigoNCM) {
+	public void setCodigoNCM(String codigoNCM) {
 		this.codigoNCM = codigoNCM;
 	}
 
-	public Integer getCodigoERP() {
+	public String getCodigoERP() {
 		return codigoERP;
 	}
 
-	public void setCodigoERP(Integer codigoERP) {
+	public void setCodigoERP(String codigoERP) {
 		this.codigoERP = codigoERP;
 	}
 

@@ -4,7 +4,7 @@ import { View, ScrollView } from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { TouchableRipple, Title, Divider, ActivityIndicator, Text, Button, FAB, Snackbar } from 'react-native-paper';
+import { TouchableRipple, Title, Divider, ActivityIndicator, Text, Button, FAB, Snackbar,Avatar } from 'react-native-paper';
 
 import { Rounded, Icon, useSignal, useEmit, useEffect, useRequest, map } from '../../lib';
 
@@ -20,7 +20,7 @@ function EstoqueItem(props) {
                 <View style={styles.item}>
                     <Rounded>
                         <View style={styles.photoContainer}>
-                            <Icon style={styles.icon} name="barn"  />
+                            <Avatar.Icon  icon="barn" size={50}  />
                         </View>
                     </Rounded>
                     <Title style={styles.name}>
@@ -61,9 +61,15 @@ export default function Lista(props) {
                 response.success ? (
                     response.body === null || response.body.length === 0 ? (
                         <View style={styles.center}>
-                            <Text>
-                                Nenhum estoque salvo
-                            </Text>
+                             <View style={styles.noNotification}>
+                                <Icon style={styles.None} name="truck-fast"/>
+                                <Text style={styles.text}>
+                                    Nenhum estoque cadastrado
+                                </Text>
+                            <Button style = {styles.button} icon={"plus-circle-outline"} mode="contained" onPress={() => navigation.navigate('Adicionar Estoque', null)}>
+                                Cadastrar novo estoque
+                            </Button>
+                            </View>
                         </View>
                     ) : (
                         <ScrollView>
@@ -74,9 +80,15 @@ export default function Lista(props) {
                     )
                 ) : (
                     <View style={styles.center}>
-                        <Button mode="contained" onPress={emit}>
-                            Tentar novamente
-                        </Button>
+                        <View style={styles.noNotification}>
+                                <Icon style={styles.None} name="close-box-multiple"/>
+                                <Text style={styles.text}>
+                                    Ocorreu um erro inesperado
+                                </Text>
+                            <Button style = {styles.button} icon={"backup-restore"} mode="contained" onPress={emit}>
+                                Tentar novamente
+                            </Button>
+                            </View>
                     </View>
                 )
             )}
