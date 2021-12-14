@@ -1,7 +1,12 @@
 package br.edu.insper.desagil.backend.dao;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -9,14 +14,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import br.edu.insper.desagil.backend.Backend;
-import br.edu.insper.desagil.backend.core.Pedido;
-import br.edu.insper.desagil.backend.core.Urgencia;
+import br.edu.insper.desagil.backend.core.PedidoMaterial;
 import br.edu.insper.desagil.backend.database.firestore.Firestore;
 
 public class PedidoMaterialDAOTest {
 	private static String name;
-	private PedidoDAO dao;
-	private Pedido pedido;
+	private PedidoMaterialDAO dao;
+	private PedidoMaterial pedido;
+	private Map<String,Integer> materiais;
+	private List<String> estoques;
 
 	@BeforeAll
 	public static void setUpClass() {
@@ -25,38 +31,44 @@ public class PedidoMaterialDAOTest {
 
 	@BeforeEach
 	void setUp() {
-		dao = new PedidoDAO();
+		dao = new PedidoMaterialDAO();
 		dao.deleteAll();
-		pedido = new Pedido();
+		pedido = new PedidoMaterial();
+		materiais = new HashMap<String,Integer>();
+		estoques = new ArrayList<String>();
 	}
 
 	@Test
 	void test() {
-		Urgencia urgencia;
-		urgencia = Urgencia.ALTA;
-		pedido.setUrgencia(urgencia);
+		materiais.put("Cimento", 1);
+		materiais.put("Areia", 2);
+		materiais.put("Outros", 2);
+		
+		estoques.add("hxYsajk131as");
+		
+		pedido.setMateriais(materiais);
+		pedido.setUrgencia(false);
+		pedido.setObservacoes("Trazer pedido por trás da entrada");
+		pedido.setNomeMaterial("Gesso");
+		pedido.setCodigoMaterial("32456");
+		pedido.setCodigoERP("123456");
+		pedido.setCodigoNCM("hxay241A");
+		pedido.setChavesEstoques(estoques);
+		
 		dao.create(pedido);
-		pedido = dao.retrieve(pedido.getId());
-		assertEquals(Urgencia.ALTA, pedido.getUrgencia());
-	}
-	
-	@Test
-	void testString() {
-		String string = new String("Trazer cimento em caminhão Volvo");
-		pedido.setObservacoes(string);
-		dao.create(pedido);
-		pedido = dao.retrieve(pedido.getId());
-		assertEquals("Trazer cimento em caminhão Volvo", pedido.getObservacoes());
-	}
-	
-	@Test
-	void testQntdMAterial() {
-		pedido.changeQuantidadeMaterial("madeira", 3);
-		pedido.changeQuantidadeMaterial("areia", 5);
-		dao.create(pedido);
-		pedido = dao.retrieve(pedido.getId());
-		assertEquals(3,pedido.getQuantidadeMaterial("madeira"));
-		assertEquals(5,pedido.getQuantidadeMaterial("areia"));
+		String id = pedido.getId();
+		pedido = dao.retrieve(id);
+		
+		assertEquals(1,pedido.getMateriais().get("Cimento"));
+		assertEquals(2,pedido.getMateriais().get("Areia"));
+		assertEquals(2,pedido.getMateriais().get("Outros"));
+		assertFalse(pedido.getUrgencia());
+		assertEquals("Trazer pedido por trás da entrada",pedido.getObservacoes());
+		assertEquals("Gesso",pedido.getNomeMaterial());
+		assertEquals("32456",pedido.getCodigoMaterial());
+		assertEquals("123456",pedido.getCodigoERP());
+		assertEquals("hxay241A",pedido.getCodigoNCM());
+		assertEquals("hxYsajk131as",pedido.getChavesEstoques().get(0));
 	}
 
 	@AfterAll

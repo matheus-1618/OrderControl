@@ -3,20 +3,20 @@ package br.edu.insper.desagil.backend.dao;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import br.edu.insper.desagil.backend.Backend;
-import br.edu.insper.desagil.backend.core.Pedido;
-import br.edu.insper.desagil.backend.core.Urgencia;
+import br.edu.insper.desagil.backend.core.Estoque;
 import br.edu.insper.desagil.backend.database.firestore.Firestore;
 
 public class EstoqueDAOTest {
 	private static String name;
-	private PedidoDAO dao;
-	private Pedido pedido;
+	private EstoqueDAO dao;
+	private Estoque estoque;
 
 	@BeforeAll
 	public static void setUpClass() {
@@ -25,39 +25,26 @@ public class EstoqueDAOTest {
 
 	@BeforeEach
 	void setUp() {
-		dao = new PedidoDAO();
+		dao = new EstoqueDAO();
 		dao.deleteAll();
-		pedido = new Pedido();
+		estoque = new Estoque();
 	}
 
 	@Test
 	void test() {
-		Urgencia urgencia;
-		urgencia = Urgencia.ALTA;
-		pedido.setUrgencia(urgencia);
-		dao.create(pedido);
-		pedido = dao.retrieve(pedido.getId());
-		assertEquals(Urgencia.ALTA, pedido.getUrgencia());
+		estoque.setNome("Cajazeiras");
+		estoque.setEmpresa("Matcia");
+		estoque.setEmpreedimento("Construção Civil");
+		estoque.setLocalizacao("Cajazeiras, Bahia");
+		dao.create(estoque);
+		String key = estoque.getKey();
+		estoque = dao.retrieve(key);
+		assertEquals("Cajazeiras",estoque.getNome());
+		assertEquals("Matcia",estoque.getEmpresa());
+		assertEquals("Construção Civil",estoque.getEmpreedimento());
+		assertEquals("Cajazeiras, Bahia",estoque.getLocalizacao());
 	}
 	
-	@Test
-	void testString() {
-		String string = new String("Trazer cimento em caminhão Volvo");
-		pedido.setObservacoes(string);
-		dao.create(pedido);
-		pedido = dao.retrieve(pedido.getId());
-		assertEquals("Trazer cimento em caminhão Volvo", pedido.getObservacoes());
-	}
-	
-	@Test
-	void testQntdMAterial() {
-		pedido.changeQuantidadeMaterial("madeira", 3);
-		pedido.changeQuantidadeMaterial("areia", 5);
-		dao.create(pedido);
-		pedido = dao.retrieve(pedido.getId());
-		assertEquals(3,pedido.getQuantidadeMaterial("madeira"));
-		assertEquals(5,pedido.getQuantidadeMaterial("areia"));
-	}
 
 	@AfterAll
 	public static void tearDownClass() {

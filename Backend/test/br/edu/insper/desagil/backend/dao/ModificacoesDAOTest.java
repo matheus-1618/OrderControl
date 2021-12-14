@@ -3,20 +3,20 @@ package br.edu.insper.desagil.backend.dao;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import br.edu.insper.desagil.backend.Backend;
-import br.edu.insper.desagil.backend.core.Pedido;
-import br.edu.insper.desagil.backend.core.Urgencia;
+import br.edu.insper.desagil.backend.core.Modificacoes;
 import br.edu.insper.desagil.backend.database.firestore.Firestore;
 
 public class ModificacoesDAOTest {
 	private static String name;
-	private PedidoDAO dao;
-	private Pedido pedido;
+	private ModificacoesDAO dao;
+	private Modificacoes modificacoes;
 
 	@BeforeAll
 	public static void setUpClass() {
@@ -25,39 +25,26 @@ public class ModificacoesDAOTest {
 
 	@BeforeEach
 	void setUp() {
-		dao = new PedidoDAO();
+		dao = new ModificacoesDAO();
 		dao.deleteAll();
-		pedido = new Pedido();
+		modificacoes = new Modificacoes();
 	}
 
 	@Test
 	void test() {
-		Urgencia urgencia;
-		urgencia = Urgencia.ALTA;
-		pedido.setUrgencia(urgencia);
-		dao.create(pedido);
-		pedido = dao.retrieve(pedido.getId());
-		assertEquals(Urgencia.ALTA, pedido.getUrgencia());
+		modificacoes.setData("15/12/2021");
+		modificacoes.setHora("15:37");
+		modificacoes.setModificacao("Pedido #38 alterado");
+		modificacoes.setTipo("Ferramenta");
+		dao.create(modificacoes);
+		String key = modificacoes.getKey();
+		modificacoes = dao.retrieve(key);
+		assertEquals("15/12/2021",modificacoes.getData());
+		assertEquals("15:37",modificacoes.getHora());
+		assertEquals("Pedido #38 alterado",modificacoes.getModificacao());
+		assertEquals("Ferramenta",modificacoes.getTipo());
 	}
 	
-	@Test
-	void testString() {
-		String string = new String("Trazer cimento em caminhão Volvo");
-		pedido.setObservacoes(string);
-		dao.create(pedido);
-		pedido = dao.retrieve(pedido.getId());
-		assertEquals("Trazer cimento em caminhão Volvo", pedido.getObservacoes());
-	}
-	
-	@Test
-	void testQntdMAterial() {
-		pedido.changeQuantidadeMaterial("madeira", 3);
-		pedido.changeQuantidadeMaterial("areia", 5);
-		dao.create(pedido);
-		pedido = dao.retrieve(pedido.getId());
-		assertEquals(3,pedido.getQuantidadeMaterial("madeira"));
-		assertEquals(5,pedido.getQuantidadeMaterial("areia"));
-	}
 
 	@AfterAll
 	public static void tearDownClass() {
