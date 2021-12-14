@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 
 import { View, ScrollView } from 'react-native';
 
-
 import {Title, Divider, ActivityIndicator, Text, Button, DataTable, Snackbar } from 'react-native-paper';
 
 import { Icon,useGlobal, useSignal, useEmit, useEffect, useRequest, map } from '../../lib';
@@ -29,25 +28,9 @@ function ModificacaoItem(props) {
   );
 }
 
+
 export default function Lista(props) {
-  const numberOfItemsPerPageList = [2, 3, 4];
-
-  const items = [
-    {
-      key: 1,
-      name: 'Page 1',
-    },
-    {
-      key: 2,
-      name: 'Page 2',
-    },
-    {
-      key: 3,
-      name: 'Page 3',
-    },
-  ];
   const { navigation } = props;
-
   const [getError, setGetError] = useState(false);
 
   const signal = useSignal('updated-estoques');
@@ -57,21 +40,11 @@ export default function Lista(props) {
 
   const { get, response } = useRequest(settings.url);
 
-  const [notificacoes, setNotificacoes] = useGlobal("size");
-
   useEffect(() => {
       setGetError(true);
       get('/modificacoes/list');
   }, [signal,signal1,signal2]);
 
-  const [page, setPage] = useState(0);
-  const [numberOfItemsPerPage, onItemsPerPageChange] = useState(numberOfItemsPerPageList[0]);
-  const from = page * numberOfItemsPerPage;
-
-
-  useEffect(() => {
-     setPage(0);
-  }, [numberOfItemsPerPage]);
   return (
       <>
       <View style={styles.title}>
@@ -94,18 +67,17 @@ export default function Lista(props) {
                           </View>
                       </View>
                   ) : (
-                      
                          <DataTable>
                            <View style={styles.modificacao}>
                             <Text>{response.body.length} modificações catalogadas</Text>
                             </View>
                             <DataTable.Header>
-                              <DataTable.Title sortDirection="ascending" style={styles.data}>Data</DataTable.Title>
-                              <DataTable.Title style={styles.hora}>Hora</DataTable.Title>
-                              <DataTable.Title style={styles.text}>Modificação</DataTable.Title>
-                              <DataTable.Title  sortDirection="ascending"style={styles.tipo}>Tipo</DataTable.Title>
+                              <DataTable.Title  style={styles.data}>Data</DataTable.Title>
+                              <DataTable.Title  style={styles.hora}>Hora</DataTable.Title>
+                              <DataTable.Title  style={styles.text}>Modificação</DataTable.Title>
+                              <DataTable.Title  style={styles.tipo}>Tipo</DataTable.Title>
                             </DataTable.Header>
-                              {map(response.body, (modificacoes) => <ModificacaoItem navigation={navigation} modificacoes={modificacoes} />)}    
+                              {map(response.body.reverse(), (modificacoes) => <ModificacaoItem navigation={navigation} modificacoes={modificacoes} />)}    
                       </DataTable>
                   )
               ) : (

@@ -98,7 +98,7 @@ export default function Lista(props) {
                     ) : (
                         <View>
                             <SafeAreaView style={styles.container}>
-                            {map(response.body, (notificacoes) => <NotificacaoItem navigation={navigation} notificacoes={notificacoes} />)}
+                            {map(response.body.reverse(), (notificacoes) => <NotificacaoItem navigation={navigation} notificacoes={notificacoes} />)}
                             </SafeAreaView>
     
                         </View>
