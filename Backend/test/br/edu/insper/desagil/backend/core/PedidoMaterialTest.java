@@ -35,5 +35,15 @@ class PedidoMaterialTest {
 		assertEquals(3,material.getQuantidadeMaterial("cimento"));
 		assertEquals(3,material.getQuantidadeMaterial("argamassa"));
 	}
+	////////
+	@Test
+	public void testUrgenciaObservacao() {
+		Urgencia urgencia;
+		urgencia = Urgencia.ALTA;
+		material.setUrgencia(urgencia);
+		material.setObservacoes("Observação");
+		assertEquals(Urgencia.ALTA, material.getUrgencia());
+		assertEquals("Observação", material.getObservacoes());
+	}
 
 }
