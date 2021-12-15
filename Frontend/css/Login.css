@@ -1,0 +1,49 @@
+container {
+    flex:1;
+    align-items: center;
+    justify-content: center;
+}
+
+image {
+    flex:1;
+    justify-content: center;
+}
+
+connect {
+    margin-top: 40;
+}
+
+sol {
+    width: 300;
+    height: 57;
+}
+
+inputView{
+    width:"80%";
+    height:50;
+    margin-bottom:20;
+    justify-content:center;
+    padding:20;
+  }
+
+inputText{
+    margin-top:40;
+    border-radius:10;
+    height:50;
+    color:white;
+  }
+
+  loginBtn{
+    width:"80%";
+    background-color:"#2385A2";
+    border-radius:25;
+    height:50;
+    align-items:center;
+    justify-content:center;
+    margin-top:30;
+    margin-bottom:10;
+  }
+
+  loginText{
+    color:black;
+  }

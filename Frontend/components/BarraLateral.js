@@ -2,7 +2,7 @@ import React,{ useState } from 'react';
 
 import { View, StyleSheet } from 'react-native';
 
-import {useTheme,Avatar,Title,Caption,Paragraph,Drawer,Text,TouchableRipple,Switch} from 'react-native-paper';
+import {useTheme,Avatar,Title,Caption,Button,Drawer,Text,TouchableRipple,Switch} from 'react-native-paper';
 
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 
@@ -51,7 +51,7 @@ export function BarraLateral(props) {
             </View>
         </DrawerContentScrollView>
         <Drawer.Section style={styles.bottomDrawerSection}>
-            <DrawerItem  icon={({color, size}) => (<Icon name="exit-to-app" color={color} size={size}/>)} label="Sair"/>
+            <DrawerItem onPress={() => {props.navigation.navigate('Login')}} icon={({color, size}) => (<Icon name="exit-to-app" color={color} size={size}/>)} label="Sair"/>
         </Drawer.Section>
     </View>
 );

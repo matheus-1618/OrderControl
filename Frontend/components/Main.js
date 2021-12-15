@@ -12,6 +12,7 @@ console.reportErrorsAsExceptions = false;
 
 import { useGlobal } from '../lib';
 
+import Login from './Login';
 import Pedido from './pedidos/Main';
 import Estoque from './estoques/Main';
 import Notificacoes from './Notificaoes';
@@ -55,7 +56,8 @@ export default function Main(props) {
     },
   };
     return (
-         <Drawer.Navigator drawerContent={props => <BarraLateral {...props} /> } initialRouteName="Pedidos" screenOptions={screenOptions}>  
+         <Drawer.Navigator drawerContent={props => <BarraLateral {...props} /> } initialRouteName="Login" screenOptions={screenOptions}>  
+            <Drawer.Screen name="Login" component={Login} options={{headerShown: false}}/>
             <Drawer.Screen name="Pedidos" component={Pedido}/>
             <Drawer.Screen name="Estoque" component={Estoque}/>
             <Drawer.Screen name="Notificacao" component={Notificacoes}/>
