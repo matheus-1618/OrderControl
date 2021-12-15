@@ -62,7 +62,7 @@ export default function Lista(props) {
                     response.body === null || response.body.length === 0 ? (
                         <View style={styles.center}>
                              <View style={styles.noNotification}>
-                                <Icon style={styles.None} name="truck-fast"/>
+                                <Icon style={styles.None} color="#2385A2" name="truck-fast"/>
                                 <Text style={styles.text}>
                                     Nenhum estoque cadastrado
                                 </Text>

@@ -17,9 +17,8 @@ public class PedidoMaterial extends FirestoreObject {
 	private String codigoERP;
 	private String descricao;
 	private List<String> chavesEstoques;
+	private String data;
 
-	
-	
 	public PedidoMaterial () {
 		this.id = Integer.toString(idCount);
 		idCount ++;
@@ -131,6 +130,14 @@ public class PedidoMaterial extends FirestoreObject {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+
+	public String getData() {
+		return data;
+	}
+
+	public void setData(String data) {
+		this.data = data;
 	}
 	
 }

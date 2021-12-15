@@ -44,6 +44,7 @@ class PedidoMaterialEndpointTest extends EndpointTest<PedidoMaterial> {
 		pedido.setCodigoMaterial("32456");
 		pedido.setCodigoERP("123456");
 		pedido.setCodigoNCM("hxay241A");
+		pedido.setData("13/08/2019 13:34");
 		
 		pedido.setChavesEstoques(estoques);
 		post(pedido);
@@ -58,6 +59,7 @@ class PedidoMaterialEndpointTest extends EndpointTest<PedidoMaterial> {
 		assertEquals("123456",pedido.getCodigoERP());
 		assertEquals("hxay241A",pedido.getCodigoNCM());
 		assertEquals("hxYsajk131as",pedido.getChavesEstoques().get(0));
+		assertEquals("13/08/2019 13:34",pedido.getData());
 	}
 	
 	@AfterEach

@@ -166,7 +166,14 @@ export default function Ficha(props) {
     }
 
     function onPressRegister() {
-        if (andaime==0 && betoneira ==0 && bomba ==0 &&
+        if (estoqueKeys.length === 0 &&((andaime==0 && betoneira ==0 && bomba ==0 &&
+            esmerilhadeira==0 && furadeira==0 && outros==0))){
+            alert("Não é possível fazer um pedido vazio");
+            }
+        else if(estoqueKeys.length === 0){
+            alert("Não é possível fazer um pedido sem um estoque escolhido!");
+        }
+        else if (andaime==0 && betoneira ==0 && bomba ==0 &&
             esmerilhadeira==0 && furadeira==0 && outros==0){
             alert("Não é possível fazer um pedido sem solicitações");
         }
@@ -206,6 +213,7 @@ export default function Ficha(props) {
                 codigoERP:codigoERP,
                 descricao:descricao,
                 chavesEstoques: estoqueKeys,
+                data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear() +" "+(String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
             };
             if (pedido) {
                 const alteration = {
@@ -249,6 +257,11 @@ export default function Ficha(props) {
 
     function onDismissRemove() {
         setRemoveVisible(false);
+    }
+
+    function navigateEstoque(){
+        navigation.navigate("Estoque",null);
+        onDismissAddEstoque();
     }
 
     function onConfirmRemove() {
@@ -324,69 +337,69 @@ export default function Ficha(props) {
             <ScrollView>
                 <SafeAreaView style={styles.container} edges={['right', 'bottom', 'left']}>  
                 <View style={styles.cardContainer}>
-                <Card style={styles.card}>
-                    <Card.Title title="Andaime" subtitle="Cimento Portland comum" />
+                <Card style={styles.card} elevation={10}>
+                    <Card.Title title="Andaime" subtitle="Andaime metálico" />
                     <Card.Cover source={{ uri: 'https://www.casadoconstrutor.com.br/wp-content/uploads/2018/07/andaimes.jpg'  }} resizeMode="stretch" />
                     <Card.Actions>
                 <View style={styles.buttons}>
-                    <IconButton icon="minus" color={Colors.red500} size={25} onPress={decrementaAndaime} /> 
+                    <IconButton icon={andaime==1? "trash-can" : "minus-circle-outline"} color="#2385A2" size={25} onPress={decrementaAndaime} /> 
                     <Text>{andaime}</Text>
-                    <IconButton icon="plus" color={Colors.red500} size={25} onPress={incrementaAndaime} /> 
+                    <IconButton icon="plus-circle-outline" color="#2385A2" size={25} onPress={incrementaAndaime} /> 
                 </View>
                     </Card.Actions>
                 </Card>
-                <Card style={styles.card}>
-                    <Card.Title title="Betoneira" subtitle="Argamassa Portland comum" />
+                <Card style={styles.card} elevation={10}>
+                    <Card.Title title="Betoneira" subtitle="Betoneira portátil" />
                     <Card.Cover  source={{ uri: 'https://a-static.mlcdn.com.br/618x463/betoneira-menegotti-400-litros-prime/lojaszema/2116/6489f17ea00a03aa2beb1e9074686ada.jpg'  }} resizeMode="stretch" />
                     <Card.Actions>
                     <View style={styles.buttons}>
-                        <IconButton icon="minus" color={Colors.red500} size={25} onPress={decrementaBetoneira} /> 
+                        <IconButton icon={betoneira==1? "trash-can" : "minus-circle-outline"} color="#2385A2" size={25} onPress={decrementaBetoneira} /> 
                         <Text>{betoneira}</Text>
-                        <IconButton icon="plus" color={Colors.red500} size={25} onPress={incrementaBetoneira} /> 
+                        <IconButton icon="plus-circle-outline" color="#2385A2" size={25} onPress={incrementaBetoneira} /> 
                     </View> 
                     </Card.Actions>
                 </Card>
-                <Card style={styles.card}>
-                    <Card.Title title="Bomba" subtitle="Cimento Portland comum" />
+                <Card style={styles.card} elevation={10}>
+                    <Card.Title title="Bomba" subtitle="Bomba d'água" />
                     <Card.Cover source={{ uri: 'https://images-submarino.b2w.io/produtos/01/00/item/111605/8/111605854_1GG.jpg'  }} resizeMode="stretch" />
                     <Card.Actions>
                     <View style={styles.buttons}>
-                        <IconButton icon="minus" color={Colors.red500} size={25} onPress={decrementaBomba} /> 
+                        <IconButton icon={bomba==1? "trash-can" : "minus-circle-outline"} color="#2385A2" size={25} onPress={decrementaBomba} /> 
                         <Text>{bomba}</Text>
-                        <IconButton icon="plus" color={Colors.red500} size={25} onPress={incrementaBomba} /> 
+                        <IconButton icon="plus-circle-outline" color="#2385A2" size={25} onPress={incrementaBomba} /> 
                     </View>
                     </Card.Actions>
                 </Card>
-                <Card style={styles.card}>
-                    <Card.Title title="Lixadeira" subtitle="Argamassa Portland comum" />
+                <Card style={styles.card} elevation={10}>
+                    <Card.Title title="Lixadeira" subtitle="Esmerilhadeira" />
                     <Card.Cover  source={{ uri: 'https://casadosoldador.com.br/files/products_images/12587/esmerilhadeira-angular-840w-4-1-2-pol-9557hng-makita-casa-do-soldador-01.jpg?1515090040'  }} resizeMode="stretch" />
                     <Card.Actions>
                     <View style={styles.buttons}>
-                        <IconButton icon="minus" color={Colors.red500} size={25} onPress={decrementaEsmerilhadeira} /> 
+                        <IconButton icon={esmerilhadeira==1? "trash-can" : "minus-circle-outline"} color="#2385A2" size={25} onPress={decrementaEsmerilhadeira} /> 
                         <Text>{esmerilhadeira}</Text>
-                        <IconButton icon="plus" color={Colors.red500} size={25} onPress={incrementaEsmerilhadeira} /> 
+                        <IconButton icon="plus-circle-outline" color="#2385A2" size={25} onPress={incrementaEsmerilhadeira} /> 
                     </View> 
                     </Card.Actions>
                 </Card>
-                <Card style={styles.card}>
-                    <Card.Title title="Furadeira" subtitle="Cimento Portland comum" />
+                <Card style={styles.card} elevation={10}>
+                    <Card.Title title="Furadeira" subtitle="Furadeira Phillips" />
                     <Card.Cover source={{ uri: 'https://m.media-amazon.com/images/I/612zj2sywuL._AC_SY355_.jpg'  }} resizeMode="stretch" />
                     <Card.Actions>
                 <View style={styles.buttons}>
-                    <IconButton icon="minus" color={Colors.red500} size={25} onPress={decrementaFuradeira} /> 
+                    <IconButton icon={furadeira==1? "trash-can" : "minus-circle-outline"} color="#2385A2" size={25} onPress={decrementaFuradeira} /> 
                     <Text>{furadeira}</Text>
-                    <IconButton icon="plus" color={Colors.red500} size={25} onPress={incrementaFuradeira} /> 
+                    <IconButton icon="plus-circle-outline" color="#2385A2" size={25} onPress={incrementaFuradeira} /> 
                 </View>
                     </Card.Actions>
                 </Card>
-                <Card style={styles.card}>
-                    <Card.Title title="Outros" subtitle="Argamassa Portland comum" />
+                <Card style={styles.card} elevation={10}>
+                    <Card.Title title="Outros" subtitle="Outras Ferramentas" />
                     <Card.Cover  source={{ uri: 'https://m.media-amazon.com/images/I/71V4LbulRaL._AC_SY355_.jpg'  }} resizeMode="stretch" />
                     <Card.Actions>
                     <View style={styles.buttons}>
-                        <IconButton icon="minus" color={Colors.red500} size={25} onPress={decrementaOutros} /> 
+                        <IconButton icon={outros==1? "trash-can" : "minus-circle-outline"} color="#2385A2" size={25} onPress={decrementaOutros} /> 
                         <Text>{outros}</Text>
-                        <IconButton icon="plus" color={Colors.red500} size={25} onPress={incrementaOutros} /> 
+                        <IconButton icon="plus-circle-outline" color="#2385A2" size={25} onPress={incrementaOutros} /> 
                     </View> 
                     </Card.Actions>
                 </Card>
@@ -422,7 +435,10 @@ export default function Ficha(props) {
                                                                 {map(outroEstoqueResponse.body, (estoque) => <EstoqueItem estoque={estoque} onPress={onConfirmAddEstoque} />)}
                                                             </>
                                                         ) : (
-                                                            <Paragraph>Todos os estoques cadastraods já receberam a solicitação.</Paragraph>
+                                                            <View>
+                                                            <Paragraph>Não existem estoques disponíveis para entrega.</Paragraph>
+                                                            <Button mode="contained" onPress={navigateEstoque}>Cadastrar novo estoque</Button>
+                                                            </View>
                                                         )
                                                     ) : (
                                                         <Paragraph>Não foi possível conectar ao servidor.</Paragraph>

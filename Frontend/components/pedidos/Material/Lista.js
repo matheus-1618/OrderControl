@@ -4,7 +4,7 @@ import { View, ScrollView } from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { Chip, Card, Paragraph , Title,Divider, ActivityIndicator, Text, Button, FAB, Snackbar } from 'react-native-paper';
+import { Avatar,Chip, Card, Paragraph , Title,Divider, ActivityIndicator, Text, Button, FAB, Snackbar } from 'react-native-paper';
 
 import { Icon, useSignal, useEmit, useEffect, useRequest, map } from '../../../lib';
 
@@ -16,7 +16,7 @@ function PedidoItem(props) {
     const { navigation, pedido } = props;
     return (
         <>
-            <Card style={styles.itemContainer} onPress={() => navigation.navigate('Ficha', pedido)}>
+            <Card style={styles.itemContainer} elevation={15} onPress={() => navigation.navigate('Ficha', pedido)}>
                 <View style={styles.cardTitle}>
                     <View style={styles.cardheader}>
                         <View style={styles.urgenciaIcon}>
@@ -29,28 +29,37 @@ function PedidoItem(props) {
                     <Card.Title title={"Pedido #"+pedido.id}  />
                     </View>
                     <View style={styles.icon}>
-                        <Icon name="wall" color="gray"/>
+                        <Avatar.Icon size={45} icon="wall" />
                     </View>
                 </View>
                 <Card.Content styles={styles.observacoes}>
                     <Paragraph>Solicitações:</Paragraph>
                         <View style={styles.chipContainer}>
                             {pedido.materiais.brita != 0 &&
-                                (<Chip style={styles.chip} selectedColor="blue" icon="wall">Brita {pedido.materiais.brita}x</Chip>)}
+                                (<Chip style={styles.chip} selectedColor="#2D2A9B" icon="wall">Brita {pedido.materiais.brita}x</Chip>)}
                             {pedido.materiais.argamassa != 0 &&
-                                (<Chip style={styles.chip} selectedColor="blue" icon="pillar">Argamassa {pedido.materiais.argamassa}x</Chip>)}
+                                (<Chip style={styles.chip} selectedColor="#2D2A9B" icon="pillar">Argamassa {pedido.materiais.argamassa}x</Chip>)}
                             {pedido.materiais.cal != 0 &&
-                                (<Chip style={styles.chip} selectedColor="blue" icon="hard-hat">Cal {pedido.materiais.cal}x</Chip>)}
+                                (<Chip style={styles.chip} selectedColor="#2D2A9B" icon="hard-hat">Cal {pedido.materiais.cal}x</Chip>)}
                             {pedido.materiais.cimento != 0 &&
-                                (<Chip style={styles.chip} selectedColor="blue" icon="texture">Cimento {pedido.materiais.cimento}x</Chip>)}
+                                (<Chip style={styles.chip} selectedColor="#2D2A9B" icon="texture">Cimento {pedido.materiais.cimento}x</Chip>)}
                             {pedido.materiais.areia != 0 &&
-                                (<Chip style={styles.chip} selectedColor="blue" icon="sack">Areia {pedido.materiais.areia}x</Chip>)}
+                                (<Chip style={styles.chip} selectedColor="#2D2A9B" icon="sack">Areia {pedido.materiais.areia}x</Chip>)}
                             {pedido.materiais.outros != 0 &&
-                                (<Chip style={styles.chip} selectedColor="blue" icon="help-circle">Outros {pedido.materiais.outros}x</Chip>)}
+                                (<Chip style={styles.chip} selectedColor="#2D2A9B" icon="help-circle">Outros {pedido.materiais.outros}x</Chip>)}
                         </View>   
                     </Card.Content>
                 <Card.Actions>
-                    <Paragraph>Observações: {pedido.observacoes}</Paragraph>
+                    {pedido.observacoes != "" ? 
+                    (<View style={styles.col}>
+                        <Paragraph>Observações: {pedido.observacoes}</Paragraph>
+                        <View style={styles.sol}>
+                        <Button style={styles.sol} icon="clock" mode="outlined" >{pedido.data}</Button>
+                        </View>
+                    </View>) :
+                    (<View style={styles.sol}>
+                        <Button style={styles.sol} icon="clock" mode="outlined" >{pedido.data}</Button>
+                    </View>)}
                 </Card.Actions>
             </Card>
             <Divider />
@@ -81,7 +90,7 @@ export default function Lista(props) {
                     response.body === null || response.body.length === 0 ? (
                         <View style={styles.center}>
                            <View style={styles.noNotification}>
-                                <Icon style={styles.None} name="package-variant"/>
+                                <Icon style={styles.None} color="#2385A2" name="package-variant"/>
                                 <Text style={styles.text}>
                                     Nenhum pedido registrado
                                 </Text>

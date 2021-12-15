@@ -54,6 +54,7 @@ public class PedidoFerramentaDAOTest {
 		pedido.setCodigoERP("123456");
 		pedido.setCodigoNCM("hxay241A");
 		pedido.setChavesEstoques(estoques);
+		pedido.setData("13/08/2019 13:34");
 		
 		dao.create(pedido);
 		String id = pedido.getId();
@@ -69,6 +70,8 @@ public class PedidoFerramentaDAOTest {
 		assertEquals("123456",pedido.getCodigoERP());
 		assertEquals("hxay241A",pedido.getCodigoNCM());
 		assertEquals("hxYsajk131as",pedido.getChavesEstoques().get(0));
+		assertEquals("13/08/2019 13:34",pedido.getData());
+		
 	}
 
 	@AfterAll

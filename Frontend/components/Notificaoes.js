@@ -89,7 +89,7 @@ export default function Lista(props) {
                     response.body === null || response.body.length === 0 ? (
                         <View style={styles.center}>
                             <View style={styles.noNotification}>
-                                <Icon style={styles.None} name="alarm-snooze"/>
+                                <Icon style={styles.None} color="#2385A2" name="alarm-snooze"/>
                                 <Text style={styles.text}>
                                     Nenhuma nova notificação
                                 </Text>

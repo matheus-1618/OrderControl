@@ -18,8 +18,8 @@ export default function Main(props) {
 
     return (
         <Tab.Navigator initialRouteName="Material" screenOptions={theme.screenOptions}>
-             <Tab.Screen name="Material" component={Material} options={{ tabBarIcon: ({ color,size }) => <Icon name="wall" size={size} color={color} /> }}/>
-             <Tab.Screen name="Ferramenta" component={Ferramenta} options={{ tabBarIcon: ({ color,size }) => <Icon name="hammer" size={size} color={color} /> }}/>
+             <Tab.Screen name="Material" component={Material} options={{ tabBarIcon: ({ color,size }) => <Icon name="wall" size={size} color="#2385A2" /> }}/>
+             <Tab.Screen name="Ferramenta" component={Ferramenta} options={{ tabBarIcon: ({ color,size }) => <Icon name="hammer" size={size} color="#2385A2" /> }}/>
         </Tab.Navigator>
     );
 }

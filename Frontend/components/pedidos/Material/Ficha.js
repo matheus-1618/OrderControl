@@ -7,7 +7,7 @@ import { ScrollView } from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import {  Switch,TouchableRipple, Divider, List, Text, Card, IconButton, ActivityIndicator,Colors, TextInput, HelperText, Button, Snackbar, Portal, Dialog, Paragraph } from 'react-native-paper';
+import { Switch,TouchableRipple, Divider, List, Text, Card, IconButton, ActivityIndicator, TextInput, HelperText, Button, Snackbar, Portal, Dialog, Paragraph } from 'react-native-paper';
 
 import {  Icon, useGlobal, useEmit, useEffect, map, useRequest } from '../../../lib';
 
@@ -199,7 +199,14 @@ export default function Ficha(props) {
     }
 
     function onPressRegister() {
-        if (cimento==0 && argamassa ==0 && brita ==0 &&
+        if (estoqueKeys.length === 0 && (cimento==0 && argamassa ==0 && brita ==0 &&
+            cal==0 && areia==0 && outros==0)){
+            alert("Não é possível fazer um pedido vazio");
+        }
+        else if(estoqueKeys.length === 0){
+            alert("Não é possível fazer um pedido sem um estoque escolhido!");
+        }
+        else if (cimento==0 && argamassa ==0 && brita ==0 &&
             cal==0 && areia==0 && outros==0){
             alert("Não é possível fazer um pedido sem solicitações");
         }
@@ -239,6 +246,7 @@ export default function Ficha(props) {
                 codigoERP:codigoERP,
                 descricao:descricao,
                 chavesEstoques: estoqueKeys,
+                data: String(new Date().getDate()).padStart(2, '0') +'/'+ String(new Date().getMonth()+1).padStart(2, '0') + '/' + new Date().getFullYear() +" "+(String(("0" + new Date().getHours()).slice(-2))) + ':'+ String(("0" +new Date().getMinutes()).slice(-2)),
             };
             
             if (pedido) {
@@ -284,6 +292,11 @@ export default function Ficha(props) {
         setRemoveVisible(false);
     }
 
+    function navigateEstoque(){
+        navigation.navigate("Estoque",null);
+        onDismissAddEstoque();
+    }
+
     function onConfirmRemove() {
         onDismissRemove();
         setRemoveError(true);
@@ -325,69 +338,69 @@ export default function Ficha(props) {
             <ScrollView style={styles.container}>
                 <SafeAreaView style={styles.container} edges={['right', 'bottom', 'left']}>  
                 <View style={styles.cardContainer}>
-                <Card style={styles.card}>
-                    <Card.Title title="Cimento" subtitle="Cimento Portland comum" />
+                <Card style={styles.card} elevation={10}>
+                    <Card.Title title="Cimento" subtitle="Cimento comum" />
                     <Card.Cover source={{ uri: 'https://telhanorte.vteximg.com.br/arquivos/ids/330671-NaN-NaN/1444778.jpg?v=636652679501130000'  }} resizeMode="stretch" />
                     <Card.Actions>
                 <View style={styles.buttons}>
-                    <IconButton icon="minus" color={Colors.red500} size={25} onPress={decrementaCimento} /> 
+                    <IconButton icon={cimento==1? "trash-can" : "minus-circle-outline"} color="#2385A2" size={25} onPress={decrementaCimento} /> 
                     <Text>{cimento}</Text>
-                    <IconButton icon="plus" color={Colors.red500} size={25} onPress={incrementaCimento} /> 
+                    <IconButton icon="plus-circle-outline" color="#2385A2" size={25} onPress={incrementaCimento} /> 
                 </View>
                     </Card.Actions>
                 </Card>
-                <Card style={styles.card}>
-                    <Card.Title title="Argamassa" subtitle="Argamassa Portland comum" />
+                <Card style={styles.card} elevation={10}>
+                    <Card.Title title="Argamassa" subtitle="Argamassa comum" />
                     <Card.Cover  source={{ uri: 'https://telhanorte.vteximg.com.br/arquivos/ids/317111-NaN-NaN/Argamassa-de-uso-interno-para-Porcelanato-20kg-cinza-Quartzolit.jpg?v=636649224491400000'  }} resizeMode="stretch" />
                     <Card.Actions>
                     <View style={styles.buttons}>
-                        <IconButton icon="minus" color={Colors.red500} size={25} onPress={decrementaArgamassa} /> 
+                        <IconButton icon={argamassa==1? "trash-can" : "minus-circle-outline"} color="#2385A2" size={25} onPress={decrementaArgamassa} /> 
                         <Text>{argamassa}</Text>
-                        <IconButton icon="plus" color={Colors.red500} size={25} onPress={incrementaArgamassa} /> 
+                        <IconButton icon="plus-circle-outline" color="#2385A2" size={25} onPress={incrementaArgamassa} /> 
                     </View> 
                     </Card.Actions>
                 </Card>
-                <Card style={styles.card}>
-                    <Card.Title title="Brita" subtitle="Cimento Portland comum" />
+                <Card style={styles.card} elevation={10}>
+                    <Card.Title title="Brita" subtitle="Brita comum" />
                     <Card.Cover source={{ uri: 'https://cdn.leroymerlin.com.br/products/pedra_britada_0_saco_de_20kg_casa_forte__89361104_0862_600x600.jpg'  }} resizeMode="stretch" />
                     <Card.Actions>
                     <View style={styles.buttons}>
-                        <IconButton icon="minus" color={Colors.red500} size={25} onPress={decrementaBrita} /> 
+                        <IconButton icon={brita==1? "trash-can" : "minus-circle-outline"} color="#2385A2" size={25} onPress={decrementaBrita} /> 
                         <Text>{brita}</Text>
-                        <IconButton icon="plus" color={Colors.red500} size={25} onPress={incrementaBrita} /> 
+                        <IconButton icon="plus-circle-outline" color="#2385A2" size={25} onPress={incrementaBrita} /> 
                     </View>
                     </Card.Actions>
                 </Card>
-                <Card style={styles.card}>
-                    <Card.Title title="Cal" subtitle="Argamassa Portland comum" />
+                <Card style={styles.card} elevation={10}>
+                    <Card.Title title="Cal" subtitle="Cal monohidratada" />
                     <Card.Cover  source={{ uri: 'http://maisconectado.com/mccaltrevo/painel/imagens/1568391015-Cal_Hidratada_CH_I.jpg'  }} resizeMode="stretch" />
                     <Card.Actions>
                     <View style={styles.buttons}>
-                        <IconButton icon="minus" color={Colors.red500} size={25} onPress={decrementaCal} /> 
+                        <IconButton icon={cal==1? "trash-can" : "minus-circle-outline"} color="#2385A2" size={25} onPress={decrementaCal} /> 
                         <Text>{cal}</Text>
-                        <IconButton icon="plus" color={Colors.red500} size={25} onPress={incrementaCal} /> 
+                        <IconButton icon="plus-circle-outline" color="#2385A2" size={25} onPress={incrementaCal} /> 
                     </View> 
                     </Card.Actions>
                 </Card>
-                <Card style={styles.card}>
-                    <Card.Title title="Areia" subtitle="Cimento Portland comum" />
+                <Card style={styles.card} elevation={10}>
+                    <Card.Title title="Areia" subtitle="Areia comum" />
                     <Card.Cover source={{ uri: 'https://cdn.leroymerlin.com.br/products/areia_fina_ensacada_saco_de_20kg_casa_forte_89361090_f77c_600x600.jpg'  }} resizeMode="stretch" />
                     <Card.Actions>
                 <View style={styles.buttons}>
-                    <IconButton icon="minus" color={Colors.red500} size={25} onPress={decrementaAreia} /> 
+                    <IconButton icon={areia==1? "trash-can" : "minus-circle-outline"} color="#2385A2" size={25} onPress={decrementaAreia} /> 
                     <Text>{areia}</Text>
-                    <IconButton icon="plus" color={Colors.red500} size={25} onPress={incrementaAreia} /> 
+                    <IconButton icon="plus-circle-outline" color="#2385A2" size={25} onPress={incrementaAreia} /> 
                 </View>
                     </Card.Actions>
                 </Card>
-                <Card style={styles.card}>
-                    <Card.Title title="Outros" subtitle="Argamassa Portland comum" />
+                <Card style={styles.card} elevation={10}>
+                    <Card.Title title="Outros" subtitle="Outros materiais" />
                     <Card.Cover  source={{ uri: 'https://www.sdmaterialdeconstrucao.com.br/img/artigo_26_20180710094908_0.jpeg'  }} resizeMode="stretch" />
                     <Card.Actions>
                     <View style={styles.buttons}>
-                        <IconButton icon="minus" color={Colors.red500} size={25} onPress={decrementaOutros} /> 
+                        <IconButton icon={outros==1? "trash-can" : "minus-circle-outline"} color="#2385A2" size={25} onPress={decrementaOutros} /> 
                         <Text>{outros}</Text>
-                        <IconButton icon="plus" color={Colors.red500} size={25} onPress={incrementaOutros} /> 
+                        <IconButton icon="plus-circle-outline" color="#2385A2" size={25} onPress={incrementaOutros} /> 
                     </View> 
                     </Card.Actions>
                 </Card>
@@ -410,7 +423,7 @@ export default function Ficha(props) {
                                     <Portal>
                                         <Dialog visible={addVisible} onDismiss={onDismissAddEstoque}>
                                             <Dialog.Title>
-                                                Adicionar estoque
+                                                Escolher estoque
                                             </Dialog.Title>
                                             <Dialog.Content>
                                                 {outroEstoqueResponse.running ? (
@@ -423,7 +436,10 @@ export default function Ficha(props) {
                                                                 {map(outroEstoqueResponse.body, (estoque) => <EstoqueItem estoque={estoque} onPress={onConfirmAddEstoque} />)}
                                                             </>
                                                         ) : (
-                                                            <Paragraph>Todos os estoques cadastrados já receberam a solicitação.</Paragraph>
+                                                            <View>
+                                                            <Paragraph>Não existem estoques disponíveis para entrega.</Paragraph>
+                                                            <Button mode="contained" onPress={navigateEstoque}>Cadastrar novo estoque</Button>
+                                                            </View>
                                                         )
                                                     ) : (
                                                         <Paragraph>Não foi possível conectar ao servidor.</Paragraph>

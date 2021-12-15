@@ -38,6 +38,7 @@ class PedidoFerramentaTest {
 		pedido.setCodigoERP("123456");
 		pedido.setCodigoNCM("hxay241A");
 		pedido.setChavesEstoques(estoques);
+		pedido.setData("13/08/2019 13:34");
 		
 		assertEquals(1,pedido.getFerramentas().get("Betoneira"));
 		assertEquals(2,pedido.getFerramentas().get("Furadeira"));
@@ -49,7 +50,7 @@ class PedidoFerramentaTest {
 		assertEquals("123456",pedido.getCodigoERP());
 		assertEquals("hxay241A",pedido.getCodigoNCM());
 		assertEquals("hxYsajk131as",pedido.getChavesEstoques().get(0));
-		
+		assertEquals("13/08/2019 13:34",pedido.getData());
 		
 	}
 
