@@ -19,7 +19,7 @@ export function BarraLateral(props) {
     const [email, setEmail] = useGlobal('email');
 
     const handlePress = () => setExpanded(!expanded);
-    const onToggleSwitch = () => setDark();
+    const onToggleSwitch = () => setDark(!dark);
   
     return( 
         <View style={{flex:1}}>

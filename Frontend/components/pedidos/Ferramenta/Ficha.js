@@ -494,7 +494,7 @@ export default function Ficha(props) {
 
                     <View style={styles.buttonContainer}>
                         <Button style={styles.button} mode="contained" color="#72bcd4" disabled={registerResponse.running || removeResponse.running} loading={registerResponse.running} onPress={onPressRegister}>
-                            {pedido ? 'Salvar' : 'Solicitar Pedido'}
+                            {pedido ? 'Modificar' : 'Solicitar Pedido'}
                         </Button>
                         {!pedido && (
                             <Button style={styles.button} mode="outlined" color="blue" disabled={registerResponse.running || removeResponse.running} loading={removeResponse.running} onPress={() => {navigation.navigate('Lista')}}>
