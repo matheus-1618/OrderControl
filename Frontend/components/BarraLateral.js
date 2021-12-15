@@ -16,6 +16,7 @@ export function BarraLateral(props) {
     const paperTheme = useTheme();
     const [expanded, setExpanded] = useState(true);
     const [dark,setDark] = useGlobal("dark");
+    const [email, setEmail] = useGlobal('email');
 
     const handlePress = () => setExpanded(!expanded);
     const onToggleSwitch = () => setDark();
@@ -28,8 +29,8 @@ export function BarraLateral(props) {
                     <View style={{flexDirection:'row',marginTop: 15}}>
                         <Avatar.Icon icon="hard-hat" size={50}/>
                         <View style={{marginLeft:15, flexDirection:'column'}}>
-                            <Title style={styles.title}>Funcionário</Title>
-                            <Caption style={styles.caption}>hospitalemp@connect.com</Caption>
+                            <Title style={styles.title}>{email.includes("@") ? email.split("@")[0].charAt(0).toUpperCase() + email.split("@")[0].slice(1)  : "Não válido"}</Title>
+                            <Caption style={styles.caption}>{email}</Caption>
                         </View>
                     </View>
                 </View>

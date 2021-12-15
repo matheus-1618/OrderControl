@@ -1,12 +1,45 @@
-import React from 'react';
+import React,{useState} from 'react';
 
 import { View,ImageBackground,StyleSheet, TouchableOpacity, Image } from 'react-native';
 
 import {Text,TextInput,Button, HelperText} from 'react-native-paper';
 
+import { useGlobal } from '../lib';
+
 // import styles from '../styles/Login.json';
 
 export default function Login(props) {
+  const [email, setEmail] = useGlobal('email');
+  const [emailError, setEmailError] = useState(typeof email !== 'string');
+  const [senha, setSenha] = useState('');
+  const [senhaError, setSenhaError] = useState(typeof senha !== 'string');
+
+  function onChangeTextEmail(text) {
+    setEmail(text);
+    setEmailError(!text.trim());
+}
+
+function onChangeTextSenha(text) {
+  setSenha(text);
+  setSenhaError(!text.trim());
+}
+
+function goOn(){
+  if (!email.trim() && !senha.trim()){
+    setEmailError(!email.trim());
+    setSenhaError(!senha.trim());
+  }
+  else if(!email.trim() || !email.includes("@")){
+    setEmailError(!email.trim() || !email.includes("@"));
+  }
+  else if (!senha.trim()){
+    setSenhaError(!senha.trim());
+  }
+  else{
+  props.navigation.navigate('Pedidos');
+  }
+}
+
     return (
         <ImageBackground resizeMode="cover"  imageStyle= {{opacity:0.6}} style={styles.image} source={{uri:"https://russelservicos.com.br/blog/wp-content/uploads/2021/12/Veja-quais-sao-os-passos-mais-importantes-para-a-sua-construcao.jpg"}}>
         <View style={styles.container}>
@@ -14,21 +47,33 @@ export default function Login(props) {
           <View style={styles.inputView} >
             <TextInput  
               style={styles.inputText}
+              error={emailError}
+              value={email}
               label="E-mail" 
+              onChangeText={onChangeTextEmail}
               left={<TextInput.Icon name="email" />}
              />
-             
+             {emailError && (
+             <HelperText style={styles.error} type="error">
+                          Preencha um email válido
+                        </HelperText>)}
           </View>
           <View style={styles.inputView} >
             <TextInput  
-              secureTextEntry
+            secureTextEntry
               style={styles.inputText}
+              error={senhaError}
+              value={senha}
+              onChangeText={onChangeTextSenha}
               label="Senha" 
               left={<TextInput.Icon name="lastpass" />}
               />
+              {senhaError &&(<HelperText style={styles.error} type="error">
+                           Necessário preencher a senha
+                        </HelperText>)}
           </View>
          
-          <Button onPress={() => {props.navigation.navigate('Pedidos')}} style={styles.loginBtn} icon="login-variant" mode="contained">
+          <Button onPress={goOn} style={styles.loginBtn} icon="login-variant" mode="contained">
             Entrar
           </Button>
 
@@ -57,12 +102,19 @@ export default function Login(props) {
         width: 300,
         height: 57,
     },
+    error:{
+      
+    marginTop: 0,
+    marginRight: 5,
+    marginBottom: -10,
+    marginLeft: 5
+    },
 
     inputView:{
       width:"80%",
       borderRadius:250,
       height:50,
-      marginBottom:20,
+      marginBottom:25,
       justifyContent:"center",
       padding:20
     },
