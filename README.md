@@ -1,5 +1,9 @@
 # Projeto 6: Controle de pedidos por indicadores
 
+
+<br>
+<hr>
+<h3 align="center">🛠 Tecnologias utilizadas</h3> 
 <div style="max-width:68rem;">
 
 ![Nodejs](https://img.shields.io/badge/-Nodejs-339933?style=for-the-badge&logo=Node.js&logoColor=ffffff)
@@ -11,6 +15,8 @@
 ![Firebase](https://img.shields.io/badge/firebase%20-%23039BE5.svg?&style=for-the-badge&logo=firebase)
 
 </div>
+<br>
+<hr>
 
 # Colaboradores
 
