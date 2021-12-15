@@ -466,7 +466,7 @@ export default function Ficha(props) {
                     </View>
                     <TextInput style={styles.input} label="Observações" value={observacoes} onChangeText={onChangeTextObs} />
 
-                    {outros>0 && ( <TextInput style={styles.input} label="Nome do material"  value={nomeMaterial} error={nomeMaterialError} onChangeText={onChangeTextNome}/>)}
+                    {outros>0 && (<TextInput style={styles.input} label="Nome do material"  value={nomeMaterial} error={nomeMaterialError} onChangeText={onChangeTextNome}/>)}
                     {nomeMaterialError && outros>0 && (
                         <HelperText style={styles.error} type="error">
                            Necessário o nome do Material

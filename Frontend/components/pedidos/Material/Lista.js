@@ -49,7 +49,7 @@ function PedidoItem(props) {
                                 (<Chip style={styles.chip} selectedColor="#2D2A9B" icon="help-circle">Outros {pedido.materiais.outros}x</Chip>)}
                         </View>   
                     </Card.Content>
-                <Card.Actions>
+                <Card.Actions >
                     {pedido.observacoes != "" ? 
                     (<View style={styles.col}>
                         <Paragraph>Observações: {pedido.observacoes}</Paragraph>

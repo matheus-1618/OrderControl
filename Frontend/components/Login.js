@@ -2,7 +2,7 @@ import React from 'react';
 
 import { View,ImageBackground,StyleSheet, TouchableOpacity, Image } from 'react-native';
 
-import {Text,TextInput,Button} from 'react-native-paper';
+import {Text,TextInput,Button, HelperText} from 'react-native-paper';
 
 // import styles from '../styles/Login.json';
 
@@ -17,6 +17,7 @@ export default function Login(props) {
               label="E-mail" 
               left={<TextInput.Icon name="email" />}
              />
+             
           </View>
           <View style={styles.inputView} >
             <TextInput  
@@ -29,7 +30,7 @@ export default function Login(props) {
          
           <Button onPress={() => {props.navigation.navigate('Pedidos')}} style={styles.loginBtn} icon="login-variant" mode="contained">
             Entrar
-            </Button>
+          </Button>
 
           <TouchableOpacity>
             <Text style={styles.loginText}>Esqueceu a senha?</Text>
