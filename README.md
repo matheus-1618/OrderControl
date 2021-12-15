@@ -60,7 +60,7 @@ campo quanto para o gestor desse processo.
 git clone https://github.com/hashiprobr-classroom/projeto-dev101/
 
 ```
-*Após clonar o repostório, crie dois bancos de dados (caso tenha algum, apenas renomeio-o) seguindo o [tutorial](./backend/README.md) neste sessão.*
+*Após clonar o repostório, crie dois bancos de dados (caso tenha algum, apenas renomeio-o) seguindo o [tutorial](https://github.com/hashiprobr-classroom/projeto-dev101/tree/main/Backend#readme) neste sessão.*
 
 *Após configurar o funcionamento adequado do Backend na sessão anterior, devemos agora executar o procedimento para execução do Frontend. Para este projeto é necessário ter instalado a versão LTS do Node.js (na data atual 14.18.2). Caso não tenha, pode instalar por este [link](https://nodejs.org/pt-br/download/).*
 
