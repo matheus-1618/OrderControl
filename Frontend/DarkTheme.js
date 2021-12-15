@@ -5,8 +5,8 @@ export default {
     dark: true,
     mode: 'adaptive',
     colors: {
-        primary: '#BB86FC',
-        accent: '#03dac6',
+        primary: '#2385A2',
+        accent: '#2385A2',
         background: '#121212',
         surface: '#121212',
         card: 'rgb(18, 18, 18)',
@@ -21,7 +21,7 @@ export default {
     },
     screenOptions: {
         headerStyle: {
-            backgroundColor: '#BB86FC',
+            backgroundColor: '#2385A2',
         },
         headerTintColor: '#000000',
         headerTitleStyle: {

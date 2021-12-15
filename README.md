@@ -1,10 +1,5 @@
 # Projeto 6: Controle de pedidos por indicadores
-
-
-<br>
-<hr>
-<h3 align="center">🛠 Tecnologias utilizadas</h3> 
-<div style="max-width:68rem;">
+<div align="center" style="max-width:68rem;">
 
 ![Nodejs](https://img.shields.io/badge/-Nodejs-339933?style=for-the-badge&logo=Node.js&logoColor=ffffff)
 ![Npm](https://img.shields.io/badge/-npm-CB3837?style=for-the-badge&logo=npm)
@@ -15,18 +10,8 @@
 ![Firebase](https://img.shields.io/badge/firebase%20-%23039BE5.svg?&style=for-the-badge&logo=firebase)
 
 </div>
-<br>
-<hr>
+ <center><img src="Frontend/assets/03 PNG/connectdata_marca_1_1.png" width=600 style="float: center; margin: 0px 0px 10px 10px"></center>
 
-# Colaboradores
-
-* [Matheus Oliveira](https://github.com/matheus-1618)
-* [Adney Costa](https://github.com/Adneycm)
-* [Lister Ogusku](https://github.com/listerogusuku)
-* [Ricardo Mourão](https://github.com/RicardoMourao-py)
-
-
-### Fora solicitada uma interface (prova de conceito) que atenda a proposta abaixo:
 
 Grandes empresas utilizam almoxarifados centrais próprios para fazer a distribuição
 de materiais e ferramentas entre as obras. Para solicitar um transporte é comum
@@ -39,7 +24,40 @@ discrepâncias e relatórios é uma ferramenta importante tanto para o usuário 
 campo quanto para o gestor desse processo.
 
 
-**Features**: interface para adicionar ou retirar quantidades e efetuar observações;
-registro de alterações no banco de dados; verificação da lista de alterações pelo app.
+**Features requisitadas**: 
+
+- Interface para adicionar ou retirar quantidades e efetuar observações;
+
+- Registro de alterações no banco de dados;
+- Verificação da lista de alterações pelo app.
+
+
+<div align="center" style="max-width:68rem;">
+
+# Desenvolvedores
+
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/matheus-1618"><img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/matheus-1618" width="100px;" alt=""/><br /><sub><b>Matheus Oliveira</b></sub></a><br /><a href="https://github.com/matheus-1618" title="Matheus Oliveira"></a> FrontEnd</td>
+   <td align="center"><a href="https://github.com/Adneycm"><img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/Adneycm" width="100px;" alt=""/><br /><sub><b>Adney Moura</b></sub></a><br /><a href="https://github.com/Adneycm" title="Adney Moura"></a>FrontEnd</td>
+   <td align="center"><a href="https://github.com/listerogusuku"><img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/listerogusuku" width="100px;" alt=""/><br /><sub><b>Lister Ogusuku</b></sub></a><br /><a href="https://github.com/listerogusuku" title="Lister Ogusuku"></a>BackEnd</td>
+   <td align="center"><a href="https://github.com/RicardoMourao-py"><img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/RicardoMourao-py" width="100px;" alt=""/><br /><sub><b>Ricardo Mourão</b></sub></a><br /><a href="https://github.com/RicardoMourao-py" title="Ricardo Mourão"></a>BackEnd</td>
+  </tr>
+</table>
+</div>
+
+## Para executar o projeto :warning:
+
+*Abra um terminal de comando, digite o caminho onde deseja clonar o repositório e execute:*
+```bash
+
+git clone https://github.com/hashiprobr-classroom/projeto-dev101/
+
+```
+*Após clonar o repostório, crie dois bancos de dados (caso tenha algum, apenas renomeio-o) seguindo este [tutorial](./backend/README.md)*
+
+
+
+
 
 
