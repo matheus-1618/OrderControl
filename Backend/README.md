@@ -4,7 +4,7 @@ Backend realizado em linguagem Java, na IDLE Eclipse.
 ## Para executar o Backend 
 
 ### Criando banco de dados
-Tutorial aproveitado do professor [Marcelo Hashimoto](https://www.linkedin.com/in/marcelo-h-a6b810111/)
+*Tutorial aproveitado do original feito pelo professor Marcelo Hashimoto.*
 
 Entre no [console Firebase](https://console.firebase.google.com/u/0/) logado em uma conta Google, e clique em *Criar um projeto*:
 <center><img src="../Frontend/assets/firebase1.png" width=600 style="float: center; margin: 0px 0px 10px 10px"></center>
