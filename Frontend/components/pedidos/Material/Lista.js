@@ -4,7 +4,7 @@ import { View, ScrollView } from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { Avatar,Chip, Card, Paragraph , Title,Divider, ActivityIndicator, Text, Button, FAB, Snackbar } from 'react-native-paper';
+import { Avatar,Chip, Card, Paragraph ,Divider, ActivityIndicator, Text, Button, FAB, Snackbar } from 'react-native-paper';
 
 import { Icon, useSignal, useEmit, useEffect, useRequest, map } from '../../../lib';
 

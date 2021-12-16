@@ -28,6 +28,10 @@ campo quanto para o gestor desse processo.
 - Interface para adicionar ou retirar quantidades e efetuar observações;
 - Registro de alterações no banco de dados;
 - Verificação da lista de alterações pelo app.
+
+Para ter overview de todas as telas disponíveis na aplicação, pode conferir clicando [aqui](https://github.com/hashiprobr-classroom/projeto-dev101/blob/main/Frontend/README.md)
+<br>
+
 <table>
   <tr>
     <td valign="top"><img src="Frontend/assets/login.png"/></td>

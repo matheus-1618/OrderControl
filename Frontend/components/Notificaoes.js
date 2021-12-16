@@ -116,7 +116,6 @@ export default function Lista(props) {
                             </View>
                     </View>
                 )
-                
             )}
             {!response.running && !response.success && (
                 <Snackbar visible={getError} action={{ label: 'Ok', onPress: () => setGetError(false) }} onDismiss={() => { }}>
